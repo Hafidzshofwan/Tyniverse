@@ -1510,18 +1510,25 @@
 <!-- ===== NAVIGASI SIDEBAR (kiri) + KONTEN HALAMAN ===== -->
 <div class="app-layout">
   <aside class="sidebar" id="sidebar">
-    <button type="button" class="sidebar-item aktif" data-page="dosis">
-      <span class="ikon">💊</span><span class="label">Dosis Obat</span>
-    </button>
-    <button type="button" class="sidebar-item" data-page="protokol">
-      <span class="ikon">🩺</span><span class="label">Protokol Terapi</span>
-    </button>
-    <button type="button" class="sidebar-item" data-page="cairan">
-      <span class="ikon">💧</span><span class="label">Dosis Cairan</span>
-    </button>
-    <button type="button" class="sidebar-item" data-page="tumbuh-kembang">
-      <span class="ikon">📈</span><span class="label">Tumbuh Kembang</span>
-    </button>
+    <div id="tvSidebarProfil"></div>
+    <div class="tv-side-grup">
+      <div class="tv-side-judul">Dosis &amp; Cairan</div>
+      <button type="button" class="sidebar-item aktif" data-page="dosis">
+        <span class="ikon">💊</span><span class="label">Dosis Obat</span>
+      </button>
+      <button type="button" class="sidebar-item" data-page="cairan">
+        <span class="ikon">💧</span><span class="label">Dosis Cairan</span>
+      </button>
+    </div>
+    <div class="tv-side-grup">
+      <div class="tv-side-judul">Pemantauan Klinis</div>
+      <button type="button" class="sidebar-item" data-page="protokol">
+        <span class="ikon">🩺</span><span class="label">Protokol Terapi</span>
+      </button>
+      <button type="button" class="sidebar-item" data-page="tumbuh-kembang">
+        <span class="ikon">📈</span><span class="label">Tumbuh Kembang</span>
+      </button>
+    </div>
   </aside>
 
   <div class="app-content">
@@ -1911,7 +1918,7 @@
 <footer>
   <div class="disclaimer">
     <span class="emoji-beruang">🧸</span>
-    <span> Tinyverse merupakan alat bantu edukasi dan perhitungan klinis. Penilaian, diagnosis, maupun keputusan terapi tetap oleh dokter atau tenaga kesehatan profesional.</span>
+    <span> TinyVerse merupakan alat bantu edukasi dan perhitungan klinis. Penilaian, diagnosis, maupun keputusan terapi tetap oleh dokter atau tenaga kesehatan profesional.</span>
   </div>
   <p class="copy">&copy; 2026 Tyniverse — Dibuat untuk tenaga kesehatan.</p>
   <p class="watermark">
@@ -5071,6 +5078,17 @@ document.addEventListener("DOMContentLoaded", function () {
     @keyframes tvSpin { to { transform: rotate(360deg); } }
     #tvUserMenu { position: fixed; top: 14px; right: 16px; z-index: 8000; font-family: 'Fredoka', sans-serif; display: none; }
     #tvUserMenu.tampil { display: block; }
+    /* Profil menyatu di dalam bilah sisi kiri */
+    #sidebar { display: flex; flex-direction: column; }
+    @media (max-width: 1100px) { #sidebar { display: flex !important; flex-direction: column !important; grid-template-columns: none !important; width: 100% !important; } }
+    .tv-side-grup { display: flex; flex-direction: column; gap: 12px; }
+    .tv-side-judul { font-family: 'Fredoka', sans-serif; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--teks-lembut, #9a9aae); padding: 2px 12px 4px; }
+    #tvUserMenu.tv-di-sidebar { position: static; display: none; width: 100%; }
+    #tvUserMenu.tv-di-sidebar.tampil { display: block; }
+    #tvUserMenu.tv-di-sidebar .tv-user-pill { width: 100%; flex-direction: column; gap: 9px; padding: 16px 14px; border-radius: 18px; background: var(--putih, #fff); box-shadow: 0 5px 0 rgba(0,0,0,0.08), 0 8px 16px rgba(0,0,0,0.06); }
+    #tvUserMenu.tv-di-sidebar .tv-ava { width: 56px; height: 56px; font-size: 1.4rem; }
+    #tvUserMenu.tv-di-sidebar .tv-user-nama { max-width: 100%; font-size: 1rem; text-align: center; white-space: normal; }
+    #tvUserMenu.tv-di-sidebar .tv-user-drop { position: static; margin-top: 10px; min-width: 0; width: 100%; box-shadow: none; border: 1px solid #ECE6D6; padding: 6px; }
     .tv-user-pill { display: flex; align-items: center; gap: 9px; background: rgba(255,255,255,0.92); border: none; cursor: pointer; padding: 5px 12px 5px 5px; border-radius: 30px; box-shadow: 0 4px 14px rgba(0,0,0,0.16); font-family: inherit; }
     .tv-ava { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; background: #54C6EB; color: #fff; font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; background-size: cover; background-position: center; }
     .tv-user-nama { font-weight: 600; color: #3A3A55; font-size: 0.9rem; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -5189,7 +5207,9 @@ document.addEventListener("DOMContentLoaded", function () {
         <button class='tv-drop-item' id='tvDropAdmin' style='display:none'>🛡️ Kelola pengguna</button>
         <button class='tv-drop-item' id='tvDropKeluar'>🚪 Keluar</button>
       </div>`;
-    document.body.appendChild(m);
+    var mount = document.getElementById('tvSidebarProfil');
+    if (mount) { m.classList.add('tv-di-sidebar'); mount.appendChild(m); }
+    else { document.body.appendChild(m); }
     el('tvUserPill').addEventListener('click', function (e) { e.stopPropagation(); el('tvUserDrop').classList.toggle('tampil'); });
     document.addEventListener('click', function () { var d = el('tvUserDrop'); if (d) d.classList.remove('tampil'); });
     el('tvDropProfil').addEventListener('click', bukaProfil);

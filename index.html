@@ -1220,6 +1220,27 @@
     line-height: 1.45;
     font-weight: 700;
   }
+  .tk-cdc-arti {
+    margin-top: 8px;
+    border-radius: 14px;
+    padding: 9px 11px;
+    background: rgba(43,169,214,0.10);
+    color: var(--teks);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    font-weight: 700;
+  }
+  .tk-cdc-rumus-mini {
+    margin-top: 8px;
+    border-radius: 12px;
+    padding: 8px 10px;
+    background: rgba(255,255,255,0.72);
+    border: 1px dashed rgba(117,100,83,0.18);
+    color: var(--teks-lembut);
+    font-size: 0.78rem;
+    line-height: 1.45;
+    font-weight: 700;
+  }
   .tk-cdc-note {
     margin-top: 8px;
     border-radius: 14px;
@@ -5672,6 +5693,29 @@ function tkHtmlMateriCdcWaterlow() {
     </div>`;
 }
 
+function tkCdcKalimatSelisih(persen) {
+  const selisih = persen - 100;
+  if (Math.abs(selisih) < 0.05) return "sama dengan median/P50";
+  return selisih > 0 ? `${selisih.toFixed(1)}% di atas median/P50` : `${Math.abs(selisih).toFixed(1)}% di bawah median/P50`;
+}
+
+function tkCdcKeteranganIndikator(item) {
+  const selisihText = tkCdcKalimatSelisih(item.pctMedian);
+  if (item.judul === "BB/U CDC") {
+    return `Artinya berat badan anak ${selisihText} CDC untuk usia dan jenis kelamin yang sama. Berdasarkan klasifikasi % median BB/U, hasil ini masuk: ${item.status}.`;
+  }
+  if (item.judul === "TB/U CDC") {
+    return `Artinya tinggi badan anak ${selisihText} CDC untuk usia dan jenis kelamin yang sama. Berdasarkan klasifikasi % median TB/U, hasil ini masuk: ${item.status}.`;
+  }
+  return `Hasil dibandingkan dengan median/P50 CDC.`;
+}
+
+function tkCdcKeteranganBbtb(item) {
+  const selisih = item.pct - 100;
+  const selisihText = Math.abs(selisih) < 0.05 ? "sesuai dengan BB ideal" : (selisih > 0 ? `${selisih.toFixed(1)}% di atas BB ideal` : `${Math.abs(selisih).toFixed(1)}% di bawah BB ideal`);
+  return `Artinya berat badan aktual anak ${selisihText} untuk tinggi badannya. Berdasarkan klasifikasi Waterlow BB/TB, hasil ini masuk: ${item.status}.`;
+}
+
 function tkHtmlCdcInterpretasi(item) {
   if (!item) return "";
   if (item.judul === "BB/TB CDC — % median") {
@@ -5680,20 +5724,26 @@ function tkHtmlCdcInterpretasi(item) {
     const usiaTinggiText = `${item.usiaTinggi.toFixed(1)} bulan${tahun > 0 ? ` (±${tahun} th ${bulan} bln)` : ""}`;
     return `
       <div class="tk-cdc-block">
-        <div class="tk-cdc-row"><span class="tk-cdc-label">${escapeHtml(item.judul)}</span><span class="tk-cdc-value">${item.pct.toFixed(1)}%</span></div>
+        <div class="tk-cdc-row"><span class="tk-cdc-label">Indikator</span><span class="tk-cdc-value">${escapeHtml(item.judul)}</span></div>
+        <div class="tk-cdc-row"><span class="tk-cdc-label">Hasil % median</span><span class="tk-cdc-value">${item.pct.toFixed(1)}%</span></div>
+        <div class="tk-cdc-row"><span class="tk-cdc-label">Kategori % median</span><span class="tk-cdc-value">${item.pct < 70 ? '&lt;70%' : item.pct < 90 ? '70–90%' : item.pct <= 110 ? '90–110%' : item.pct <= 120 ? '110–120%' : '&gt;120%'}</span></div>
+        <div class="tk-cdc-arti">${escapeHtml(tkCdcKeteranganBbtb(item))}</div>
         <div class="tk-cdc-row"><span class="tk-cdc-label">Langkah 1</span><span class="tk-cdc-value">TB aktual → median TB/P50 = usia tinggi ${usiaTinggiText}</span></div>
         <div class="tk-cdc-row"><span class="tk-cdc-label">Langkah 2</span><span class="tk-cdc-value">Pada usia tinggi itu, ambil BB median/P50</span></div>
         <div class="tk-cdc-row"><span class="tk-cdc-label">BB ideal P50</span><span class="tk-cdc-value">${item.standar.toFixed(1)} kg</span></div>
-        <div class="tk-cdc-row"><span class="tk-cdc-label">Rumus</span><span class="tk-cdc-value">BB aktual ÷ BB ideal berdasarkan tinggi × 100%</span></div>
+        <div class="tk-cdc-rumus-mini">Rumus: BB aktual ÷ BB ideal berdasarkan tinggi × 100%. Ini adalah <strong>persentase terhadap median/P50</strong>, bukan nilai persentil P3/P50/P97.</div>
         ${item.diLuarRentang ? `<div class="tk-cdc-note">⚠️ TB aktual berada di luar rentang P50 CDC 2–20 tahun pada tabel internal, sehingga nilai usia tinggi dibatasi pada tepi rentang.</div>` : ""}
         <div class="tk-cdc-status" style="border-left:4px solid ${item.color}; background:${item.color}18;"><span style="color:${item.color};">● ${escapeHtml(item.status)}</span></div>
       </div>`;
   }
   return `
     <div class="tk-cdc-block">
-      <div class="tk-cdc-row"><span class="tk-cdc-label">${escapeHtml(item.judul)}</span><span class="tk-cdc-value">${item.pctMedian.toFixed(1)}% dari P50</span></div>
-      <div class="tk-cdc-row"><span class="tk-cdc-label">P50 standar</span><span class="tk-cdc-value">${item.median.toFixed(1)} ${escapeHtml(item.unit)}</span></div>
-      <div class="tk-cdc-row"><span class="tk-cdc-label">Estimasi posisi</span><span class="tk-cdc-value">${escapeHtml(item.posisi)}</span></div>
+      <div class="tk-cdc-row"><span class="tk-cdc-label">Indikator</span><span class="tk-cdc-value">${escapeHtml(item.judul)}</span></div>
+      <div class="tk-cdc-row"><span class="tk-cdc-label">Hasil % median</span><span class="tk-cdc-value">${item.pctMedian.toFixed(1)}% dari P50</span></div>
+      <div class="tk-cdc-row"><span class="tk-cdc-label">Nilai standar P50</span><span class="tk-cdc-value">${item.median.toFixed(1)} ${escapeHtml(item.unit)}</span></div>
+      <div class="tk-cdc-row"><span class="tk-cdc-label">Kategori % median</span><span class="tk-cdc-value">${escapeHtml(item.posisi)}</span></div>
+      <div class="tk-cdc-arti">${escapeHtml(tkCdcKeteranganIndikator(item))}</div>
+      <div class="tk-cdc-rumus-mini">Rumus: nilai aktual ÷ nilai standar P50 × 100%. Ini adalah <strong>persentase terhadap median/P50</strong>, bukan nilai persentil.</div>
       <div class="tk-cdc-status" style="border-left:4px solid ${item.color}; background:${item.color}18;"><span style="color:${item.color};">● ${escapeHtml(item.status)}</span></div>
     </div>`;
 }
@@ -5770,7 +5820,7 @@ function plotTumbuhKembang() {
   if (tkState.standar === "cdc" && isFinite(seriVal.berat) && isFinite(seriVal.tinggi)) {
     interpretasiHtml += tkHtmlCdcInterpretasi(tkInterpretasiCdcBbtb(tkState.kelamin, seriVal.berat, seriVal.tinggi));
     interpretasiHtml += tkHtmlMateriCdcWaterlow();
-    interpretasiHtml += `<div class="tk-cdc-note">📌 CDC ditampilkan sebagai persentil/estimasi posisi terhadap P50, bukan Z-score. Interpretasi BB/TB memakai rumus: BB aktual ÷ BB ideal berdasarkan tinggi pada median/P50 × 100%. Growth chart adalah alat skrining dan perlu dilihat bersama tren pertumbuhan serta kondisi klinis.</div>`;
+    interpretasiHtml += `<div class="tk-cdc-note">📌 CDC di bagian ini ditampilkan sebagai % median/P50, bukan persentil P. Contoh: 108% dari P50 berarti nilai aktual 8% di atas median/P50, bukan persentil ke-108. Interpretasi BB/TB memakai rumus: BB aktual ÷ BB ideal berdasarkan tinggi pada median/P50 × 100%. Growth chart adalah alat skrining dan perlu dilihat bersama tren pertumbuhan serta kondisi klinis.</div>`;
   }
 
   const stdLabel = GROWTH_CHART_CONFIG[tkState.standar].label;

@@ -503,6 +503,148 @@
     font-weight: 700;
   }
 
+
+
+  /* ===== HASIL DOSIS OBAT - RAPI & TERSTRUKTUR ===== */
+  #hasil-box,
+  .hasil-mini {
+    background: linear-gradient(135deg, #FFFDF4, #F1FFF6);
+    border: 2px solid rgba(255, 197, 41, 0.95);
+    border-radius: 22px;
+    padding: 16px;
+    box-shadow: 0 10px 24px rgba(73, 60, 42, 0.08);
+  }
+
+  #hasil-box h3,
+  .hasil-mini h3 {
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .hasil-card-dosis {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    line-height: 1.45;
+  }
+
+  .hasil-ringkasan {
+    background: #FFFFFF;
+    border: 2px solid rgba(83, 196, 55, 0.18);
+    border-radius: 18px;
+    padding: 14px;
+  }
+
+  .hasil-label-kecil {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(83, 196, 55, 0.12);
+    color: var(--hijau-tua);
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  #hasil-box .hasil-dosis,
+  .hasil-mini .hasil-dosis {
+    margin: 0;
+    color: var(--hijau-tua);
+    font-size: clamp(1.35rem, 5vw, 1.9rem);
+    line-height: 1.15;
+    word-break: break-word;
+  }
+
+  .hasil-volume {
+    margin-top: 5px;
+    color: var(--biru-tua);
+    font-family: 'Fredoka', sans-serif;
+    font-size: clamp(1.05rem, 4vw, 1.35rem);
+    font-weight: 700;
+  }
+
+  .hasil-subtext {
+    color: var(--teks-lembut);
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-top: 6px;
+  }
+
+  .hasil-section {
+    background: rgba(255,255,255,0.72);
+    border: 1px solid rgba(43,169,214,0.14);
+    border-radius: 16px;
+    padding: 12px;
+  }
+
+  .hasil-section-title {
+    font-family: 'Fredoka', sans-serif;
+    color: var(--teks-lembut);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+
+  .hasil-row {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) 1fr;
+    gap: 8px;
+    padding: 6px 0;
+    border-top: 1px dashed rgba(117, 100, 83, 0.18);
+    font-size: 0.9rem;
+  }
+  .hasil-row:first-of-type { border-top: none; padding-top: 0; }
+  .hasil-row:last-child { padding-bottom: 0; }
+  .hasil-row .label { color: var(--teks-lembut); font-weight: 700; }
+  .hasil-row .value { color: var(--teks); font-weight: 700; }
+  .hasil-row .value strong { color: var(--biru-tua); }
+
+  .hasil-daily {
+    background: rgba(43,169,214,0.10);
+    border: 1px solid rgba(43,169,214,0.22);
+    border-radius: 16px;
+    padding: 11px 12px;
+    font-size: 0.9rem;
+  }
+
+  .hasil-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .hasil-frekuensi {
+    margin-top: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.35;
+    text-align: left;
+  }
+
+  .hasil-note,
+  .hasil-warning {
+    border-radius: 16px;
+    padding: 11px 12px;
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+  .hasil-note { background: rgba(255, 197, 41, 0.15); color: var(--teks); }
+  .hasil-warning { background: #FFF1F1; color: #B33A3A; border: 1px solid rgba(179,58,58,0.18); font-weight: 700; }
+
+  @media (max-width: 480px) {
+    #hasil-box, .hasil-mini { padding: 14px; border-radius: 18px; }
+    .hasil-ringkasan, .hasil-section, .hasil-daily, .hasil-note, .hasil-warning { border-radius: 14px; }
+    .hasil-row { grid-template-columns: 1fr; gap: 2px; }
+  }
+
   /* ===== FOOTER ===== */
   footer {
     position: relative;
@@ -1046,6 +1188,51 @@
     border: 3px dashed var(--pink);
     border-radius: 18px;
     padding: 20px;
+  }
+
+
+  /* ===== TUMBUH KEMBANG: INTERPRETASI CDC PERSENTIL ===== */
+  .tk-cdc-block {
+    background: #FFFFFF;
+    border: 1px solid rgba(43,169,214,0.22);
+    border-radius: 16px;
+    padding: 12px 14px;
+    margin-top: 10px;
+    box-shadow: 0 4px 14px rgba(43,169,214,0.06);
+  }
+  .tk-cdc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 6px 0;
+    border-top: 1px dashed rgba(117,100,83,0.18);
+    font-size: 0.86rem;
+  }
+  .tk-cdc-row:first-child { border-top: none; padding-top: 0; }
+  .tk-cdc-label { color: var(--teks-lembut); font-weight: 800; }
+  .tk-cdc-value { color: var(--teks); font-weight: 800; text-align: right; }
+  .tk-cdc-status {
+    margin-top: 8px;
+    border-radius: 14px;
+    padding: 9px 11px;
+    font-size: 0.86rem;
+    line-height: 1.45;
+    font-weight: 700;
+  }
+  .tk-cdc-note {
+    margin-top: 8px;
+    border-radius: 14px;
+    padding: 9px 11px;
+    background: rgba(255,197,41,0.14);
+    color: var(--teks);
+    font-size: 0.78rem;
+    line-height: 1.5;
+    font-weight: 700;
+  }
+  @media (max-width: 480px) {
+    .tk-cdc-row { flex-direction: column; gap: 2px; }
+    .tk-cdc-value { text-align: left; }
   }
 
   /* ===== TUMBUH KEMBANG: WIZARD PEMILIHAN CHART ===== */
@@ -1977,69 +2164,28 @@
 
   /* ===== ASISTEN AI MENGAMBANG ===== */
   .tv-ai-fab {
-    position: fixed;
-    right: 18px;
-    bottom: 18px;
-    z-index: 8500;
-    width: 52px;
-    height: 52px;
-    border: 0;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.35rem;
-    background: linear-gradient(160deg, var(--biru), var(--pink));
-    color: #fff;
+    position: fixed; right: 18px; bottom: 18px; z-index: 8500;
+    width: 52px; height: 52px; border: 0; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 1.35rem;
+    background: linear-gradient(160deg, var(--biru), var(--pink)); color: #fff;
     box-shadow: 0 6px 0 rgba(43,169,214,.45), 0 12px 28px rgba(0,0,0,.18);
     transition: transform .15s ease, box-shadow .15s ease;
   }
   .tv-ai-fab:hover { transform: translateY(-2px) scale(1.03); }
   .tv-ai-fab:active { transform: translateY(1px) scale(.98); }
   .tv-ai-panel {
-    position: fixed;
-    inset: 0;
-    z-index: 8490;
-    display: none;
-    align-items: flex-end;
-    justify-content: flex-end;
-    padding: 18px;
-    background: rgba(74,55,40,.20);
+    position: fixed; inset: 0; z-index: 8490; display: none; align-items: flex-end;
+    justify-content: flex-end; padding: 18px; background: rgba(74,55,40,.20);
   }
   .tv-ai-panel.tampil { display: flex; }
   .tv-ai-panel-card {
-    width: min(560px, calc(100vw - 36px));
-    max-height: min(78vh, 720px);
-    overflow: auto;
-    background: var(--putih);
-    border-radius: 26px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.24);
-    padding: 18px;
-    border: 3px solid #EAF6FB;
+    width: min(560px, calc(100vw - 36px)); max-height: min(78vh, 720px); overflow: auto;
+    background: var(--putih); border-radius: 26px; box-shadow: 0 20px 60px rgba(0,0,0,.24);
+    padding: 18px; border: 3px solid #EAF6FB;
   }
-  .tv-ai-panel-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 12px;
-    font-family: 'Fredoka', sans-serif;
-    color: var(--teks);
-  }
+  .tv-ai-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; font-family: 'Fredoka', sans-serif; color: var(--teks); }
   .tv-ai-panel-title { display: inline-flex; align-items: center; gap: 8px; font-size: 1rem; }
-  .tv-ai-close {
-    width: 34px;
-    height: 34px;
-    border: 0;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.35rem;
-    font-weight: 800;
-    line-height: 1;
-    background: #FFE3EC;
-    color: var(--pink-tua);
-  }
+  .tv-ai-close { width: 34px; height: 34px; border: 0; border-radius: 50%; cursor: pointer; font-size: 1.35rem; font-weight: 800; line-height: 1; background: #FFE3EC; color: var(--pink-tua); }
   @media (max-width: 640px) {
     .tv-ai-fab { right: 14px; bottom: 14px; width: 48px; height: 48px; font-size: 1.22rem; }
     .tv-ai-panel { padding: 10px; align-items: flex-end; }
@@ -2154,7 +2300,7 @@
 <p>Semua alat bantu pediatri dalam satu tempat.</p>
 </div>
 <div class="tv-home-mini-status">
-<strong id="tvHomeTodayTools">6</strong>
+<strong id="tvHomeTodayTools">5</strong>
               Quick Access siap digunakan
             </div>
 </div>
@@ -2191,11 +2337,11 @@
 <h4>Asisten AI</h4>
 <p>Tanya Gemini untuk merapikan edukasi pasien, ringkasan, atau ide klinis.</p>
 </article>
-<article class="tv-home-tool" data-page="cairan" data-tool-id="kalkulator-pediatri" data-tool-title="Kalkulator Pediatri" role="button" tabindex="0">
-<button aria-label="Tambahkan Kalkulator Pediatri ke favorit" class="tv-home-fav-btn" data-fav-id="kalkulator-pediatri" type="button">☆</button>
-<div class="tv-home-icon" style="background:#DCF3FB;">🧮</div>
-<h4>Kalkulator Pediatri</h4>
-<p>Akses cepat ke perhitungan cairan dan kebutuhan klinis anak.</p>
+<article class="tv-home-tool" data-page="cairan" data-tool-id="kalkulator-pediatri" data-tool-title="Dosis Cairan" role="button" tabindex="0">
+<button aria-label="Tambahkan Dosis Cairan ke favorit" class="tv-home-fav-btn" data-fav-id="kalkulator-pediatri" type="button">☆</button>
+<div class="tv-home-icon" style="background:#DCF3FB;">💧</div>
+<h4>Dosis Cairan</h4>
+<p>Hitung kebutuhan cairan rumatan dan rencana rehidrasi anak.</p>
 </article>
 <article class="tv-home-tool" data-page="protokol" data-tool-id="referensi-klinis" data-tool-title="Referensi Klinis" role="button" tabindex="0">
 <button aria-label="Tambahkan Referensi Klinis ke favorit" class="tv-home-fav-btn" data-fav-id="referensi-klinis" type="button">☆</button>
@@ -2203,13 +2349,7 @@
 <h4>Referensi Klinis</h4>
 <p>Buka protokol terapi dan rujukan praktis pediatri.</p>
 </article>
-<article class="tv-home-tool" data-coming="true" data-tool-id="catatan-pasien" data-tool-title="Catatan Pasien" role="button" tabindex="0">
-<button aria-label="Tambahkan Catatan Pasien ke favorit" class="tv-home-fav-btn" data-fav-id="catatan-pasien" type="button">☆</button>
-<div class="tv-home-icon" style="background:#FFECD8;">📝</div>
-<h4>Catatan Pasien</h4>
-<p>Simpan catatan ringkas pasien dan tindak lanjut.</p>
-<span class="tv-coming-badge">Segera hadir</span>
-</article>
+
 </div>
 </section>
 <section aria-label="Riwayat dan favorit" class="tv-home-two-col">
@@ -2368,6 +2508,10 @@
 <div class="form-group" id="grup-usia" style="display:none;">
 <label for="usiaBulan">👶 Usia Anak (bulan)</label>
 <input id="usiaBulan" min="0" placeholder="Contoh: 8" step="1" type="number"/>
+</div>
+<div class="form-group" id="grup-sediaan" style="display:none;">
+<label for="sediaanObat">🧴 Pilih Sediaan Sirup</label>
+<select id="sediaanObat"></select>
 </div>
 <button class="btn-hitung" id="btnHitung" type="button">✨ Hitung Dosis</button>
 <div id="hasil-box">
@@ -2755,10 +2899,13 @@ const daftarObat = [
     dosisMaxPerKg: 2,
     sediaanMg: 15,
     sediaanMl: 5,
-    unitLabel: "mg/kg",
-    frekuensi: "3 kali sehari",
-    catatan: "Mukolitik untuk dahak kental",
-    icon: "💧"
+    unitLabel: "mg/kg/hari",
+    frekuensi: "dibagi 3 kali sehari",
+    catatan: "Dosis pada kalkulator dihitung sebagai total harian lalu dibagi 3 kali pemberian. Maksimum otomatis konservatif: 45 mg/hari; verifikasi sesuai usia dan produk.",
+    icon: "💧",
+    doseBasis: "perDay",
+    dosesPerDay: 3,
+    dosisMaksimalHarianMg: 45
   },
   {
     nama: "Amoxicillin",
@@ -2767,10 +2914,13 @@ const daftarObat = [
     dosisMaxPerKg: 50,
     sediaanMg: 250,
     sediaanMl: 5,
-    unitLabel: "mg/kg",
+    unitLabel: "mg/kg/hari",
     frekuensi: "dibagi 3 kali sehari",
-    catatan: "Dosis tergantung lokasi dan berat infeksi",
-    icon: "🦠"
+    catatan: "Dosis dihitung sebagai total harian berdasarkan komponen amoxicillin, lalu dibagi 3 kali pemberian. Dosis dapat berbeda sesuai indikasi/berat infeksi.",
+    icon: "🦠",
+    doseBasis: "perDay",
+    dosesPerDay: 3,
+    dosisMaksimalHarianMg: 2000
   },
   {
     nama: "Asiklovir",
@@ -2779,10 +2929,14 @@ const daftarObat = [
     dosisMaxPerKg: 15,
     sediaanMg: 200,
     sediaanMl: 10,
-    unitLabel: "mg/kg",
-    frekuensi: "5x sehari tiap 4 jam, selama 5–10 hari",
-    catatan: "Jadwal pemberian 06.00, 10.00, 14.00, 18.00 & 22.00.",
-    icon: "🧬"
+    unitLabel: "mg/kg/kali",
+    frekuensi: "5 kali sehari tiap ±4 jam saat terjaga, selama 5–10 hari",
+    catatan: "Dosis dihitung per kali pemberian. Maksimum otomatis 800 mg/kali; indikasi tertentu dapat memerlukan regimen berbeda.",
+    icon: "🧬",
+    doseBasis: "perDose",
+    maxDosesPerDay: 5,
+    dosisMaksimalTunggalMg: 800,
+    dosisMaksimalHarianMg: 4000
   },
   {
     nama: "Azithromycin",
@@ -2791,10 +2945,13 @@ const daftarObat = [
     dosisMaxPerKg: 10,
     sediaanMg: 200,
     sediaanMl: 5,
-    unitLabel: "mg/kg",
+    unitLabel: "mg/kg/hari",
     frekuensi: "1 kali sehari",
-    catatan: "10 mg (H1), 5 mg (H>1), Biasanya 3–5 hari tergantung indikasi",
-    icon: "🫁"
+    catatan: "Dosis dihitung sebagai total harian. Regimen 10 mg/kg hari pertama lalu 5 mg/kg/hari hari berikutnya dapat dipakai sesuai indikasi.",
+    icon: "🫁",
+    doseBasis: "perDay",
+    dosesPerDay: 1,
+    dosisMaksimalHarianMg: 500
   },
   {
     nama: "Cefixime",
@@ -2803,10 +2960,13 @@ const daftarObat = [
     dosisMaxPerKg: 8,
     sediaanMg: 100,
     sediaanMl: 5,
-    unitLabel: "mg/kg",
-    frekuensi: "1–2 kali sehari",
-    catatan: "Sering digunakan pada tifoid dan ISK",
-    icon: "💊"
+    unitLabel: "mg/kg/hari",
+    frekuensi: "1 kali sehari atau dibagi 2 kali sehari",
+    catatan: "Dosis dihitung sebagai total harian; bila dipilih 2 kali sehari, bagi total harian menjadi 2 pemberian.",
+    icon: "💊",
+    doseBasis: "perDay",
+    dosesPerDay: 1,
+    dosisMaksimalHarianMg: 400
   },
   {
     nama: "Cetirizine",
@@ -2815,14 +2975,18 @@ const daftarObat = [
     dosisMaxPerKg: 0.25,
     sediaanMg: 5,
     sediaanMl: 5,
-    unitLabel: "mg/kg",
+    unitLabel: "mg/kg/hari",
     frekuensi: "1 kali sehari",
-    catatan: "Untuk rinitis alergi dan urtikaria",
-    icon: "🌼"
+    catatan: "Dosis dihitung sebagai dosis harian. Maksimum otomatis 10 mg/hari; pada praktik sering memakai dosis berbasis usia.",
+    icon: "🌼",
+    doseBasis: "perDay",
+    dosesPerDay: 1,
+    dosisMaksimalHarianMg: 10
   },
   {
     nama: "Chlorpheniramine Maleate (CTM)",
     doseType: "ageBands",
+    doseBasis: "perDose",
     unitLabel: "mg/kg atau mg (sesuai usia)",
     sediaanMg: 2,
     sediaanMl: 5,
@@ -2839,7 +3003,10 @@ const daftarObat = [
         dosisMaxPerKg: 0.1,
         dosisMaksimalTunggalMg: 2,
         frekuensi: "setiap 4–6 jam",
-        catatan: "0,1 mg/kgBB per kali dosis. Dosis maksimal untuk usia <2 tahun: 2 mg per kali."
+        catatan: "0,1 mg/kgBB per kali dosis. Dosis maksimal untuk usia <2 tahun: 2 mg per kali.",
+        doseBasis: "perDose",
+        maxDosesPerDay: 6,
+        dosisMaksimalHarianMg: 12
       },
       {
         usiaMinBulan: 24,
@@ -2850,7 +3017,9 @@ const daftarObat = [
         dosisFlatMax: 1,
         dosisMaksimalHarianMg: 6,
         frekuensi: "setiap 4–6 jam",
-        catatan: "Dosis maksimal harian: 6 mg/hari."
+        catatan: "Dosis maksimal harian: 6 mg/hari.",
+        doseBasis: "perDose",
+        maxDosesPerDay: 6
       },
       {
         usiaMinBulan: 60,
@@ -2861,7 +3030,9 @@ const daftarObat = [
         dosisFlatMax: 2,
         dosisMaksimalHarianMg: 12,
         frekuensi: "setiap 4–6 jam",
-        catatan: "Dosis maksimal harian: 12 mg/hari."
+        catatan: "Dosis maksimal harian: 12 mg/hari.",
+        doseBasis: "perDose",
+        maxDosesPerDay: 6
       },
       {
         usiaMinBulan: 144,
@@ -2872,7 +3043,9 @@ const daftarObat = [
         dosisFlatMax: 4,
         dosisMaksimalHarianMg: 24,
         frekuensi: "setiap 4–6 jam",
-        catatan: "Dosis maksimal harian: 24 mg/hari."
+        catatan: "Dosis maksimal harian: 24 mg/hari.",
+        doseBasis: "perDose",
+        maxDosesPerDay: 6
       }
     ]
   },
@@ -2883,10 +3056,13 @@ const daftarObat = [
     dosisMaxPerKg: 50,
     sediaanMg: 156,
     sediaanMl: 5,
-    unitLabel: "mg/kg",
-    frekuensi: "2 kali sehari",
-    catatan: "Dihitung berdasarkan komponen amoksisilin",
-    icon: "🛡️"
+    unitLabel: "mg/kg/hari",
+    frekuensi: "dibagi 2 kali sehari",
+    catatan: "Dosis dihitung sebagai total harian berdasarkan komponen amoxicillin, lalu dibagi 2 kali pemberian. Perhatikan rasio clavulanate pada produk.",
+    icon: "🛡️",
+    doseBasis: "perDay",
+    dosesPerDay: 2,
+    dosisMaksimalHarianMg: 2000
   },
   {
     nama: "Cotrimoxazole",
@@ -2895,10 +3071,14 @@ const daftarObat = [
     dosisMaxPerKg: 6,
     sediaanMg: 200,
     sediaanMl: 5,
-    unitLabel: "mg/kg",
+    unitLabel: "mg TMP/kg/kali",
     frekuensi: "2 kali sehari",
-    catatan: "Dihitung berdasarkan komponen trimethoprim",
-    icon: "🦠⚔️"
+    catatan: "Dosis dihitung berdasarkan komponen trimethoprim (TMP) per kali pemberian. Maksimum otomatis 160 mg TMP/kali.",
+    icon: "🦠⚔️",
+    doseBasis: "perDose",
+    maxDosesPerDay: 2,
+    dosisMaksimalTunggalMg: 160,
+    dosisMaksimalHarianMg: 320
   },
   {
     nama: "Dexamethasone",
@@ -2907,10 +3087,13 @@ const daftarObat = [
     dosisMaxPerKg: 0.6,
     sediaanMg: 5,
     sediaanMl: 0.5,
-    unitLabel: "mg/kg/dosis",
-    frekuensi: "3 kali sehari (3x1)",
-    catatan: "Dosis 0,15–0,6 mg/kgBB per dosis, diberikan 3 kali sehari. Sediaan sirup 5 mg/0,5 ml; tersedia juga sediaan tablet 0,5 mg sesuai ketersediaan apotek.",
-    icon: "🔥💊"
+    unitLabel: "mg/kg/kali",
+    frekuensi: "dosis tunggal; dapat diulang sesuai instruksi dokter",
+    catatan: "Dosis dihitung per kali pemberian/dosis tunggal. Bukan regimen rutin 3x sehari. Maksimum otomatis 16 mg/kali.",
+    icon: "🔥💊",
+    doseBasis: "singleDose",
+    maxDosesPerDay: 1,
+    dosisMaksimalTunggalMg: 16
   },
   {
     nama: "Domperidone",
@@ -2919,10 +3102,14 @@ const daftarObat = [
     dosisMaxPerKg: 0.4,
     sediaanMg: 5,
     sediaanMl: 5,
-    unitLabel: "mg/kg",
+    unitLabel: "mg/kg/kali",
     frekuensi: "3 kali sehari sebelum makan",
-    catatan: "Perhatikan risiko pemanjangan QT",
-    icon: "🚫🤮"
+    catatan: "Dosis dihitung per kali pemberian. Maksimum otomatis 10 mg/kali dan 30 mg/hari. Perhatikan kontraindikasi dan risiko gangguan irama jantung.",
+    icon: "🚫🤮",
+    doseBasis: "perDose",
+    maxDosesPerDay: 3,
+    dosisMaksimalTunggalMg: 10,
+    dosisMaksimalHarianMg: 30
   },
   {
     nama: "Eritromisin",
@@ -2933,8 +3120,11 @@ const daftarObat = [
     sediaanMl: 5,
     unitLabel: "mg/kg/hari",
     frekuensi: "dibagi dalam 3–4 dosis per hari",
-    catatan: "Dosis total harian 50 mg/kgBB per oral, dibagi rata dalam 3–4 kali pemberian per hari.",
-    icon: "🛡️"
+    catatan: "Dosis dihitung sebagai total harian, lalu dibagi sesuai frekuensi.",
+    icon: "🛡️",
+    doseBasis: "perDay",
+    dosesPerDay: 4,
+    dosisMaksimalHarianMg: 2000
   },
   {
     nama: "Ibuprofen",
@@ -2944,10 +3134,14 @@ const daftarObat = [
     sediaanMg: 100,
     sediaanMl: 5,
     dosisMaksimalTunggalMg: 400,
-    unitLabel: "mg/kg",
-    frekuensi: "diberikan 3 kali sehari (tiap 6-8 jam) bila perlu",
-    catatan: "Sebaiknya diberikan setelah makan. Hindari pada dehidrasi berat atau gangguan ginjal.",
-    icon: "🧴"
+    unitLabel: "mg/kg/kali",
+    frekuensi: "tiap 6–8 jam bila perlu; maksimal 4 kali sehari",
+    catatan: "Dosis dihitung per kali pemberian. Maksimum otomatis 400 mg/kali dan tidak melebihi 40 mg/kgBB/hari.",
+    icon: "🧴",
+    doseBasis: "perDose",
+    maxDosesPerDay: 4,
+    dosisMaksimalHarianPerKg: 40,
+    dosisMaksimalHarianMg: 1200
   },
   {
     nama: "Ketoconazole",
@@ -2956,10 +3150,13 @@ const daftarObat = [
     dosisMaxPerKg: 6,
     sediaanMg: 200,
     sediaanMl: 5,
-    unitLabel: "mg/kg",
+    unitLabel: "mg/kg/hari",
     frekuensi: "1 kali sehari",
-    catatan: "Perlu perhatian terhadap fungsi hati",
-    icon: "🍄🛑"
+    catatan: "Dosis dihitung sebagai total harian. Perhatikan risiko hepatotoksisitas; penggunaan sistemik perlu indikasi dan pemantauan dokter.",
+    icon: "🍄🛑",
+    doseBasis: "perDay",
+    dosesPerDay: 1,
+    dosisMaksimalHarianMg: 400
   },
   {
     nama: "Loratadine",
@@ -2968,10 +3165,13 @@ const daftarObat = [
     dosisMaxPerKg: 0.2,
     sediaanMg: 5,
     sediaanMl: 5,
-    unitLabel: "mg/kg",
+    unitLabel: "mg/kg/hari",
     frekuensi: "1 kali sehari",
-    catatan: "Antihistamin non-sedatif",
-    icon: "🤧"
+    catatan: "Dosis dihitung sebagai dosis harian. Maksimum otomatis 10 mg/hari; praktik umum sering memakai dosis berbasis usia/berat.",
+    icon: "🤧",
+    doseBasis: "perDay",
+    dosesPerDay: 1,
+    dosisMaksimalHarianMg: 10
   },
   {
     nama: "Metronidazole",
@@ -2980,21 +3180,28 @@ const daftarObat = [
     dosisMaxPerKg: 10,
     sediaanMg: 200,
     sediaanMl: 5,
-    unitLabel: "mg/kg",
+    unitLabel: "mg/kg/kali",
     frekuensi: "3 kali sehari",
-    catatan: "Untuk infeksi anaerob dan amoebiasis",
-    icon: "🦠🛑"
+    catatan: "Dosis dihitung per kali pemberian. Maksimum otomatis 500 mg/kali; regimen dapat berbeda sesuai indikasi.",
+    icon: "🦠🛑",
+    doseBasis: "perDose",
+    maxDosesPerDay: 3,
+    dosisMaksimalTunggalMg: 500,
+    dosisMaksimalHarianMg: 1500
   },
   {
     nama: "Nystatin",
     doseType: "flat",
-    dosisFlatMin: 1000000,
-    dosisFlatMax: 1000000,
-    sediaanIU: 1000000,
+    doseBasis: "perDose",
+    dosisFlatMin: 100000,
+    dosisFlatMax: 100000,
+    satuanDosis: "IU",
+    dosisMaksimalTunggalMg: 100000,
+    sediaanIU: 100000,
     sediaanMl: 1,
-    unitLabel: "IU/dosis",
+    unitLabel: "IU/kali",
     frekuensi: "4 kali sehari",
-    catatan: "Satuan dalam IU, bukan mg. Dosis TETAP 100.000 IU per pemberian, tidak dihitung berdasarkan berat badan.",
+    catatan: "Satuan dalam IU, bukan mg. Dosis dihitung per kali pemberian. Umumnya suspensi 100.000 IU/mL; oles/pertahankan di mulut sebelum ditelan bila untuk kandidiasis oral.",
     icon: "🍄"
   },
   {
@@ -3004,20 +3211,25 @@ const daftarObat = [
     dosisMaxPerKg: 0.15,
     sediaanMg: 4,
     sediaanMl: 5,
-    unitLabel: "mg/kg",
+    unitLabel: "mg/kg/kali",
     frekuensi: "bila perlu tiap 8 jam",
-    catatan: "Gastroenteritis akut biasanya cukup dosis tunggal",
-    icon: "🤢"
+    catatan: "Dosis dihitung per kali pemberian. Gastroenteritis akut biasanya cukup dosis tunggal. Maksimum otomatis 8 mg/kali.",
+    icon: "🤢",
+    doseBasis: "perDose",
+    maxDosesPerDay: 3,
+    dosisMaksimalTunggalMg: 8,
+    dosisMaksimalHarianMg: 24
   },
   {
     nama: "Oral Rehydration Salt (ORS)",
     doseType: "perKgVolume",
     volumeMinPerKg: 10,
     volumeMaxPerKg: 20,
-    unitLabel: "mL/kg",
+    unitLabel: "mL/kg/episode",
     frekuensi: "setelah setiap episode diare",
-    catatan: "Dosis langsung dalam mL/kgBB",
-    icon: "💦"
+    catatan: "Volume dihitung per episode diare/muntah, bukan dosis harian. Sesuaikan dengan derajat dehidrasi dan toleransi minum.",
+    icon: "💦",
+    doseBasis: "perEpisode"
   },
   {
     nama: "Oseltamivir",
@@ -3026,38 +3238,43 @@ const daftarObat = [
     dosisMaxPerKg: 3,
     sediaanMg: 30,
     sediaanMl: 5,
-    unitLabel: "mg/kg",
+    unitLabel: "mg/kg/kali",
     frekuensi: "2 kali sehari",
-    catatan: "Terapi influenza",
-    icon: "🦠❄️"
+    catatan: "Dosis dihitung per kali pemberian. Maksimum otomatis 75 mg/kali. Regimen dapat memakai weight-band sesuai pedoman influenza.",
+    icon: "🦠❄️",
+    doseBasis: "perDose",
+    maxDosesPerDay: 2,
+    dosisMaksimalTunggalMg: 75,
+    dosisMaksimalHarianMg: 150
   },
   {
     nama: "Paracetamol",
-    varian: "Sirup 120 mg/5 ml",
     doseType: "perKg",
     dosisMinPerKg: 10,
     dosisMaxPerKg: 15,
     sediaanMg: 120,
     sediaanMl: 5,
+    sediaanOptions: [
+      {
+        label: "Sirup 120 mg/5 ml",
+        sediaanMg: 120,
+        sediaanMl: 5
+      },
+      {
+        label: "Sirup 160 mg/5 ml (Forte)",
+        sediaanMg: 160,
+        sediaanMl: 5
+      }
+    ],
     dosisMaksimalTunggalMg: 1000,
-    unitLabel: "mg/kg",
-    frekuensi: "diberikan 3-4 kali sehari (tiap 4-6 jam) bila perlu",
-    catatan: "Jangan diberikan lebih dari 5 kali dalam 24 jam. Maksimum 75 mg/kgBB/hari.",
-    icon: "💊"
-  },
-  {
-    nama: "Paracetamol",
-    varian: "Sirup 160 mg/5 ml (Forte)",
-    doseType: "perKg",
-    dosisMinPerKg: 10,
-    dosisMaxPerKg: 15,
-    sediaanMg: 160,
-    sediaanMl: 5,
-    dosisMaksimalTunggalMg: 1000,
-    unitLabel: "mg/kg",
-    frekuensi: "setiap 4–6 jam bila perlu (maks. 5 kali sehari)",
-    catatan: "Maksimum 75 mg/kgBB/hari. Perhatikan konsentrasi berbeda dari sediaan 120mg/5ml.",
-    icon: "🌡️"
+    unitLabel: "mg/kg/kali",
+    frekuensi: "tiap 4–6 jam bila perlu; maksimal 5 kali sehari",
+    catatan: "Dosis dihitung per kali pemberian. Maksimum 75 mg/kgBB/hari dan jangan lebih dari 5 kali pemberian per 24 jam. Pilih konsentrasi sirup agar hasil mL tepat.",
+    icon: "🌡️",
+    doseBasis: "perDose",
+    maxDosesPerDay: 5,
+    dosisMaksimalHarianPerKg: 75,
+    dosisMaksimalHarianMg: 4000
   },
   {
     nama: "Prednisolone",
@@ -3066,10 +3283,13 @@ const daftarObat = [
     dosisMaxPerKg: 2,
     sediaanMg: 15,
     sediaanMl: 5,
-    unitLabel: "mg/kg",
-    frekuensi: "1–2 kali sehari",
-    catatan: "Sering digunakan pada asma eksaserbasi",
-    icon: "🫁🔥"
+    unitLabel: "mg/kg/hari",
+    frekuensi: "1 kali sehari atau dibagi 2 dosis sesuai instruksi dokter",
+    catatan: "Dosis dihitung sebagai total harian. Maksimum otomatis 60 mg/hari untuk banyak regimen eksaserbasi asma; indikasi lain dapat berbeda.",
+    icon: "🫁🔥",
+    doseBasis: "perDay",
+    dosesPerDay: 1,
+    dosisMaksimalHarianMg: 60
   },
   {
     nama: "Prednison",
@@ -3078,8 +3298,11 @@ const daftarObat = [
     dosisMaxPerKg: 2,
     unitLabel: "mg/kg/hari",
     frekuensi: "1 kali sehari (pagi hari) selama 2 minggu fase inisial",
-    catatan: "Dosis inisial sindrom nefrotik: 2 mg/kgBB/hari, selama 2 minggu, dilanjutkan tapering sesuai protokol yang berlaku di fasilitas. Tidak tersedia sediaan sirup standar — gunakan sediaan tablet (umumnya tablet 5 mg) sesuai ketersediaan apotek.",
-    icon: "🫘"
+    catatan: "Dosis inisial sindrom nefrotik: 2 mg/kgBB/hari, selama 2 minggu, dilanjutkan tapering sesuai protokol yang berlaku di fasilitas. Tidak tersedia sediaan sirup standar — gunakan sediaan tablet (umumnya tablet 5 mg) sesuai ketersediaan apotek. Dosis dihitung sebagai total harian; maksimum otomatis 60 mg/hari kecuali ada instruksi spesialis.",
+    icon: "🫘",
+    doseBasis: "perDay",
+    dosesPerDay: 1,
+    dosisMaksimalHarianMg: 60
   },
   {
     nama: "Salbutamol",
@@ -3088,10 +3311,14 @@ const daftarObat = [
     dosisMaxPerKg: 0.2,
     sediaanMg: 2,
     sediaanMl: 5,
-    unitLabel: "mg/kg",
+    unitLabel: "mg/kg/kali",
     frekuensi: "3–4 kali sehari",
-    catatan: "Perhatikan tremor dan takikardia",
-    icon: "🫁💨"
+    catatan: "Dosis oral dihitung per kali pemberian. Maksimum otomatis 4 mg/kali. Untuk asma akut, rute inhalasi umumnya lebih disarankan; perhatikan tremor dan takikardia.",
+    icon: "🫁💨",
+    doseBasis: "perDose",
+    maxDosesPerDay: 4,
+    dosisMaksimalTunggalMg: 4,
+    dosisMaksimalHarianMg: 16
   },
   {
     nama: "Vitamin A",
@@ -3106,9 +3333,11 @@ const daftarObat = [
     catatanDiatasAmbang: "Usia 12–59 bulan: Kapsul Merah, dosis 200.000 IU.",
     sediaanCustomText: "Kapsul Biru (100.000 IU) untuk usia 6–11 bulan; Kapsul Merah (200.000 IU) untuk usia 12–59 bulan. Tidak ada sediaan sirup/tetes — berikan 1 kapsul sesuai kelompok usia.",
     unitLabel: "IU (sesuai usia)",
-    frekuensi: "Dosis tunggal, diberikan rutin tiap Bulan Vitamin A (Februari & Agustus)",
-    catatan: "Suplementasi Vitamin A rutin nasional untuk mencegah defisiensi Vitamin A pada balita.",
-    icon: "🟦🟥"
+    frekuensi: "Dosis tunggal tiap 4–6 bulan sesuai program/sasaran",
+    catatan: "Dosis tunggal berdasarkan usia: 6–11 bulan 100.000 IU; 12–59 bulan 200.000 IU. Tidak untuk pemberian harian.",
+    icon: "🟦🟥",
+    doseBasis: "singleDose",
+    dosisMaksimalTunggalMg: 200000
   },
   {
     nama: "Vitamin D",
@@ -3119,12 +3348,16 @@ const daftarObat = [
     satuanDosis: "IU",
     unitLabel: "IU/hari",
     frekuensi: "1 kali sehari",
-    catatan: "Dosis suplementasi rutin harian: <1 tahun 400 IU/hari, ≥1 tahun 600 IU/hari. Tidak tersedia sediaan sirup standar — gunakan sediaan tetes atau tablet kunyah sesuai produk yang tersedia di apotek.",
-    icon: "☀️"
+    catatan: "Dosis suplementasi rutin harian: <1 tahun 400 IU/hari, ≥1 tahun 600 IU/hari. Kalkulator ini menampilkan dosis suplementasi rutin, bukan terapi defisiensi dosis tinggi.",
+    icon: "☀️",
+    doseBasis: "perDay",
+    dosesPerDay: 1,
+    dosisMaksimalHarianMg: 600
   },
   {
     nama: "Zat Besi",
     doseType: "ageBands",
+    doseBasis: "perDay",
     unitLabel: "mg/kg atau mg (sesuai usia)",
     sediaanMg: 15,
     sediaanMl: 5,
@@ -3141,7 +3374,10 @@ const daftarObat = [
         dosisMinPerKg: 2,
         dosisMaxPerKg: 3,
         frekuensi: "1 kali sehari, diberikan rutin",
-        catatan: "2 mg/kgBB/hari untuk bayi cukup bulan; 3 mg/kgBB/hari untuk bayi berat badan lahir rendah (BBLR, <2.500 g)."
+        catatan: "2 mg/kgBB/hari untuk bayi cukup bulan; 3 mg/kgBB/hari untuk bayi berat badan lahir rendah (BBLR, <2.500 g).",
+        doseBasis: "perDay",
+        dosesPerDay: 1,
+        unitLabel: "mg/kg/hari"
       },
       {
         usiaMinBulan: 24,
@@ -3151,7 +3387,10 @@ const daftarObat = [
         dosisMinPerKg: 1,
         dosisMaxPerKg: 1,
         frekuensi: "2 kali per minggu, selama 3 bulan berturut-turut setiap tahun",
-        catatan: "1 mg/kgBB/hari zat besi elemental, diberikan secara intermiten untuk anak usia 2–5 tahun (balita) dan >5–12 tahun (usia sekolah)."
+        catatan: "1 mg/kgBB/hari zat besi elemental, diberikan secara intermiten untuk anak usia 2–5 tahun (balita) dan >5–12 tahun (usia sekolah).",
+        doseBasis: "perDay",
+        dosesPerDay: 1,
+        unitLabel: "mg/kg/hari"
       },
       {
         usiaMinBulan: 144,
@@ -3161,7 +3400,10 @@ const daftarObat = [
         dosisFlatMin: 60,
         dosisFlatMax: 60,
         frekuensi: "2 kali per minggu, selama 3 bulan berturut-turut setiap tahun",
-        catatan: "Dosis tetap 60 mg/hari zat besi elemental, tidak dihitung dari berat badan. Khusus remaja perempuan: tambahkan asam folat 400 µg."
+        catatan: "Dosis tetap 60 mg/hari zat besi elemental, tidak dihitung dari berat badan. Khusus remaja perempuan: tambahkan asam folat 400 µg.",
+        doseBasis: "perDay",
+        dosesPerDay: 1,
+        dosisMaksimalHarianMg: 60
       }
     ]
   },
@@ -3173,15 +3415,14 @@ const daftarObat = [
     dosisDiatasAmbangMg: 20,
     sediaanMg: 20,
     sediaanMl: 5,
-    unitLabel: "mg (berdasarkan usia)",
-    frekuensi: "1 kali sehari",
-    catatan: "Diberikan selama 10–14 hari pada diare akut",
-    icon: "⚡"
+    unitLabel: "mg/hari berdasarkan usia",
+    frekuensi: "1 kali sehari selama 10–14 hari",
+    catatan: "Diberikan selama 10–14 hari pada diare akut. Maksimum otomatis 20 mg/hari.",
+    icon: "⚡",
+    doseBasis: "perDay",
+    dosesPerDay: 1,
+    dosisMaksimalHarianMg: 20
   }
-
-  // 👉 Tambahkan obat baru Anda di sini, ikuti format di atas
-  //    (pilih doseType yang sesuai: perKg / flat / perKgVolume / byAge).
-  // Jangan lupa tambahkan tanda koma (,) setelah '}' obat sebelumnya.
 ];
 
 /* ============================================================
@@ -3677,7 +3918,53 @@ function escapeHtml(str) {
    LABEL DOSIS RINGKAS untuk badge kartu (Rak Obat & Protokol
    Terapi sama-sama memakai fungsi ini supaya konsisten)
 ============================================================ */
+
+function pilihSediaanAktif(obat, sediaanIndexInput) {
+  if (!obat || !Array.isArray(obat.sediaanOptions) || !obat.sediaanOptions.length) return null;
+  const idx = Math.max(0, Math.min(obat.sediaanOptions.length - 1, parseInt(sediaanIndexInput || 0, 10) || 0));
+  return obat.sediaanOptions[idx] || obat.sediaanOptions[0];
+}
+
+function formatRentangDosis(min, max, unit) {
+  unit = unit || "";
+  if (min === undefined || min === null || max === undefined || max === null) return "Sesuai aturan dosis";
+  const fmt = function (v) { return Number(v).toLocaleString('id-ID', { maximumFractionDigits: 2 }); };
+  return min === max ? `${fmt(min)} ${unit}`.trim() : `${fmt(min)}–${fmt(max)} ${unit}`.trim();
+}
+
+function keteranganDosisAcuan(obat, hasil) {
+  const band = hasil && hasil.band;
+  const basis = (hasil && hasil.doseBasisFinal) || obat.doseBasis || "perDose";
+  const basisLabel = basis === "perDay" ? "per hari" : basis === "singleDose" ? "dosis tunggal" : basis === "perEpisode" ? "per episode" : "per kali pemberian";
+
+  if (obat.doseType === "perKg") {
+    return formatRentangDosis(obat.dosisMinPerKg, obat.dosisMaxPerKg, obat.unitLabel || (basis === "perDay" ? "mg/kg/hari" : "mg/kg/kali"));
+  }
+  if (obat.doseType === "perKgVolume") {
+    return formatRentangDosis(obat.volumeMinPerKg, obat.volumeMaxPerKg, obat.unitLabel || "mL/kg/episode");
+  }
+  if (obat.doseType === "flat") {
+    return formatRentangDosis(obat.dosisFlatMin, obat.dosisFlatMax, obat.unitLabel || ((obat.satuanDosis || "mg") + "/" + basisLabel));
+  }
+  if (obat.doseType === "byAge") {
+    const satuan = obat.satuanDosis || "mg";
+    const ambang = obat.ambangUsiaBulan;
+    return `<${ambang} bulan: ${formatRentangDosis(obat.dosisDibawahAmbangMg, obat.dosisDibawahAmbangMg, satuan)}; ≥${ambang} bulan: ${formatRentangDosis(obat.dosisDiatasAmbangMg, obat.dosisDiatasAmbangMg, satuan)} (${basisLabel})`;
+  }
+  if (obat.doseType === "ageBands" && band) {
+    const label = band.labelUsia ? `${band.labelUsia}: ` : "";
+    const bandBasis = band.doseBasis || basis;
+    const bandBasisLabel = bandBasis === "perDay" ? "per hari" : bandBasis === "singleDose" ? "dosis tunggal" : bandBasis === "perEpisode" ? "per episode" : "per kali pemberian";
+    if (band.tipe === "perKg") {
+      return label + formatRentangDosis(band.dosisMinPerKg, band.dosisMaxPerKg, band.unitLabel || obat.unitLabel || (bandBasis === "perDay" ? "mg/kg/hari" : "mg/kg/kali"));
+    }
+    return label + formatRentangDosis(band.dosisFlatMin, band.dosisFlatMax, band.unitLabel || obat.unitLabel || ((obat.satuanDosis || "mg") + "/" + bandBasisLabel));
+  }
+  return `Sesuai aturan dosis (${basisLabel})`;
+}
+
 function labelDosisObat(obat) {
+  if (Array.isArray(obat.sediaanOptions) && obat.sediaanOptions.length > 1) return "Pilih sediaan";
   return obat.doseType === "flat"
     ? `${obat.dosisFlatMin}${obat.dosisFlatMax !== obat.dosisFlatMin ? "-" + obat.dosisFlatMax : ""} ${obat.unitLabel}`
     : obat.doseType === "perKgVolume"
@@ -3711,7 +3998,7 @@ function renderLibrary() {
       <span class="centang">✓</span>
       <div class="label-atas" style="background:${warna};"></div>
       <div class="nama-obat-card">${escapeHtml(obat.nama)}</div>
-      ${obat.varian ? `<div class="varian-label">${escapeHtml(obat.varian)}</div>` : ""}
+      ${Array.isArray(obat.sediaanOptions) && obat.sediaanOptions.length > 1 ? `<div class="varian-label">${obat.sediaanOptions.length} pilihan sediaan sirup</div>` : (obat.varian ? `<div class="varian-label">${escapeHtml(obat.varian)}</div>` : "")}
       <span class="badge-dosis">${escapeHtml(labelDosis)}</span>
     `;
     frag.appendChild(kartu);
@@ -3736,8 +4023,7 @@ function pilihObat(index) {
   const kartuBaru = document.querySelector(`#grid-obat .obat-card[data-index="${index}"]`);
   if (kartuBaru) kartuBaru.classList.add("selected");
 
-  document.getElementById("namaTerpilih").textContent =
-    obat.varian ? `${obat.nama} — ${obat.varian}` : obat.nama;
+  document.getElementById("namaTerpilih").textContent = obat.nama;
   document.getElementById("emojiTerpilih").textContent = obat.icon || "💊";
 
   // sembunyikan hasil lama jika ganti obat
@@ -3760,6 +4046,21 @@ function pilihObat(index) {
 function toggleInputSesuaiObat(obat) {
   const grupBerat = document.getElementById("grup-berat");
   const grupUsia = document.getElementById("grup-usia");
+  const grupSediaan = document.getElementById("grup-sediaan");
+  const selectSediaan = document.getElementById("sediaanObat");
+
+  if (grupSediaan && selectSediaan) {
+    const opsi = Array.isArray(obat.sediaanOptions) ? obat.sediaanOptions : [];
+    if (opsi.length > 1) {
+      selectSediaan.innerHTML = opsi.map(function (o, idx) {
+        return `<option value="${idx}">${escapeHtml(o.label || ((o.sediaanMg || '') + ' mg/' + (o.sediaanMl || '') + ' ml'))}</option>`;
+      }).join("");
+      grupSediaan.style.display = "block";
+    } else {
+      selectSediaan.innerHTML = "";
+      grupSediaan.style.display = "none";
+    }
+  }
 
   if (obat.doseType === "byAge") {
     grupBerat.style.display = "none";
@@ -3811,144 +4112,136 @@ function filterObat() {
    Mengembalikan { error: "..." } bila input tidak valid,
    atau objek hasil lengkap bila berhasil.
 ============================================================ */
-function hitungDosisInti(obat, beratBadanInput, usiaBulanInput) {
+function hitungDosisInti(obat, beratBadanInput, usiaBulanInput, sediaanIndexInput) {
   const peringatan = [];
   let dosisMinMg = null, dosisMaxMg = null;
   let dosisMinMl = null, dosisMaxMl = null;
+  let dosisHarianMinMg = null, dosisHarianMaxMg = null;
   let beratBadan = null;
   let usiaBulan = null;
-  let band = null; // band usia yang cocok, khusus doseType "ageBands"
-  let sedMgFinal = obat.sediaanMg;
-  let sedMlFinal = obat.sediaanMl;
+  let band = null;
+  const sediaanAktif = pilihSediaanAktif(obat, sediaanIndexInput);
+  let sedMgFinal = sediaanAktif ? sediaanAktif.sediaanMg : obat.sediaanMg;
+  let sedMlFinal = sediaanAktif ? sediaanAktif.sediaanMl : obat.sediaanMl;
+  let sediaanLabelFinal = sediaanAktif ? sediaanAktif.label : null;
+  let doseBasisFinal = obat.doseBasis || (String(obat.unitLabel || '').toLowerCase().includes('/hari') ? 'perDay' : 'perDose');
+  let dosesPerDayFinal = obat.dosesPerDay || obat.maxDosesPerDay || null;
 
-  if (obat.doseType === "byAge") {
-    usiaBulan = parseFloat(usiaBulanInput);
-
-    if (isNaN(usiaBulan) || usiaBulan < 0) {
-      return { error: "Mohon masukkan usia anak yang valid (dalam bulan)." };
+  function batasHarianMg() {
+    const batas = [];
+    if (obat.dosisMaksimalHarianMg) batas.push(obat.dosisMaksimalHarianMg);
+    if (obat.dosisMaksimalHarianPerKg && isFinite(beratBadan)) batas.push(obat.dosisMaksimalHarianPerKg * beratBadan);
+    if (band && band.dosisMaksimalHarianMg) batas.push(band.dosisMaksimalHarianMg);
+    return batas.length ? Math.min.apply(null, batas) : null;
+  }
+  function batasiDosisTunggal() {
+    const maxSingle = (band && band.dosisMaksimalTunggalMg) || obat.dosisMaksimalTunggalMg;
+    if (maxSingle && dosisMaxMg !== null && dosisMaxMg > maxSingle) {
+      peringatan.push(`Hasil perhitungan (${dosisMaxMg.toFixed(1)} ${obat.satuanDosis || 'mg'}) melebihi dosis maksimal per kali (${maxSingle} ${obat.satuanDosis || 'mg'}), sehingga nilai atas dibatasi.`);
+      dosisMaxMg = maxSingle;
+      if (dosisMinMg > dosisMaxMg) dosisMinMg = dosisMaxMg;
     }
-    if (usiaBulan > 216) { // > 18 tahun, di luar cakupan kalkulator anak
-      return { error: "Usia tampak tidak wajar untuk pasien anak. Mohon periksa kembali input Anda." };
+  }
+  function batasiDosisHarian() {
+    const maxDaily = batasHarianMg();
+    if (maxDaily && dosisHarianMaxMg !== null && dosisHarianMaxMg > maxDaily) {
+      peringatan.push(`Total dosis harian hasil perhitungan (${dosisHarianMaxMg.toFixed(1)} ${obat.satuanDosis || 'mg'}/hari) melebihi batas harian (${maxDaily.toFixed(1)} ${obat.satuanDosis || 'mg'}/hari), sehingga nilai atas dibatasi.`);
+      dosisHarianMaxMg = maxDaily;
+      if (dosisHarianMinMg > dosisHarianMaxMg) dosisHarianMinMg = dosisHarianMaxMg;
     }
-
-    if (obat.usiaMinValidBulan !== undefined && usiaBulan < obat.usiaMinValidBulan) {
-      peringatan.push(`Usia di bawah rentang indikasi umum obat ini (mulai usia ${obat.usiaMinValidBulan} bulan). Mohon konsultasikan ke dokter.`);
-    }
-    if (obat.usiaMaxValidBulan !== undefined && usiaBulan > obat.usiaMaxValidBulan) {
-      peringatan.push(`Usia di atas rentang indikasi umum obat ini (hingga usia ${obat.usiaMaxValidBulan} bulan). Mohon konsultasikan ke dokter.`);
-    }
-
-    const dosisTetapMg = usiaBulan < obat.ambangUsiaBulan
-      ? obat.dosisDibawahAmbangMg
-      : obat.dosisDiatasAmbangMg;
-
-    dosisMinMg = dosisTetapMg;
-    dosisMaxMg = dosisTetapMg;
-
-    if (obat.sediaanMg && obat.sediaanMl) {
-      const mgPerMl = obat.sediaanMg / obat.sediaanMl;
+  }
+  function hitungMlDariSediaan() {
+    if (sedMgFinal && sedMlFinal && dosisMinMg !== null && dosisMaxMg !== null) {
+      const mgPerMl = sedMgFinal / sedMlFinal;
       dosisMinMl = dosisMinMg / mgPerMl;
       dosisMaxMl = dosisMaxMg / mgPerMl;
     }
-  } else if (obat.doseType === "ageBands") {
-    usiaBulan = parseFloat(usiaBulanInput);
-
-    if (isNaN(usiaBulan) || usiaBulan < 0) {
-      return { error: "Mohon masukkan usia anak yang valid (dalam bulan)." };
-    }
-    if (usiaBulan > 216) {
-      return { error: "Usia tampak tidak wajar untuk pasien anak. Mohon periksa kembali input Anda." };
-    }
-
-    band = obat.bands.find(b => usiaBulan >= b.usiaMinBulan && usiaBulan <= b.usiaMaxBulan);
-    if (!band) {
-      return { error: "Tidak ada rekomendasi dosis untuk usia tersebut pada kalkulator ini. Mohon konsultasikan ke dokter." };
-    }
-
-    if (band.tipe === "perKg") {
-      beratBadan = parseFloat(beratBadanInput);
-
-      if (isNaN(beratBadan) || beratBadan <= 0) {
-        return { error: "Mohon masukkan berat badan yang valid (lebih dari 0 kg) untuk kelompok usia ini." };
-      }
-      if (beratBadan > 150) {
-        return { error: "Berat badan tampak tidak wajar untuk pasien anak. Mohon periksa kembali input Anda." };
-      }
-
-      dosisMinMg = band.dosisMinPerKg * beratBadan;
-      dosisMaxMg = band.dosisMaxPerKg * beratBadan;
-
-      if (band.dosisMaksimalTunggalMg && dosisMaxMg > band.dosisMaksimalTunggalMg) {
-        peringatan.push(
-          `Hasil perhitungan (${dosisMaxMg.toFixed(1)} mg) melebihi dosis maksimal per kali untuk kelompok usia ini ` +
-          `(${band.dosisMaksimalTunggalMg} mg), sehingga ditampilkan dibatasi pada nilai maksimal tersebut.`
-        );
-        dosisMaxMg = band.dosisMaksimalTunggalMg;
-        if (dosisMinMg > dosisMaxMg) dosisMinMg = dosisMaxMg;
-      }
-    } else {
-      // tipe "flat" -> dosis tetap, berat badan tidak dibutuhkan untuk kelompok usia ini
-      dosisMinMg = band.dosisFlatMin;
-      dosisMaxMg = band.dosisFlatMax;
-    }
-
-    sedMgFinal = band.sediaanMg || obat.sediaanMg;
-    sedMlFinal = band.sediaanMl || obat.sediaanMl;
-
-    if (sedMgFinal && sedMlFinal) {
-      const mgPerMlBand = sedMgFinal / sedMlFinal;
-      dosisMinMl = dosisMinMg / mgPerMlBand;
-      dosisMaxMl = dosisMaxMg / mgPerMlBand;
-    }
-  } else {
-    beratBadan = parseFloat(beratBadanInput);
-
-    if (isNaN(beratBadan) || beratBadan <= 0) {
-      return { error: "Mohon masukkan berat badan yang valid (lebih dari 0 kg)." };
-    }
-    if (beratBadan > 150) {
-      return { error: "Berat badan tampak tidak wajar untuk pasien anak. Mohon periksa kembali input Anda." };
-    }
-
-    if (obat.doseType === "flat") {
-      // Dosis tetap, tidak tergantung berat badan
-      dosisMinMg = obat.dosisFlatMin;
-      dosisMaxMg = obat.dosisFlatMax;
-      if (obat.sediaanMg && obat.sediaanMl) {
-        const mgPerMl = obat.sediaanMg / obat.sediaanMl;
-        dosisMinMl = dosisMinMg / mgPerMl;
-        dosisMaxMl = dosisMaxMg / mgPerMl;
-      }
-    } else if (obat.doseType === "perKgVolume") {
-      // Dosis langsung dalam mL/kg, tanpa konversi sediaan
-      dosisMinMl = obat.volumeMinPerKg * beratBadan;
-      dosisMaxMl = obat.volumeMaxPerKg * beratBadan;
-    } else {
-      // perKg (default)
-      dosisMinMg = obat.dosisMinPerKg * beratBadan;
-      dosisMaxMg = obat.dosisMaxPerKg * beratBadan;
-
-      if (obat.dosisMaksimalTunggalMg && dosisMaxMg > obat.dosisMaksimalTunggalMg) {
-        peringatan.push(
-          `Hasil perhitungan (${dosisMaxMg.toFixed(1)} mg) melebihi plafon dosis tunggal ` +
-          `${obat.dosisMaksimalTunggalMg} mg, sehingga ditampilkan dibatasi pada nilai plafon tersebut.`
-        );
-        dosisMaxMg = obat.dosisMaksimalTunggalMg;
-        if (dosisMinMg > dosisMaxMg) dosisMinMg = dosisMaxMg;
-      }
-
-      const mgPerMl2 = obat.sediaanMg && obat.sediaanMl ? obat.sediaanMg / obat.sediaanMl : null;
-      if (mgPerMl2) {
-        dosisMinMl = dosisMinMg / mgPerMl2;
-        dosisMaxMl = dosisMaxMg / mgPerMl2;
-      }
+  }
+  function cekBatasHarianDariDosisPerKali() {
+    const maxDaily = batasHarianMg();
+    const maxDoses = obat.maxDosesPerDay || (band && band.maxDosesPerDay) || null;
+    if (maxDaily && maxDoses && dosisMaxMg !== null && dosisMaxMg * maxDoses > maxDaily) {
+      peringatan.push(`Jika dosis atas diberikan ${maxDoses} kali/hari, totalnya dapat melebihi batas harian (${maxDaily.toFixed(1)} ${obat.satuanDosis || 'mg'}/hari). Kurangi jumlah pemberian atau gunakan dosis lebih rendah sesuai instruksi dokter.`);
     }
   }
 
-  return {
-    error: null, peringatan, dosisMinMg, dosisMaxMg, dosisMinMl, dosisMaxMl,
-    beratBadan, usiaBulan, band, sedMgFinal, sedMlFinal
-  };
+  if (obat.doseType === "byAge") {
+    usiaBulan = parseFloat(usiaBulanInput);
+    if (isNaN(usiaBulan) || usiaBulan < 0) return { error: "Mohon masukkan usia anak yang valid (dalam bulan)." };
+    if (usiaBulan > 216) return { error: "Usia tampak tidak wajar untuk pasien anak. Mohon periksa kembali input Anda." };
+    if (obat.usiaMinValidBulan !== undefined && usiaBulan < obat.usiaMinValidBulan) peringatan.push(`Usia di bawah rentang indikasi umum obat ini (mulai usia ${obat.usiaMinValidBulan} bulan). Mohon konsultasikan ke dokter.`);
+    if (obat.usiaMaxValidBulan !== undefined && usiaBulan > obat.usiaMaxValidBulan) peringatan.push(`Usia di atas rentang indikasi umum obat ini (hingga usia ${obat.usiaMaxValidBulan} bulan). Mohon konsultasikan ke dokter.`);
+
+    const dosisTetapMg = usiaBulan < obat.ambangUsiaBulan ? obat.dosisDibawahAmbangMg : obat.dosisDiatasAmbangMg;
+    if (doseBasisFinal === 'perDay') {
+      dosisHarianMinMg = dosisTetapMg; dosisHarianMaxMg = dosisTetapMg;
+      batasiDosisHarian(); dosisMinMg = dosisHarianMinMg; dosisMaxMg = dosisHarianMaxMg;
+    } else {
+      dosisMinMg = dosisTetapMg; dosisMaxMg = dosisTetapMg;
+      batasiDosisTunggal(); cekBatasHarianDariDosisPerKali();
+    }
+    hitungMlDariSediaan();
+  } else if (obat.doseType === "ageBands") {
+    usiaBulan = parseFloat(usiaBulanInput);
+    if (isNaN(usiaBulan) || usiaBulan < 0) return { error: "Mohon masukkan usia anak yang valid (dalam bulan)." };
+    if (usiaBulan > 216) return { error: "Usia tampak tidak wajar untuk pasien anak. Mohon periksa kembali input Anda." };
+    band = obat.bands.find(b => usiaBulan >= b.usiaMinBulan && usiaBulan <= b.usiaMaxBulan);
+    if (!band) return { error: "Tidak ada rekomendasi dosis untuk usia tersebut pada kalkulator ini. Mohon konsultasikan ke dokter." };
+    doseBasisFinal = band.doseBasis || doseBasisFinal;
+    dosesPerDayFinal = band.dosesPerDay || band.maxDosesPerDay || dosesPerDayFinal;
+    if (band.sediaanMg || band.sediaanMl) { sedMgFinal = band.sediaanMg || sedMgFinal; sedMlFinal = band.sediaanMl || sedMlFinal; sediaanLabelFinal = band.sediaanLabel || null; }
+
+    if (band.tipe === "perKg") {
+      beratBadan = parseFloat(beratBadanInput);
+      if (isNaN(beratBadan) || beratBadan <= 0) return { error: "Mohon masukkan berat badan yang valid (lebih dari 0 kg) untuk kelompok usia ini." };
+      if (beratBadan > 150) return { error: "Berat badan tampak tidak wajar untuk pasien anak. Mohon periksa kembali input Anda." };
+      if (doseBasisFinal === 'perDay') {
+        dosisHarianMinMg = band.dosisMinPerKg * beratBadan; dosisHarianMaxMg = band.dosisMaxPerKg * beratBadan;
+        batasiDosisHarian(); const pembagi = dosesPerDayFinal || 1; dosisMinMg = dosisHarianMinMg / pembagi; dosisMaxMg = dosisHarianMaxMg / pembagi;
+      } else {
+        dosisMinMg = band.dosisMinPerKg * beratBadan; dosisMaxMg = band.dosisMaxPerKg * beratBadan;
+        batasiDosisTunggal(); cekBatasHarianDariDosisPerKali();
+      }
+    } else {
+      if (doseBasisFinal === 'perDay') {
+        dosisHarianMinMg = band.dosisFlatMin; dosisHarianMaxMg = band.dosisFlatMax;
+        batasiDosisHarian(); const pembagi = dosesPerDayFinal || 1; dosisMinMg = dosisHarianMinMg / pembagi; dosisMaxMg = dosisHarianMaxMg / pembagi;
+      } else {
+        dosisMinMg = band.dosisFlatMin; dosisMaxMg = band.dosisFlatMax;
+        batasiDosisTunggal(); cekBatasHarianDariDosisPerKali();
+      }
+    }
+    hitungMlDariSediaan();
+  } else {
+    beratBadan = parseFloat(beratBadanInput);
+    if (isNaN(beratBadan) || beratBadan <= 0) return { error: "Mohon masukkan berat badan yang valid (lebih dari 0 kg)." };
+    if (beratBadan > 150) return { error: "Berat badan tampak tidak wajar untuk pasien anak. Mohon periksa kembali input Anda." };
+
+    if (obat.doseType === "flat") {
+      if (doseBasisFinal === 'perDay') {
+        dosisHarianMinMg = obat.dosisFlatMin; dosisHarianMaxMg = obat.dosisFlatMax;
+        batasiDosisHarian(); const pembagi = dosesPerDayFinal || 1; dosisMinMg = dosisHarianMinMg / pembagi; dosisMaxMg = dosisHarianMaxMg / pembagi;
+      } else {
+        dosisMinMg = obat.dosisFlatMin; dosisMaxMg = obat.dosisFlatMax;
+        batasiDosisTunggal(); cekBatasHarianDariDosisPerKali();
+      }
+      hitungMlDariSediaan();
+    } else if (obat.doseType === "perKgVolume") {
+      dosisMinMl = obat.volumeMinPerKg * beratBadan; dosisMaxMl = obat.volumeMaxPerKg * beratBadan;
+      doseBasisFinal = obat.doseBasis || 'perEpisode';
+    } else {
+      if (doseBasisFinal === 'perDay') {
+        dosisHarianMinMg = obat.dosisMinPerKg * beratBadan; dosisHarianMaxMg = obat.dosisMaxPerKg * beratBadan;
+        batasiDosisHarian(); const pembagi = dosesPerDayFinal || 1; dosisMinMg = dosisHarianMinMg / pembagi; dosisMaxMg = dosisHarianMaxMg / pembagi;
+      } else {
+        dosisMinMg = obat.dosisMinPerKg * beratBadan; dosisMaxMg = obat.dosisMaxPerKg * beratBadan;
+        batasiDosisTunggal(); cekBatasHarianDariDosisPerKali();
+      }
+      hitungMlDariSediaan();
+    }
+  }
+
+  return { error: null, peringatan, dosisMinMg, dosisMaxMg, dosisMinMl, dosisMaxMl, dosisHarianMinMg, dosisHarianMaxMg, beratBadan, usiaBulan, band, sedMgFinal, sedMlFinal, sediaanLabelFinal, doseBasisFinal, dosesPerDayFinal };
 }
 
 /* ============================================================
@@ -3956,54 +4249,66 @@ function hitungDosisInti(obat, beratBadanInput, usiaBulanInput) {
    Dipakai bersama oleh kalkulator utama & kartu Protokol Terapi.
 ============================================================ */
 function bangunHtmlHasil(obat, hasil) {
-  const { peringatan, dosisMinMg, dosisMaxMg, dosisMinMl, dosisMaxMl, beratBadan, usiaBulan, band, sedMgFinal, sedMlFinal } = hasil;
-
+  const { peringatan, dosisMinMg, dosisMaxMg, dosisMinMl, dosisMaxMl, dosisHarianMinMg, dosisHarianMaxMg, beratBadan, usiaBulan, band, sedMgFinal, sedMlFinal, sediaanLabelFinal, doseBasisFinal, dosesPerDayFinal } = hasil;
   const adaSediaan = dosisMinMl !== null && dosisMinMl !== undefined && obat.doseType !== "perKgVolume";
   const satuan = obat.satuanDosis || "mg";
+  const fmtRange = (a, b, unit) => a === b ? `${a.toFixed(1)} ${unit}` : `${a.toFixed(1)} - ${b.toFixed(1)} ${unit}`;
+  const labelBasis = doseBasisFinal === 'perDay' ? 'Dosis per kali pemberian' : doseBasisFinal === 'singleDose' ? 'Dosis tunggal' : doseBasisFinal === 'perEpisode' ? 'Volume per episode' : 'Dosis per kali pemberian';
+  const basisInfo = doseBasisFinal === 'perDay' ? 'Dihitung dari total dosis harian, lalu dibagi sesuai frekuensi.' : doseBasisFinal === 'perEpisode' ? 'Diberikan per episode, bukan sebagai total harian.' : 'Dihitung sebagai dosis per kali pemberian.';
+  const acuanDosis = escapeHtml(keteranganDosisAcuan(obat, hasil));
 
-  const barisDosisUtama = obat.doseType === "perKgVolume"
-    ? `${dosisMinMl.toFixed(1)} - ${dosisMaxMl.toFixed(1)} ml`
-    : dosisMinMg === dosisMaxMg
-      ? `${dosisMinMg.toFixed(1)} ${satuan}${adaSediaan ? `<br>(&asymp; ${dosisMinMl.toFixed(1)} ml)` : ""}`
-      : `${dosisMinMg.toFixed(1)} - ${dosisMaxMg.toFixed(1)} ${satuan}${adaSediaan ? `<br>(&asymp; ${dosisMinMl.toFixed(1)} - ${dosisMaxMl.toFixed(1)} ml)` : ""}`;
+  const dosisUtama = obat.doseType === "perKgVolume" ? fmtRange(dosisMinMl, dosisMaxMl, 'ml') : fmtRange(dosisMinMg, dosisMaxMg, satuan);
+  const volumeText = adaSediaan ? `≈ ${fmtRange(dosisMinMl, dosisMaxMl, 'ml')}` : "";
+  const barisHarian = doseBasisFinal === 'perDay' && dosisHarianMinMg !== null
+    ? `<div class="hasil-daily"><strong>Total dosis harian:</strong> ${fmtRange(dosisHarianMinMg, dosisHarianMaxMg, satuan)}/hari${dosesPerDayFinal ? `<br><strong>Pembagian:</strong> ${dosesPerDayFinal} kali sehari` : ""}</div>`
+    : "";
 
-  // frekuensi & catatan bisa di-override/ditambah oleh kelompok usia (band) yang cocok
   const frekuensiTampil = (obat.doseType === "ageBands" && band && band.frekuensi) ? band.frekuensi : obat.frekuensi;
-
   let catatanTampil = obat.catatan || "";
   if (obat.doseType === "byAge") {
     const catatanKhusus = usiaBulan < obat.ambangUsiaBulan ? obat.catatanDibawahAmbang : obat.catatanDiatasAmbang;
     if (catatanKhusus) catatanTampil = catatanTampil ? `${catatanTampil} ${catatanKhusus}` : catatanKhusus;
   }
-  if (obat.doseType === "ageBands" && band && band.catatan) {
-    catatanTampil = catatanTampil ? `${catatanTampil} ${band.catatan}` : band.catatan;
-  }
+  if (obat.doseType === "ageBands" && band && band.catatan) catatanTampil = catatanTampil ? `${catatanTampil} ${band.catatan}` : band.catatan;
+
+  const sediaanText = obat.sediaanCustomText
+    ? escapeHtml(obat.sediaanCustomText)
+    : obat.doseType !== "perKgVolume"
+      ? (adaSediaan ? escapeHtml(sediaanLabelFinal || ('sirup ' + sedMgFinal + 'mg/' + sedMlFinal + 'ml')) : 'Tidak tersedia sirup — gunakan sediaan tablet/sesuai ketersediaan apotek')
+      : '';
+
+  const pasienText = obat.doseType === "byAge"
+    ? `Usia ${usiaBulan} bulan (${usiaBulan < obat.ambangUsiaBulan ? `&lt;${obat.ambangUsiaBulan} bulan` : `≥${obat.ambangUsiaBulan} bulan`})`
+    : obat.doseType === "ageBands"
+      ? `Usia ${usiaBulan} bulan${band.labelUsia ? ` (${escapeHtml(band.labelUsia)})` : ""}${band.tipe === "perKg" ? `; BB ${beratBadan} kg` : ""}`
+      : `BB ${beratBadan} kg`;
 
   return `
-    <div class="hasil-dosis">
-      ${barisDosisUtama}
+    <div class="hasil-card-dosis">
+      <div class="hasil-ringkasan">
+        <div class="hasil-label-kecil">🧮 ${escapeHtml(labelBasis)}</div>
+        <div class="hasil-dosis">${dosisUtama}</div>
+        ${volumeText ? `<div class="hasil-volume">${volumeText}</div>` : ""}
+        <div class="hasil-subtext">${escapeHtml(basisInfo)}</div>
+      </div>
+
+      ${barisHarian}
+
+      <div class="hasil-section">
+        <div class="hasil-section-title">Detail perhitungan</div>
+        <div class="hasil-row"><span class="label">Obat</span><span class="value"><strong>${escapeHtml(obat.nama)}${obat.varian ? " — " + escapeHtml(obat.varian) : ""}</strong></span></div>
+        <div class="hasil-row"><span class="label">Acuan dosis</span><span class="value"><strong>${acuanDosis}</strong></span></div>
+        ${sediaanText ? `<div class="hasil-row"><span class="label">Sediaan</span><span class="value">${sediaanText}</span></div>` : ""}
+        <div class="hasil-row"><span class="label">Pasien</span><span class="value">${pasienText}</span></div>
+      </div>
+
+      <div class="hasil-pills">
+        <span class="hasil-frekuensi">⏰ ${escapeHtml(frekuensiTampil)}</span>
+      </div>
+
+      ${peringatan.length ? `<div class="hasil-warning">⚠️ ${peringatan.map(escapeHtml).join("<br>")}</div>` : ""}
+      ${catatanTampil ? `<div class="hasil-note">📝 <strong>Catatan:</strong> ${escapeHtml(catatanTampil)}</div>` : ""}
     </div>
-    <div class="hasil-detail">
-      Obat: <strong>${escapeHtml(obat.nama)}${obat.varian ? " — " + escapeHtml(obat.varian) : ""}</strong><br>
-      ${obat.sediaanCustomText
-        ? `Sediaan: ${escapeHtml(obat.sediaanCustomText)}<br>`
-        : obat.doseType !== "perKgVolume"
-          ? (adaSediaan
-              ? `Sediaan: sirup ${sedMgFinal}mg/${sedMlFinal}ml<br>`
-              : `Sediaan: tidak tersedia sirup — gunakan sediaan tablet/sesuai ketersediaan apotek<br>`)
-          : ""}
-      ${obat.doseType === "byAge"
-        ? `Usia anak: <strong>${usiaBulan} bulan</strong> (${usiaBulan < obat.ambangUsiaBulan ? `&lt;${obat.ambangUsiaBulan} bulan` : `&ge;${obat.ambangUsiaBulan} bulan`})`
-        : obat.doseType === "ageBands"
-          ? `Usia anak: <strong>${usiaBulan} bulan</strong>${band.labelUsia ? ` (${escapeHtml(band.labelUsia)})` : ""}${band.tipe === "perKg" ? `<br>Berat badan anak: <strong>${beratBadan} kg</strong>` : ""}`
-          : `Berat badan anak: <strong>${beratBadan} kg</strong>`}
-      ${obat.doseType === "flat" ? `<br><em>Dosis tetap — tidak berubah mengikuti berat badan</em>` : ""}
-      ${obat.doseType === "byAge" ? `<br><em>Dosis ditentukan oleh kategori usia, bukan berat badan</em>` : ""}
-      ${obat.doseType === "ageBands" ? `<br><em>${band.tipe === "flat" ? "Dosis tetap untuk kelompok usia ini — tidak dihitung dari berat badan" : "Dosis dihitung per kgBB, sesuai kelompok usia"}</em>` : ""}
-    </div>
-    <span class="hasil-frekuensi">⏰ ${escapeHtml(frekuensiTampil)}</span>
-    ${peringatan.length ? `<div class="hasil-detail" style="color:#B33A3A;">⚠️ ${peringatan.map(escapeHtml).join("<br>")}</div>` : ""}
-    ${catatanTampil ? `<div class="hasil-detail">📝 Catatan: ${escapeHtml(catatanTampil)}</div>` : ""}
   `;
 }
 
@@ -4019,7 +4324,8 @@ function hitungDosis() {
 
   const beratInput = document.getElementById("beratBadan").value;
   const usiaInput = document.getElementById("usiaBulan").value;
-  const hasil = hitungDosisInti(obat, beratInput, usiaInput);
+  const sediaanInput = document.getElementById("sediaanObat")?.value;
+  const hasil = hitungDosisInti(obat, beratInput, usiaInput, sediaanInput);
 
   hasilBox.style.display = "block";
 
@@ -4521,8 +4827,8 @@ const GROWTH_CHART_CONFIG = {
               { id: "cdc", title: "BB/U & TB/U (gabungan)", ageLabel: "2\u201320 tahun", zAge: "24-240",
                 image: TKIMG.cdc_m,
                 series: [
-                  { key: "tinggi", yField: "tinggi", yLabel: "Tinggi Badan (cm)", yUnit: "cm", emoji: "\u{1F4CF}", zKey: "tbu", warna: "#1565C0" },
-                  { key: "berat",  yField: "berat",  yLabel: "Berat Badan (kg)",  yUnit: "kg", emoji: "\u2696\ufe0f", zKey: "bbu", warna: "#E63946" }
+                  { key: "berat",  yField: "berat",  yLabel: "Berat Badan (kg)",  yUnit: "kg", emoji: "\u2696\ufe0f", zKey: "bbu", warna: "#E63946" },
+                  { key: "tinggi", yField: "tinggi", yLabel: "Tinggi Badan (cm)", yUnit: "cm", emoji: "\u{1F4CF}", zKey: "tbu", warna: "#1565C0" }
                 ],
                 calibration: {
                   tinggi: {imgWidth:1275,imgHeight:1650,plot:{x0:226,x1:1031,y0:205,y1:1214},xRange:[24,240],yRange:[75,195]},
@@ -4542,8 +4848,8 @@ const GROWTH_CHART_CONFIG = {
               { id: "cdc", title: "BB/U & TB/U (gabungan)", ageLabel: "2\u201320 tahun", zAge: "24-240",
                 image: TKIMG.cdc_f,
                 series: [
-                  { key: "tinggi", yField: "tinggi", yLabel: "Tinggi Badan (cm)", yUnit: "cm", emoji: "\u{1F4CF}", zKey: "tbu", warna: "#1565C0" },
-                  { key: "berat",  yField: "berat",  yLabel: "Berat Badan (kg)",  yUnit: "kg", emoji: "\u2696\ufe0f", zKey: "bbu", warna: "#E63946" }
+                  { key: "berat",  yField: "berat",  yLabel: "Berat Badan (kg)",  yUnit: "kg", emoji: "\u2696\ufe0f", zKey: "bbu", warna: "#E63946" },
+                  { key: "tinggi", yField: "tinggi", yLabel: "Tinggi Badan (cm)", yUnit: "cm", emoji: "\u{1F4CF}", zKey: "tbu", warna: "#1565C0" }
                 ],
                 calibration: {
                   tinggi: {imgWidth:1275,imgHeight:1650,plot:{x0:225,x1:1032,y0:204,y1:1212},xRange:[24,240],yRange:[75,195]},
@@ -5151,6 +5457,120 @@ function tkWarnaIndikatorWho(ind) {
   return "#E63946";                      // merah — BB/U & BB/TB
 }
 
+
+/* ============================================================
+   CDC INTERPRETASI PERSENTIL & BB/TB % MEDIAN
+   ------------------------------------------------------------
+   CDC chart memakai persentil, bukan kategori Z-score seperti WHO.
+   Untuk interpretasi numerik ringkas di web ini:
+   - BB/U dan TB/U ditampilkan sebagai estimasi posisi persentil
+     berdasarkan rasio terhadap median/P50 CDC yang diinterpolasi.
+   - BB/TB memakai rumus: BB aktual / BB standar P50 untuk tinggi
+     badan tersebut × 100% (Waterlow / percent ideal body weight).
+   Catatan: ini alat skrining, bukan pengganti penilaian klinis.
+============================================================ */
+const TK_CDC_P50 = {
+  male: {
+    age:    [24,36,48,60,72,84,96,108,120,132,144,156,168,180,192,204,216,228,240],
+    weight: [12.7,14.3,16.3,18.3,20.5,23.0,25.6,28.6,32.0,36.0,40.5,45.5,51.0,56.0,61.0,65.0,68.0,70.0,72.0],
+    height: [86.5,95.2,102.9,109.2,115.5,121.7,128.0,133.5,138.5,143.5,149.1,156.2,164.1,170.1,173.4,175.2,176.1,176.7,177.0]
+  },
+  female: {
+    age:    [24,36,48,60,72,84,96,108,120,132,144,156,168,180,192,204,216,228,240],
+    weight: [12.1,13.9,16.0,18.2,20.6,23.3,26.5,30.5,35.5,41.0,47.0,52.0,55.5,57.5,58.5,59.5,60.2,60.8,61.2],
+    height: [85.7,94.1,101.8,108.4,114.7,120.8,127.5,133.8,138.6,144.0,151.3,157.1,160.4,162.0,162.7,163.0,163.2,163.3,163.3]
+  }
+};
+
+function tkInterpLinear(xs, ys, x) {
+  if (!Array.isArray(xs) || !Array.isArray(ys) || !xs.length || xs.length !== ys.length || !isFinite(x)) return null;
+  if (x <= xs[0]) return ys[0];
+  if (x >= xs[xs.length - 1]) return ys[ys.length - 1];
+  for (let i = 0; i < xs.length - 1; i++) {
+    if (x >= xs[i] && x <= xs[i + 1]) {
+      const f = (x - xs[i]) / (xs[i + 1] - xs[i]);
+      return ys[i] + f * (ys[i + 1] - ys[i]);
+    }
+  }
+  return null;
+}
+
+function tkCdcMedianByAge(kelamin, field, usiaBulan) {
+  const ref = TK_CDC_P50[kelamin];
+  if (!ref || !ref[field]) return null;
+  return tkInterpLinear(ref.age, ref[field], usiaBulan);
+}
+
+function tkCdcMedianWeightForHeight(kelamin, tinggiCm) {
+  const ref = TK_CDC_P50[kelamin];
+  if (!ref) return null;
+  // Median BB/TB diestimasi dari kurva P50 berat-umur dan tinggi-umur CDC.
+  return tkInterpLinear(ref.height, ref.weight, tinggiCm);
+}
+
+function tkCdcKategoriPercentMedian(indikator, persenMedian) {
+  let status = "", color = "#1A7A1A", posisi = "sekitar P50";
+  if (indikator === "bbu") {
+    if (persenMedian < 75)      { posisi = "sangat rendah, kira-kira <P3"; status = "BB/U sangat rendah"; color = "#B22222"; }
+    else if (persenMedian < 85) { posisi = "rendah, kira-kira P3–P5"; status = "BB/U rendah"; color = "#E06000"; }
+    else if (persenMedian < 90) { posisi = "di bawah rata-rata, kira-kira P5–P10"; status = "BB/U perlu dipantau"; color = "#D98B00"; }
+    else if (persenMedian <= 110) { posisi = "sekitar P10–P90"; status = "BB/U sesuai rentang umum"; color = "#1A7A1A"; }
+    else if (persenMedian <= 120) { posisi = "tinggi, kira-kira P90–P95"; status = "BB/U tinggi"; color = "#D98B00"; }
+    else { posisi = "sangat tinggi, kira-kira >P95"; status = "BB/U sangat tinggi"; color = "#E06000"; }
+  } else if (indikator === "tbu") {
+    if (persenMedian < 95)      { posisi = "rendah, kira-kira <P5"; status = "TB/U pendek / perlu evaluasi"; color = "#E06000"; }
+    else if (persenMedian <= 105) { posisi = "sekitar P5–P95"; status = "TB/U sesuai rentang umum"; color = "#1A7A1A"; }
+    else { posisi = "tinggi, kira-kira >P95"; status = "TB/U tinggi"; color = "#1565C0"; }
+  }
+  return { posisi, status, color };
+}
+
+function tkInterpretasiCdcPercentile(kelamin, indikator, usiaBulan, nilai) {
+  const field = indikator === "tbu" ? "height" : "weight";
+  const median = tkCdcMedianByAge(kelamin, field, usiaBulan);
+  if (!median || !isFinite(nilai)) return null;
+  const pctMedian = (nilai / median) * 100;
+  const kat = tkCdcKategoriPercentMedian(indikator, pctMedian);
+  const judul = indikator === "tbu" ? "TB/U CDC" : "BB/U CDC";
+  const unit = indikator === "tbu" ? "cm" : "kg";
+  return { judul, median, unit, pctMedian, posisi: kat.posisi, status: kat.status, color: kat.color };
+}
+
+function tkInterpretasiCdcBbtb(kelamin, beratKg, tinggiCm) {
+  if (!isFinite(beratKg) || !isFinite(tinggiCm)) return null;
+  const standar = tkCdcMedianWeightForHeight(kelamin, tinggiCm);
+  if (!standar) return null;
+  const pct = (beratKg / standar) * 100;
+  let status = "", color = "#1A7A1A";
+  if (pct < 70)       { status = "Gizi buruk / wasting berat (<70% median)"; color = "#B22222"; }
+  else if (pct < 80)  { status = "Gizi kurang sedang (70–79% median)"; color = "#E06000"; }
+  else if (pct < 90)  { status = "Gizi kurang ringan (80–89% median)"; color = "#D98B00"; }
+  else if (pct <= 110){ status = "BB/TB dalam rentang baik (90–110% median)"; color = "#1A7A1A"; }
+  else if (pct <= 120){ status = "Risiko berat badan lebih (111–120% median)"; color = "#D98B00"; }
+  else                { status = "Berat badan lebih menurut % median (>120%)"; color = "#E06000"; }
+  return { judul: "BB/TB CDC — % median", standar, pct, status, color };
+}
+
+function tkHtmlCdcInterpretasi(item) {
+  if (!item) return "";
+  if (item.judul === "BB/TB CDC — % median") {
+    return `
+      <div class="tk-cdc-block">
+        <div class="tk-cdc-row"><span class="tk-cdc-label">${escapeHtml(item.judul)}</span><span class="tk-cdc-value">${item.pct.toFixed(1)}%</span></div>
+        <div class="tk-cdc-row"><span class="tk-cdc-label">Rumus</span><span class="tk-cdc-value">BB aktual ÷ BB standar P50 × 100%</span></div>
+        <div class="tk-cdc-row"><span class="tk-cdc-label">BB standar P50</span><span class="tk-cdc-value">${item.standar.toFixed(1)} kg</span></div>
+        <div class="tk-cdc-status" style="border-left:4px solid ${item.color}; background:${item.color}18;"><span style="color:${item.color};">● ${escapeHtml(item.status)}</span></div>
+      </div>`;
+  }
+  return `
+    <div class="tk-cdc-block">
+      <div class="tk-cdc-row"><span class="tk-cdc-label">${escapeHtml(item.judul)}</span><span class="tk-cdc-value">${item.pctMedian.toFixed(1)}% dari P50</span></div>
+      <div class="tk-cdc-row"><span class="tk-cdc-label">P50 standar</span><span class="tk-cdc-value">${item.median.toFixed(1)} ${escapeHtml(item.unit)}</span></div>
+      <div class="tk-cdc-row"><span class="tk-cdc-label">Estimasi posisi</span><span class="tk-cdc-value">${escapeHtml(item.posisi)}</span></div>
+      <div class="tk-cdc-status" style="border-left:4px solid ${item.color}; background:${item.color}18;"><span style="color:${item.color};">● ${escapeHtml(item.status)}</span></div>
+    </div>`;
+}
+
 /* ----- TOMBOL "PLOT": validasi input lalu jalankan engine ----- */
 function plotTumbuhKembang() {
   const ind = tkAmbilIndikatorObj();
@@ -5175,10 +5595,11 @@ function plotTumbuhKembang() {
   }
 
   let barisHtml = "";
-  let zscoreHtml = "";
+  let interpretasiHtml = "";
   let adaLuarBatas = false;
   let belumKalibrasi = [];
   let adaChartHilang = false;
+  const cdcSudah = new Set();
 
   ind.charts.forEach(c => {
     const stage = document.getElementById(`tkChartStage_${c.id}`);
@@ -5197,18 +5618,32 @@ function plotTumbuhKembang() {
 
       barisHtml += `<div class="tk-hasil-baris"><span class="tk-hasil-label">${escapeHtml(s.yLabel)}</span><span class="tk-hasil-nilai" style="color:${s.warna};">\u2B24 ${nilai} ${escapeHtml(s.yUnit)}</span></div>`;
 
-      const zInterp = tkInterpretasiZscore(tkState.standar, tkState.kelamin, s.zKey, c.zAge, nilaiX, nilai);
-      if (zInterp) {
-        const zSign = zInterp.z >= 0 ? "+" : "";
-        zscoreHtml += `
-          <div class="tk-zscore-block">
-            <div class="tk-zscore-row"><span class="tk-zscore-label">${escapeHtml(s.yLabel)} \u2014 Z-score</span><span class="tk-zscore-nilai">${zSign}${zInterp.z}</span></div>
-            <div class="tk-zscore-row"><span class="tk-zscore-label">Posisi</span><span class="tk-zscore-nilai">${escapeHtml(zInterp.zonaLabel)}</span></div>
-            ${zInterp.statusGizi ? `<div class="tk-zscore-status" style="border-left: 4px solid ${zInterp.statusColor}; background: ${zInterp.statusColor}18;"><span style="color:${zInterp.statusColor}; font-weight:700;">\u2B24 ${escapeHtml(zInterp.statusGizi)}</span></div>` : ""}
-          </div>`;
+      if (tkState.standar === "cdc") {
+        const key = `${s.zKey}-${nilaiX}-${nilai}`;
+        if (!cdcSudah.has(key)) {
+          cdcSudah.add(key);
+          const cdcInterp = tkInterpretasiCdcPercentile(tkState.kelamin, s.zKey, nilaiX, nilai);
+          interpretasiHtml += tkHtmlCdcInterpretasi(cdcInterp);
+        }
+      } else {
+        const zInterp = tkInterpretasiZscore(tkState.standar, tkState.kelamin, s.zKey, c.zAge, nilaiX, nilai);
+        if (zInterp) {
+          const zSign = zInterp.z >= 0 ? "+" : "";
+          interpretasiHtml += `
+            <div class="tk-zscore-block">
+              <div class="tk-zscore-row"><span class="tk-zscore-label">${escapeHtml(s.yLabel)} \u2014 Z-score</span><span class="tk-zscore-nilai">${zSign}${zInterp.z}</span></div>
+              <div class="tk-zscore-row"><span class="tk-zscore-label">Posisi</span><span class="tk-zscore-nilai">${escapeHtml(zInterp.zonaLabel)}</span></div>
+              ${zInterp.statusGizi ? `<div class="tk-zscore-status" style="border-left: 4px solid ${zInterp.statusColor}; background: ${zInterp.statusColor}18;"><span style="color:${zInterp.statusColor}; font-weight:700;">\u2B24 ${escapeHtml(zInterp.statusGizi)}</span></div>` : ""}
+            </div>`;
+        }
       }
     });
   });
+
+  if (tkState.standar === "cdc" && isFinite(seriVal.berat) && isFinite(seriVal.tinggi)) {
+    interpretasiHtml += tkHtmlCdcInterpretasi(tkInterpretasiCdcBbtb(tkState.kelamin, seriVal.berat, seriVal.tinggi));
+    interpretasiHtml += `<div class="tk-cdc-note">📌 CDC ditampilkan sebagai persentil/estimasi posisi terhadap P50, bukan Z-score. Interpretasi BB/TB memakai rumus: BB aktual ÷ BB standar P50 × 100%. Growth chart adalah alat skrining dan perlu dilihat bersama tren pertumbuhan serta kondisi klinis.</div>`;
+  }
 
   const stdLabel = GROWTH_CHART_CONFIG[tkState.standar].label;
   hasilBox.classList.add("tampil");
@@ -5220,7 +5655,7 @@ function plotTumbuhKembang() {
     ${adaChartHilang ? `<div class="tk-hasil-peringatan">\u{1F6A7} Sebagian gambar chart belum tersedia, sehingga titik tidak dapat ditampilkan di chart tersebut.</div>` : ""}
     ${adaLuarBatas ? `<div class="tk-hasil-peringatan">\u26A0\ufe0f Sebagian nilai berada di luar rentang chart \u2014 titik ditampilkan pada batas terdekat.</div>` : ""}
     ${belumKalibrasi.length ? `<div class="tk-hasil-peringatan">\u{1F3AF} Area chart untuk ${escapeHtml(belumKalibrasi.join(" & "))} belum dikalibrasi.</div>` : ""}
-    ${zscoreHtml}
+    ${interpretasiHtml}
   `;
 }
 
@@ -5545,9 +5980,8 @@ function pindahHalaman(halaman) {
     'dosis-obat': { id: 'dosis-obat', title: 'Kalkulator Dosis Obat', label: 'Dosis Paracetamol', icon: '💊', page: 'dosis', subtitle: 'Kalkulator dosis' },
     'tumbuh-kembang': { id: 'tumbuh-kembang', title: 'Tumbuh Kembang', label: 'Growth Chart WHO', icon: '📈', page: 'tumbuh-kembang', subtitle: 'Growth chart' },
     'jadwal-imunisasi': { id: 'jadwal-imunisasi', title: 'Jadwal Imunisasi', label: 'Jadwal Imunisasi IDAI 2024', icon: '📅', page: 'imunisasi', subtitle: 'Jadwal imunisasi' },
-    'kalkulator-pediatri': { id: 'kalkulator-pediatri', title: 'Kalkulator Pediatri', label: 'Dosis Cairan', icon: '🧮', page: 'cairan', subtitle: 'Kalkulator cairan' },
+    'kalkulator-pediatri': { id: 'kalkulator-pediatri', title: 'Dosis Cairan', label: 'Dosis Cairan', icon: '💧', page: 'cairan', subtitle: 'Kalkulator cairan & rehidrasi' },
     'referensi-klinis': { id: 'referensi-klinis', title: 'Referensi Klinis', label: 'Protokol Terapi', icon: '📚', page: 'protokol', subtitle: 'Referensi klinis' },
-    'catatan-pasien': { id: 'catatan-pasien', title: 'Catatan Pasien', label: 'Catatan Pasien', icon: '📝', coming: true, subtitle: 'Segera hadir' },
     'dosis-amoksisilin': { id: 'dosis-amoksisilin', title: 'Dosis Amoksisilin', label: 'Dosis Amoksisilin', icon: '💊', page: 'dosis', subtitle: 'Favorit contoh' },
     'growth-cdc': { id: 'growth-cdc', title: 'Growth Chart CDC', label: 'Growth Chart CDC', icon: '📈', page: 'tumbuh-kembang', subtitle: 'Favorit contoh' },
   };
@@ -5598,7 +6032,7 @@ function pindahHalaman(halaman) {
     return Object.assign({}, base, f, { id: id, title: f.title || base.title || f.label || 'Favorit', label: f.label || f.title || base.label || base.title || 'Favorit' });
   }
   function getActiveFavorites() {
-    const arr = (state.favorites || []).map(normalizeFavorite).filter(Boolean);
+    const arr = (state.favorites || []).map(normalizeFavorite).filter(function (f) { return f && f.id !== 'catatan-pasien'; });
     return arr.length ? arr : DEFAULT_FAVORITES;
   }
   function saveLocalFavorites() {
@@ -5611,7 +6045,7 @@ function pindahHalaman(halaman) {
     } catch (e) {}
   }
   function saveFavorites() {
-    const data = (state.favorites || []).map(function (f) {
+    const data = (state.favorites || []).filter(function (f) { return (f && (f.id || f.toolId)) !== 'catatan-pasien'; }).map(function (f) {
       f = normalizeFavorite(f);
       return { id: f.id, title: f.title, label: f.label, icon: f.icon, page: f.page || '', coming: !!f.coming, subtitle: f.subtitle || '' };
     });
@@ -5658,7 +6092,7 @@ function pindahHalaman(halaman) {
     const data = rows && rows.length ? rows : [
       { tipe: 'Dosis Obat', judul: 'Dosis Paracetamol', detail: 'Contoh riwayat penggunaan', waktuLokal: Date.now() - 3600000 },
       { tipe: 'Tumbuh Kembang', judul: 'Growth Chart WHO', detail: 'Contoh riwayat penggunaan', waktuLokal: Date.now() - 7200000 },
-      { tipe: 'Kalkulator Pediatri', judul: 'IMT Anak', detail: 'Contoh riwayat penggunaan', waktuLokal: Date.now() - 10800000 },
+      { tipe: 'Dosis Cairan', judul: 'Kebutuhan Cairan Rumatan', detail: 'Contoh riwayat penggunaan', waktuLokal: Date.now() - 10800000 },
       { tipe: 'Imunisasi', judul: 'Jadwal Imunisasi', detail: 'Contoh riwayat penggunaan', waktuLokal: Date.now() - 14400000 }
     ];
     box.innerHTML = data.slice(0, 4).map(function (d) {
@@ -5783,7 +6217,7 @@ function pindahHalaman(halaman) {
       const title = item.getAttribute('data-last-title') || '';
       const s = title.toLowerCase();
       if (s.includes('growth') || s.includes('chart')) goFeature(TOOL_META['tumbuh-kembang']);
-      else if (s.includes('cairan') || s.includes('imt')) goFeature(TOOL_META['kalkulator-pediatri']);
+      else if (s.includes('cairan') || s.includes('hidrasi') || s.includes('rehidrasi') || s.includes('holliday')) goFeature(TOOL_META['kalkulator-pediatri']);
       else if (s.includes('imunisasi')) goFeature(TOOL_META['jadwal-imunisasi']);
       else if (s.includes('protokol') || s.includes('referensi')) goFeature(TOOL_META['referensi-klinis']);
       else goFeature(TOOL_META['dosis-obat']);
@@ -6674,34 +7108,24 @@ document.addEventListener('DOMContentLoaded', function () {
 (function () {
   function el(id) { return document.getElementById(id); }
   function bukaAI() {
-    var panel = el('tvAiPanel');
-    var prompt = el('tvAiPrompt');
+    var panel = el('tvAiPanel'); var prompt = el('tvAiPrompt');
     if (!panel) return;
-    panel.classList.add('tampil');
-    panel.setAttribute('aria-hidden', 'false');
+    panel.classList.add('tampil'); panel.setAttribute('aria-hidden', 'false');
     setTimeout(function () { if (prompt) prompt.focus(); }, 60);
   }
   function tutupAI() {
-    var panel = el('tvAiPanel');
-    if (!panel) return;
-    panel.classList.remove('tampil');
-    panel.setAttribute('aria-hidden', 'true');
+    var panel = el('tvAiPanel'); if (!panel) return;
+    panel.classList.remove('tampil'); panel.setAttribute('aria-hidden', 'true');
   }
   window.TVBukaAsistenAI = bukaAI;
   window.TVTutupAsistenAI = tutupAI;
   document.addEventListener('click', function (e) {
     var pembuka = e.target.closest && e.target.closest('#tvAiFab, [data-page="asisten-ai"], [data-ai-open]');
-    if (pembuka) {
-      e.preventDefault();
-      e.stopPropagation();
-      bukaAI();
-      return;
-    }
+    if (pembuka) { e.preventDefault(); e.stopPropagation(); bukaAI(); return; }
     if (e.target && e.target.id === 'tvAiPanel') tutupAI();
   }, true);
   document.addEventListener('DOMContentLoaded', function () {
-    var close = el('tvAiClose');
-    if (close) close.addEventListener('click', tutupAI);
+    var close = el('tvAiClose'); if (close) close.addEventListener('click', tutupAI);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') tutupAI(); });
   });
 })();

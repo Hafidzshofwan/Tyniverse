@@ -5782,6 +5782,7 @@ function plotTumbuhKembang() {
 
   if (tkState.standar === "cdc" && isFinite(seriVal.berat) && isFinite(seriVal.tinggi)) {
     interpretasiHtml += tkHtmlCdcInterpretasi(tkInterpretasiCdcBbtb(tkState.kelamin, seriVal.berat, seriVal.tinggi));
+    interpretasiHtml += tkHtmlMateriCdcWaterlow();
   }
 
   const stdLabel = GROWTH_CHART_CONFIG[tkState.standar].label;

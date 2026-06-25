@@ -5663,13 +5663,11 @@ function tkHtmlMateriCdcWaterlow() {
       <p><strong>BB/TB (Berat Badan menurut Tinggi Badan)</strong> mencerminkan proporsi tubuh dan status gizi saat ini. Indeks ini berguna untuk membedakan <em>wasting</em> (kurus akibat malnutrisi akut) dan <em>stunting</em> (perawakan pendek akibat gangguan pertumbuhan kronis).</p>
       <div class="tk-cdc-grid-kriteria">
         <div class="tk-cdc-kriteria-box">
-          <strong>BB/TB</strong>
+          <strong>BB/U</strong>
           <ul>
-            <li>&lt;70%: Gizi buruk</li>
-            <li>70–90%: Gizi kurang</li>
-            <li>90–110%: Gizi baik</li>
-            <li>110–120%: Gizi lebih / overweight</li>
-            <li>&gt;120%: Obesitas</li>
+            <li>&lt;60%: Gizi buruk</li>
+            <li>60–80%: Gizi kurang</li>
+            <li>80–120%: Gizi baik</li>
           </ul>
         </div>
         <div class="tk-cdc-kriteria-box">
@@ -5681,11 +5679,13 @@ function tkHtmlMateriCdcWaterlow() {
           </ul>
         </div>
         <div class="tk-cdc-kriteria-box">
-          <strong>BB/U</strong>
+          <strong>BB/TB</strong>
           <ul>
-            <li>&lt;60%: Gizi buruk</li>
-            <li>60–80%: Gizi kurang</li>
-            <li>80–120%: Gizi baik</li>
+            <li>&lt;70%: Gizi buruk</li>
+            <li>70–90%: Gizi kurang</li>
+            <li>90–110%: Gizi baik</li>
+            <li>110–120%: Gizi lebih / overweight</li>
+            <li>&gt;120%: Obesitas</li>
           </ul>
         </div>
       </div>
@@ -5700,6 +5700,7 @@ function tkHtmlCdcInterpretasi(item) {
       <div class="tk-cdc-block">
         <div class="tk-cdc-row"><span class="tk-cdc-label">Indikator</span><span class="tk-cdc-value">BB/TB CDC</span></div>
         <div class="tk-cdc-row"><span class="tk-cdc-label">Hasil</span><span class="tk-cdc-value">${item.pct.toFixed(1)}%</span></div>
+        <div class="tk-cdc-row"><span class="tk-cdc-label">BB ideal sesuai tinggi</span><span class="tk-cdc-value">${item.standar.toFixed(1)} kg</span></div>
         <div class="tk-cdc-status" style="border-left:4px solid ${item.color}; background:${item.color}18;"><span style="color:${item.color};">● ${escapeHtml(item.status)}</span></div>
       </div>`;
   }
@@ -5707,6 +5708,7 @@ function tkHtmlCdcInterpretasi(item) {
     <div class="tk-cdc-block">
       <div class="tk-cdc-row"><span class="tk-cdc-label">Indikator</span><span class="tk-cdc-value">${escapeHtml(item.judul)}</span></div>
       <div class="tk-cdc-row"><span class="tk-cdc-label">Hasil</span><span class="tk-cdc-value">${item.pctMedian.toFixed(1)}%</span></div>
+      <div class="tk-cdc-row"><span class="tk-cdc-label">${item.judul === "TB/U CDC" ? "TB P50" : "BB P50"}</span><span class="tk-cdc-value">${item.median.toFixed(1)} ${escapeHtml(item.unit)}</span></div>
       <div class="tk-cdc-status" style="border-left:4px solid ${item.color}; background:${item.color}18;"><span style="color:${item.color};">● ${escapeHtml(item.status)}</span></div>
     </div>`;
 }

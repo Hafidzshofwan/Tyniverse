@@ -1035,6 +1035,102 @@
   }
   select:focus { outline: none; border-color: var(--biru); }
 
+
+  /* ===== REHIDRASI LUKA BAKAR ===== */
+  .burn-map-wrap {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 12px;
+  }
+  .burn-map-card {
+    background: #FFF7F0;
+    border: 2px dashed #FFD2B8;
+    border-radius: 18px;
+    padding: 14px;
+  }
+  .burn-map-title {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    color: var(--oranye-tua);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .burn-body {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr 1fr;
+    gap: 8px;
+    align-items: stretch;
+  }
+  .burn-body .col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .burn-area {
+    border: 2px solid #FFE1CF;
+    background: #FFFFFF;
+    color: var(--teks);
+    border-radius: 14px;
+    padding: 10px 8px;
+    min-height: 46px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform .12s ease, background .12s ease, color .12s ease, border-color .12s ease;
+    text-align: center;
+  }
+  .burn-area:hover { transform: translateY(-1px); }
+  .burn-area.aktif {
+    background: linear-gradient(160deg, #FF7A64, #E63946);
+    color: #FFFFFF;
+    border-color: #C62828;
+    box-shadow: 0 4px 0 rgba(198,40,40,0.25);
+  }
+  .burn-area.small { min-height: 38px; padding: 8px 6px; font-size: 0.7rem; }
+  .burn-area.head { border-radius: 999px 999px 16px 16px; min-height: 56px; }
+  .burn-area.trunk { min-height: 104px; }
+  .burn-area.perineum { min-height: 36px; }
+  .burn-parts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .burn-result-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .burn-result-card {
+    background: rgba(255,255,255,0.72);
+    border: 1px solid rgba(255,159,69,0.22);
+    border-radius: 16px;
+    padding: 12px;
+    line-height: 1.5;
+  }
+  .burn-result-card h4 {
+    font-family: 'Fredoka', sans-serif;
+    color: var(--oranye-tua);
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+  }
+  .burn-result-value {
+    font-family: 'Fredoka', sans-serif;
+    color: #C62828;
+    font-size: 1.35rem;
+    font-weight: 700;
+  }
+  .burn-rincian-list { margin-top: 6px; padding-left: 18px; }
+  .burn-rincian-list li { margin-bottom: 3px; }
+  @media (max-width: 640px) {
+    .burn-map-wrap, .burn-result-grid { grid-template-columns: 1fr; }
+    .burn-body { grid-template-columns: 0.9fr 1.2fr 0.9fr; gap: 6px; }
+    .burn-area { font-size: 0.7rem; padding: 8px 5px; }
+  }
+
   .hasil-box-cairan {
     display: none;
     background: linear-gradient(135deg, #DCF3FB, #EAFBF1);
@@ -2639,9 +2735,11 @@
 </div>
 </div>
 <div class="kartu">
-<div class="segmented-toggle toggle-2" id="cairanMetodeTab">
+<div class="segmented-toggle toggle-4" id="cairanMetodeTab">
 <button class="segmented-btn aktif" data-metode="holliday" type="button">💧 Holliday–Segar</button>
 <button class="segmented-btn" data-metode="who" type="button">🩹 Rehidrasi WHO</button>
+<button class="segmented-btn" data-metode="luka-bakar" type="button">🔥 Rehidrasi Luka Bakar</button>
+<button class="segmented-btn" data-metode="tetes" type="button">💉 Faktor Tetes</button>
 </div>
 </div>
 <!-- ===== PANEL: HOLLIDAY-SEGAR ===== -->
@@ -2662,6 +2760,113 @@
 <li><strong>Setiap kg di atas 20 kg</strong> → tambahan 20 ml/kgBB/hari</li>
 </ul>
 <p class="catatan-metode">Hasil adalah estimasi kebutuhan cairan rumatan harian dalam kondisi normal (tanpa dehidrasi/kehilangan cairan tambahan). Penyesuaian klinis tetap diperlukan sesuai kondisi pasien.</p>
+</div>
+</div>
+<!-- ===== PANEL: REHIDRASI LUKA BAKAR ===== -->
+<div class="cairan-metode-panel" id="panel-luka-bakar">
+<div class="kartu">
+<h3 style="font-family:'Fredoka',sans-serif; font-size:1rem; color:var(--oranye-tua); margin-bottom:12px;">🔥 Rehidrasi Luka Bakar</h3>
+<div class="form-row-group">
+<div class="form-group">
+<label for="burnUsia">👶 Usia (tahun)</label>
+<input id="burnUsia" inputmode="decimal" min="0" placeholder="cth: 4" step="0.1" type="number"/>
+</div>
+<div class="form-group">
+<label for="burnBerat">⚖️ Berat Badan (kg)</label>
+<input id="burnBerat" inputmode="decimal" min="0" placeholder="cth: 20" step="0.1" type="number"/>
+</div>
+</div>
+<p class="catatan-metode" style="margin-top:2px;">Pilih area luka bakar pada body map. Dada, perut, punggung, dan bokong dapat dipilih terpisah. Lengan dan tungkai bisa dipilih per sisi pada bagian depan/belakang atau seluruh kanan/kiri. Kepala dan tungkai otomatis menyesuaikan usia berdasarkan Lund-Browder.</p>
+<div class="burn-map-wrap" id="burnMapWrap">
+<div class="burn-map-card">
+<div class="burn-map-title">Bagian Depan (Anterior)</div>
+<div class="burn-body">
+<div class="col">
+<button class="burn-area" data-burn-area="armRightFront" type="button">Lengan kanan</button>
+<button class="burn-area" data-burn-area="legRightFront" type="button">Tungkai kanan</button>
+</div>
+<div class="col">
+<button class="burn-area head" data-burn-area="head" type="button">Kepala & Leher</button>
+<button class="burn-area" data-burn-area="chest" type="button">Dada / Chest</button>
+<button class="burn-area" data-burn-area="abdomen" type="button">Perut / Abdomen</button>
+<button class="burn-area perineum" data-burn-area="perineum" type="button">Perineum / Genital</button>
+</div>
+<div class="col">
+<button class="burn-area" data-burn-area="armLeftFront" type="button">Lengan kiri</button>
+<button class="burn-area" data-burn-area="legLeftFront" type="button">Tungkai kiri</button>
+</div>
+</div>
+</div>
+<div class="burn-map-card">
+<div class="burn-map-title">Bagian Belakang (Posterior)</div>
+<div class="burn-body">
+<div class="col">
+<button class="burn-area" data-burn-area="armRightBack" type="button">Lengan kanan</button>
+<button class="burn-area" data-burn-area="legRightBack" type="button">Tungkai kanan</button>
+<button class="burn-area small" data-burn-area="buttockRight" type="button">Bokong kanan</button>
+</div>
+<div class="col">
+<button class="burn-area" data-burn-area="upperBack" type="button">Punggung atas</button>
+<button class="burn-area" data-burn-area="lowerBack" type="button">Punggung bawah</button>
+</div>
+<div class="col">
+<button class="burn-area" data-burn-area="armLeftBack" type="button">Lengan kiri</button>
+<button class="burn-area" data-burn-area="legLeftBack" type="button">Tungkai kiri</button>
+<button class="burn-area small" data-burn-area="buttockLeft" type="button">Bokong kiri</button>
+</div>
+</div>
+</div>
+</div>
+<div class="burn-parts-grid">
+<button class="burn-area" data-burn-area="armRightFull" type="button">Seluruh lengan kanan</button>
+<button class="burn-area" data-burn-area="armLeftFull" type="button">Seluruh lengan kiri</button>
+<button class="burn-area" data-burn-area="legRightFull" type="button">Seluruh tungkai kanan</button>
+<button class="burn-area" data-burn-area="legLeftFull" type="button">Seluruh tungkai kiri</button>
+</div>
+<div class="hasil-box-cairan tampil" id="hasilLukaBakar"></div>
+</div>
+<div class="kartu info-metode">
+<h3>📐 Rumus yang digunakan</h3>
+<ul>
+<li><strong>TBSA:</strong> Lund-Browder pediatrik; dada 9%, perut 9%, punggung atas 9%, punggung bawah 4%, bokong kanan/kiri 2,5%.</li>
+<li><strong>Parkland:</strong> 4 × BB × %TBSA = cairan resusitasi 24 jam pertama.</li>
+<li><strong>Pembagian:</strong> 50% dalam 8 jam pertama, 50% dalam 16 jam berikutnya.</li>
+<li><strong>Maintenance:</strong> Holliday–Segar ditambahkan ke kebutuhan resusitasi.</li>
+</ul>
+<p class="catatan-metode">Gunakan sebagai alat bantu hitung cepat. Waktu 8 jam pertama dihitung sejak kejadian luka bakar, bukan sejak pasien tiba di fasilitas kesehatan.</p>
+</div>
+</div>
+<!-- ===== PANEL: FAKTOR TETES INFUS ===== -->
+<div class="cairan-metode-panel" id="panel-tetes">
+<div class="kartu">
+<div class="form-row-group">
+<div class="form-group">
+<label for="tetesVolume">💧 Kebutuhan Cairan (mL)</label>
+<input id="tetesVolume" inputmode="decimal" min="0" placeholder="cth: 500" step="1" type="number"/>
+</div>
+<div class="form-group">
+<label for="tetesLamaJam">⏱️ Lama Pemberian (jam)</label>
+<input id="tetesLamaJam" inputmode="decimal" min="0" placeholder="cth: 8" step="0.1" type="number"/>
+</div>
+</div>
+<div class="form-group">
+<label>💉 Ukuran Drip Set</label>
+<div class="segmented-toggle toggle-2" id="tetesDripTab">
+<button class="segmented-btn aktif" data-drip="makro" type="button">Makro drip<br/><small>20 tpm/mL</small></button>
+<button class="segmented-btn" data-drip="mikro" type="button">Mikro drip<br/><small>60 tpm/mL</small></button>
+</div>
+</div>
+<button class="btn-hitung" id="btnHitungFaktorTetes" type="button">💉 Hitung Faktor Tetes</button>
+<div class="hasil-box-cairan" id="hasilFaktorTetes"></div>
+</div>
+<div class="kartu info-metode">
+<h3>📐 Rumus faktor tetes</h3>
+<ul>
+<li><strong>Tetes/menit</strong> = volume cairan (mL) × faktor tetes ÷ waktu (menit)</li>
+<li><strong>Makro drip</strong> umum: 20 tetes/mL</li>
+<li><strong>Mikro drip</strong> umum: 60 tetes/mL</li>
+</ul>
+<p class="catatan-metode">Hasil adalah estimasi kecepatan tetesan manual. Sesuaikan dengan drip set yang benar-benar dipakai di fasilitas Anda dan kondisi klinis pasien.</p>
 </div>
 </div>
 <!-- ===== PANEL: REHIDRASI WHO (Lintas Diare Anak) ===== -->
@@ -4741,6 +4946,244 @@ function hitungRencanaC() {
   kotak.classList.add("tampil");
 }
 
+function hitungFaktorTetes() {
+  const volumeInput = document.getElementById("tetesVolume");
+  const lamaInput = document.getElementById("tetesLamaJam");
+  const kotak = document.getElementById("hasilFaktorTetes");
+  const volume = parseFloat(volumeInput.value);
+  const lamaJam = parseFloat(lamaInput.value);
+  const tombolAktif = document.querySelector("#tetesDripTab .segmented-btn.aktif");
+  const jenisDrip = tombolAktif ? tombolAktif.dataset.drip : "makro";
+  const faktor = jenisDrip === "mikro" ? 60 : 20;
+  const labelDrip = jenisDrip === "mikro" ? "Mikro drip" : "Makro drip";
+
+  if (isNaN(volume) || volume <= 0) {
+    kotak.classList.add("tampil");
+    kotak.innerHTML = `<p>⚠️ Mohon masukkan kebutuhan cairan yang valid (lebih dari 0 mL).</p>`;
+    return;
+  }
+  if (isNaN(lamaJam) || lamaJam <= 0) {
+    kotak.classList.add("tampil");
+    kotak.innerHTML = `<p>⚠️ Mohon masukkan lama pemberian yang valid (lebih dari 0 jam).</p>`;
+    return;
+  }
+
+  const lamaMenit = lamaJam * 60;
+  const mlPerJam = volume / lamaJam;
+  const tetesPerMenit = (volume * faktor) / lamaMenit;
+  const tetesBulat = Math.round(tetesPerMenit);
+
+  kotak.innerHTML = `
+    <h3>HASIL PERHITUNGAN — FAKTOR TETES</h3>
+    <div class="hasil-dosis">${tetesBulat} tetes/menit</div>
+    <div>≈ <strong>${mlPerJam.toFixed(1)} mL/jam</strong></div>
+    <div class="hasil-rincian">
+      📐 Rincian:<br>
+      Volume cairan: <strong>${volume.toFixed(0)} mL</strong><br>
+      Lama pemberian: <strong>${lamaJam.toFixed(1)} jam</strong> (${lamaMenit.toFixed(0)} menit)<br>
+      Drip set: <strong>${labelDrip}</strong> (${faktor} tetes/mL)<br>
+      Rumus: ${volume.toFixed(0)} × ${faktor} ÷ ${lamaMenit.toFixed(0)} = <strong>${tetesPerMenit.toFixed(1)} tetes/menit</strong>
+    </div>
+  `;
+  kotak.classList.add("tampil");
+}
+
+function pindahDripTetes(jenis) {
+  document.querySelectorAll("#tetesDripTab .segmented-btn").forEach(btn => {
+    btn.classList.toggle("aktif", btn.dataset.drip === jenis);
+  });
+}
+
+const burnAreaState = new Set();
+
+function burnLundBrowderByAge(usiaTahun) {
+  if (!isFinite(usiaTahun)) return { head: 17, leg: 14, label: "1–4 tahun" };
+  if (usiaTahun < 1) return { head: 19, leg: 13, label: "0–1 tahun" };
+  if (usiaTahun < 5) return { head: 17, leg: 14, label: "1–4 tahun" };
+  if (usiaTahun < 10) return { head: 15, leg: 16, label: "5–9 tahun" };
+  if (usiaTahun < 15) return { head: 13, leg: 17, label: "10–14 tahun" };
+  return { head: 9, leg: 18, label: "≥15 tahun" };
+}
+
+function burnAreaPercent(area, usiaTahun) {
+  const age = burnLundBrowderByAge(usiaTahun);
+  const map = {
+    head: age.head,
+    chest: 9,
+    abdomen: 9,
+    upperBack: 9,
+    lowerBack: 4,
+    buttockRight: 2.5,
+    buttockLeft: 2.5,
+    perineum: 1,
+    armRightFront: 4.5,
+    armRightBack: 4.5,
+    armLeftFront: 4.5,
+    armLeftBack: 4.5,
+    armRightFull: 9,
+    armLeftFull: 9,
+    legRightFront: age.leg / 2,
+    legRightBack: age.leg / 2,
+    legLeftFront: age.leg / 2,
+    legLeftBack: age.leg / 2,
+    legRightFull: age.leg,
+    legLeftFull: age.leg
+  };
+  return map[area] || 0;
+}
+
+function burnAreaLabel(area) {
+  const labels = {
+    head: "Kepala & leher",
+    chest: "Dada / chest",
+    abdomen: "Perut / abdomen",
+    upperBack: "Punggung atas",
+    lowerBack: "Punggung bawah",
+    buttockRight: "Bokong kanan",
+    buttockLeft: "Bokong kiri",
+    perineum: "Perineum/genital",
+    armRightFront: "Lengan kanan anterior",
+    armRightBack: "Lengan kanan posterior",
+    armLeftFront: "Lengan kiri anterior",
+    armLeftBack: "Lengan kiri posterior",
+    armRightFull: "Seluruh lengan kanan",
+    armLeftFull: "Seluruh lengan kiri",
+    legRightFront: "Tungkai kanan anterior",
+    legRightBack: "Tungkai kanan posterior",
+    legLeftFront: "Tungkai kiri anterior",
+    legLeftBack: "Tungkai kiri posterior",
+    legRightFull: "Seluruh tungkai kanan",
+    legLeftFull: "Seluruh tungkai kiri"
+  };
+  return labels[area] || area;
+}
+
+function burnToggleArea(area) {
+  if (!area) return;
+  const exclusiveGroups = {
+    armRightFull: ["armRightFront", "armRightBack"],
+    armLeftFull: ["armLeftFront", "armLeftBack"],
+    armRightFront: ["armRightFull"],
+    armRightBack: ["armRightFull"],
+    armLeftFront: ["armLeftFull"],
+    armLeftBack: ["armLeftFull"],
+    legRightFull: ["legRightFront", "legRightBack"],
+    legLeftFull: ["legLeftFront", "legLeftBack"],
+    legRightFront: ["legRightFull"],
+    legRightBack: ["legRightFull"],
+    legLeftFront: ["legLeftFull"],
+    legLeftBack: ["legLeftFull"]
+  };
+  if (burnAreaState.has(area)) {
+    burnAreaState.delete(area);
+  } else {
+    (exclusiveGroups[area] || []).forEach(x => burnAreaState.delete(x));
+    burnAreaState.add(area);
+  }
+  burnSyncButtons();
+  hitungLukaBakar();
+}
+
+function burnSyncButtons() {
+  document.querySelectorAll(".burn-area[data-burn-area]").forEach(btn => {
+    btn.classList.toggle("aktif", burnAreaState.has(btn.dataset.burnArea));
+  });
+}
+
+function burnHollidaySegar(berat) {
+  if (!isFinite(berat) || berat <= 0) return { total: 0, rincian: [] };
+  let total = 0, rincian = [];
+  if (berat <= 10) {
+    total = berat * 100;
+    rincian.push(`${berat.toFixed(1)} kg × 100 = ${total.toFixed(0)} mL`);
+  } else if (berat <= 20) {
+    const b1 = 1000, b2 = (berat - 10) * 50;
+    total = b1 + b2;
+    rincian.push(`10 kg pertama = 1000 mL`);
+    rincian.push(`${(berat - 10).toFixed(1)} kg berikutnya × 50 = ${b2.toFixed(0)} mL`);
+  } else {
+    const b1 = 1000, b2 = 500, b3 = (berat - 20) * 20;
+    total = b1 + b2 + b3;
+    rincian.push(`10 kg pertama = 1000 mL`);
+    rincian.push(`10 kg kedua = 500 mL`);
+    rincian.push(`${(berat - 20).toFixed(1)} kg sisanya × 20 = ${b3.toFixed(0)} mL`);
+  }
+  return { total, rincian };
+}
+
+function hitungLukaBakar() {
+  const usia = parseFloat(document.getElementById("burnUsia")?.value);
+  const berat = parseFloat(document.getElementById("burnBerat")?.value);
+  const box = document.getElementById("hasilLukaBakar");
+  if (!box) return;
+  const ageRef = burnLundBrowderByAge(usia);
+  let tbsa = 0;
+  const rincian = [];
+  burnAreaState.forEach(area => {
+    const pct = burnAreaPercent(area, usia);
+    tbsa += pct;
+    rincian.push({ label: burnAreaLabel(area), pct });
+  });
+
+  if (!isFinite(usia) || usia < 0 || !isFinite(berat) || berat <= 0) {
+    box.innerHTML = `
+      <h3>HASIL REHIDRASI LUKA BAKAR</h3>
+      <div class="hasil-rincian">⚠️ Isi usia dan berat badan untuk menghitung cairan. Area yang dipilih akan dihitung otomatis.<br>Kelompok Lund-Browder aktif: <strong>${escapeHtml(ageRef.label)}</strong></div>
+    `;
+    box.classList.add("tampil");
+    return;
+  }
+
+  const parkland = 4 * berat * tbsa;
+  const cairan8Jam = parkland / 2;
+  const cairan16Jam = parkland / 2;
+  const maintenance = burnHollidaySegar(berat);
+  const total24 = parkland + maintenance.total;
+  const targetUrinMin = berat < 30 ? berat * 1 : berat * 0.5;
+  const targetUrinMax = berat < 30 ? berat * 2 : berat * 1;
+  const targetLabel = berat < 30 ? "1–2 mL/kg/jam" : "0,5–1 mL/kg/jam";
+
+  const rincianHtml = rincian.length
+    ? `<ul class="burn-rincian-list">${rincian.map(r => `<li>${escapeHtml(r.label)} = ${r.pct.toFixed(1).replace('.0','')}%</li>`).join("")}</ul>`
+    : `<p class="catatan-metode">Belum ada area luka bakar yang dipilih.</p>`;
+
+  box.innerHTML = `
+    <h3>HASIL REHIDRASI LUKA BAKAR</h3>
+    <div class="burn-result-grid">
+      <div class="burn-result-card">
+        <h4>🔥 Luas Luka Bakar</h4>
+        <div class="burn-result-value">${tbsa.toFixed(1).replace('.0','')}%</div>
+        <div class="hasil-rincian">Kelompok usia: <strong>${escapeHtml(ageRef.label)}</strong>${rincianHtml}</div>
+      </div>
+      <div class="burn-result-card">
+        <h4>💧 Cairan Resusitasi (Parkland)</h4>
+        <div class="burn-result-value">${parkland.toFixed(0)} mL</div>
+        <div class="hasil-rincian">4 × ${berat.toFixed(1)} × ${tbsa.toFixed(1)} = ${parkland.toFixed(0)} mL</div>
+      </div>
+      <div class="burn-result-card">
+        <h4>⏰ Pembagian Cairan</h4>
+        <div class="hasil-rincian"><strong>8 jam pertama:</strong> ${cairan8Jam.toFixed(0)} mL<br><strong>16 jam berikutnya:</strong> ${cairan16Jam.toFixed(0)} mL</div>
+      </div>
+      <div class="burn-result-card">
+        <h4>🧃 Maintenance</h4>
+        <div class="burn-result-value">${maintenance.total.toFixed(0)} mL/hari</div>
+        <div class="hasil-rincian">${maintenance.rincian.join("<br>")}</div>
+      </div>
+      <div class="burn-result-card">
+        <h4>💉 Total 24 Jam Pertama</h4>
+        <div class="burn-result-value">${total24.toFixed(0)} mL/24 jam</div>
+        <div class="hasil-rincian">Parkland ${parkland.toFixed(0)} + maintenance ${maintenance.total.toFixed(0)} mL</div>
+      </div>
+      <div class="burn-result-card">
+        <h4>🚻 Target Produksi Urin</h4>
+        <div class="burn-result-value">${targetUrinMin.toFixed(1)}–${targetUrinMax.toFixed(1)} mL/jam</div>
+        <div class="hasil-rincian">Target: ${targetLabel}</div>
+      </div>
+    </div>
+  `;
+  box.classList.add("tampil");
+}
+
 /* ============================================================
    DOSIS CAIRAN — UI: pindah metode (Holliday-Segar <-> WHO)
    dan pindah rencana (A/B/C) serta kategori usia Rencana C.
@@ -4751,11 +5194,17 @@ function pindahMetodeCairan(metode) {
   });
   document.getElementById("panel-holliday").classList.toggle("tampil", metode === "holliday");
   document.getElementById("panel-who").classList.toggle("tampil", metode === "who");
+  document.getElementById("panel-tetes").classList.toggle("tampil", metode === "tetes");
+  document.getElementById("panel-luka-bakar").classList.toggle("tampil", metode === "luka-bakar");
 
   const badge = document.getElementById("cairanReferensiBadge");
   badge.textContent = metode === "holliday"
     ? "Holliday–Segar (estimasi cairan rumatan)"
-    : "Rehidrasi WHO (Lintas Diare Anak)";
+    : metode === "who"
+      ? "Rehidrasi WHO (Lintas Diare Anak)"
+      : metode === "tetes"
+        ? "Faktor tetes infus (makro/mikro drip)"
+        : "Rehidrasi luka bakar — Lund-Browder + Parkland";
 }
 
 function pindahRencanaCairan(rencana) {
@@ -5824,11 +6273,16 @@ function tkGambarTitikSeri(stage, titik, seri) {
   const garisH = document.createElement("div");
   garisH.className = "tk-garis-bantu horizontal";
   garisH.style.top = titik.topPercent + "%";
-  // Pada chart CDC gabungan, skala berat badan berada di sisi kanan
-  // (range kanan lebih luas sampai ±110 kg). Karena itu garis bantu
-  // untuk BB diarahkan ke kanan; indikator lain tetap ke kiri.
-  const isBerat = String(seri.yLabel || "").toLowerCase().includes("berat") || String(seri.yUnit || "").toLowerCase() === "kg";
-  const targetX = isBerat ? titik.sumbuKananPersen : titik.sumbuKiriPersen;
+  // Pada chart CDC gabungan:
+  // - Skala berat badan yang lebih luas berada di sisi kanan (hingga ±110 kg),
+  //   jadi garis bantu BB diarahkan ke kanan.
+  // - Skala tinggi di sisi kiri hanya praktis sampai sekitar 166 cm; bila TB aktual
+  //   >166 cm, garis bantu TB diarahkan ke kanan karena sisi kanan mencapai ±195 cm.
+  const labelLower = String(seri.yLabel || "").toLowerCase();
+  const unitLower = String(seri.yUnit || "").toLowerCase();
+  const isBerat = labelLower.includes("berat") || unitLower === "kg";
+  const isTinggiLebih166 = (labelLower.includes("tinggi") || unitLower === "cm") && Number(seri.nilai) > 166;
+  const targetX = (isBerat || isTinggiLebih166) ? titik.sumbuKananPersen : titik.sumbuKiriPersen;
   const hLeft = Math.min(titik.leftPercent, targetX);
   garisH.style.left = hLeft + "%";
   garisH.style.width = Math.abs(titik.leftPercent - targetX) + "%";
@@ -6461,6 +6915,34 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!tombol) return;
     pindahUsiaRencanaC(tombol.dataset.usiaC);
   });
+
+  document.getElementById("tetesDripTab").addEventListener("click", function (e) {
+    const tombol = e.target.closest(".segmented-btn");
+    if (!tombol) return;
+    pindahDripTetes(tombol.dataset.drip);
+  });
+  document.getElementById("btnHitungFaktorTetes").addEventListener("click", hitungFaktorTetes);
+  ["tetesVolume", "tetesLamaJam"].forEach(function (id) {
+    document.getElementById(id).addEventListener("keydown", function (e) {
+      if (e.key === "Enter") hitungFaktorTetes();
+    });
+  });
+
+  document.getElementById("burnMapWrap").addEventListener("click", function (e) {
+    const tombol = e.target.closest(".burn-area[data-burn-area]");
+    if (!tombol) return;
+    burnToggleArea(tombol.dataset.burnArea);
+  });
+  document.querySelectorAll("#panel-luka-bakar .burn-parts-grid .burn-area[data-burn-area]").forEach(function (btn) {
+    btn.addEventListener("click", function () { burnToggleArea(btn.dataset.burnArea); });
+  });
+  ["burnUsia", "burnBerat"].forEach(function (id) {
+    document.getElementById(id).addEventListener("input", hitungLukaBakar);
+    document.getElementById(id).addEventListener("keydown", function (e) {
+      if (e.key === "Enter") hitungLukaBakar();
+    });
+  });
+  hitungLukaBakar();
 
   document.getElementById("btnHitungRencanaB").addEventListener("click", hitungRencanaB);
   document.getElementById("cairanBeratB").addEventListener("keydown", function (e) {

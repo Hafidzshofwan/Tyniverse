@@ -5824,9 +5824,14 @@ function tkGambarTitikSeri(stage, titik, seri) {
   const garisH = document.createElement("div");
   garisH.className = "tk-garis-bantu horizontal";
   garisH.style.top = titik.topPercent + "%";
-  const hLeft = Math.min(titik.leftPercent, titik.sumbuKiriPersen);
+  // Pada chart CDC gabungan, skala berat badan berada di sisi kanan
+  // (range kanan lebih luas sampai ±110 kg). Karena itu garis bantu
+  // untuk BB diarahkan ke kanan; indikator lain tetap ke kiri.
+  const isBerat = String(seri.yLabel || "").toLowerCase().includes("berat") || String(seri.yUnit || "").toLowerCase() === "kg";
+  const targetX = isBerat ? titik.sumbuKananPersen : titik.sumbuKiriPersen;
+  const hLeft = Math.min(titik.leftPercent, targetX);
   garisH.style.left = hLeft + "%";
-  garisH.style.width = Math.abs(titik.leftPercent - titik.sumbuKiriPersen) + "%";
+  garisH.style.width = Math.abs(titik.leftPercent - targetX) + "%";
   garisH.style.background = warna;
   stage.appendChild(garisH);
 

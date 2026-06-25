@@ -2158,6 +2158,28 @@
   #page-beranda .tv-home-tool h4 { font-size: 0.84rem; margin-bottom: 3px; }
   #page-beranda .tv-home-tool p { font-size: 0.7rem; line-height: 1.3; }
   #page-beranda .tv-home-fav-btn { top: 10px; right: 10px; width: 28px; height: 28px; border-radius: 10px; font-size: 0.86rem; }
+
+  #page-beranda .tv-update-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+    font-size: 0.98rem;
+    line-height: 1.2;
+  }
+  #page-beranda .tv-update-title-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #EAF6FB;
+    font-size: 1.05rem;
+    line-height: 1;
+    flex: 0 0 auto;
+  }
+
   #page-beranda .tv-home-card { border-radius: 18px; padding: 14px; box-shadow: 0 5px 14px rgba(74,55,40,0.055); }
   #page-beranda .tv-home-section-head h3 { font-size: 0.98rem; }
   #page-beranda .tv-home-section-head p { font-size: 0.74rem; }
@@ -2170,6 +2192,17 @@
   #page-beranda .tv-home-stat { border-radius: 14px; padding: 11px 10px; }
   #page-beranda .tv-home-stat strong { font-size: 1.05rem; }
   #page-beranda .tv-home-stat span { font-size: 0.68rem; }
+
+  #page-beranda .tv-home-update-list {
+    font-family: inherit;
+    font-size: 0.84rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  #page-beranda .tv-home-update-list li {
+    margin-bottom: 4px;
+  }
+
   @media (max-width: 860px) { #page-beranda .tv-home-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 560px) { #page-beranda .tv-home-grid, #page-beranda .tv-home-two-col, #page-beranda .tv-home-stat-grid { grid-template-columns: 1fr; } }
 
@@ -2710,6 +2743,24 @@
   text-align: left !important;
 }
 
+
+
+/* ===== FIX: font isi update disamakan dengan judul kartu Quick Access ===== */
+#page-beranda .tv-home-update-list,
+#page-beranda .tv-home-update-list li {
+  font-family: inherit !important;
+  font-size: 0.84rem !important;
+  font-weight: 700 !important;
+  line-height: 1.45 !important;
+  color: var(--teks) !important;
+}
+#page-beranda .tv-home-update-list {
+  margin-top: 7px !important;
+  padding-left: 18px !important;
+}
+#page-beranda .tv-home-update-list li {
+  margin-bottom: 4px !important;
+}
 </style>
 </head>
 <body>
@@ -2830,10 +2881,6 @@
 <h2 id="tvHomeWelcomeTitle">Halo, dr. Hafidzuddin 👋</h2>
 <p>Semua alat bantu pediatri dalam satu tempat.</p>
 </div>
-<div class="tv-home-mini-status">
-<strong id="tvHomeTodayTools">4</strong>
-              fitur paling sering digunakan
-            </div>
 </div>
 </section>
 <section aria-labelledby="tvQuickAccessTitle">
@@ -2943,14 +2990,16 @@
 <section aria-labelledby="tvUpdateTitle" class="tv-home-card">
 <div class="tv-home-section-head">
 <div>
-<h3 id="tvUpdateTitle">🚀 Update TinyVerse</h3>
-<p>Versi 2.1 • Fitur baru dan peningkatan terbaru.</p>
+<h3 id="tvUpdateTitle">🚀Update Tyniverse</h3>
+<p>Versi 2.2 • Fitur baru dan peningkatan terbaru.</p>
 </div>
 </div>
 <ul class="tv-home-update-list">
-<li>CDC Growth Chart dan mode plotting otomatis.</li>
-<li>Jadwal Imunisasi IDAI 2024 sebagai fitur baru.</li>
-<li>Home Dashboard dengan quick access, favorit, insight, dan statistik akun.</li>
+<li>Racik Puyer multi-obat: hitung kebutuhan tablet, jumlah bungkus, selisih dosis, dan draft resep racikan.</li>
+<li>Pencarian obat di Racik Puyer lebih cepat dengan saran nama obat dan pengisian otomatis data dasar.</li>
+<li>Quick Access Beranda kini hanya menampilkan 4 fitur yang paling sering digunakan secara otomatis.</li>
+<li>Struktur menu diperbarui: Kalkulator Klinis, Pemantauan Klinis, Referensi, Preventif, dan Dokumentasi.</li>
+<li>Asisten AI tetap tersedia sebagai ikon mengambang di semua menu.</li>
 </ul>
 </section>
 </div>

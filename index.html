@@ -12106,5 +12106,143 @@ document.addEventListener('DOMContentLoaded', function () {
 })();
 </script>
 
+
+
+<script>
+/* FINAL DEPLOY FONT LOCK
+   Menjaga font tetap sama setelah deploy: Fredoka untuk judul/icon cards,
+   Quicksand untuk teks pendukung. Style ini disuntik paling akhir agar
+   menang dari CSS lama, cache, atau style yang dibuat lewat JavaScript. */
+(function () {
+  var FONT_LINK_ID = 'tvGoogleFontFredokaQuicksandFinal';
+  var STYLE_ID = 'tvFinalDeployFontLock';
+
+  function ensureFontLink() {
+    if (!document.getElementById(FONT_LINK_ID)) {
+      var link = document.createElement('link');
+      link.id = FONT_LINK_ID;
+      link.rel = 'stylesheet';
+      link.href = 'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap';
+      document.head.appendChild(link);
+    }
+  }
+
+  function injectFinalFontStyle() {
+    var css = `
+      html body,
+      html body *:not(svg):not(path):not(circle):not(ellipse):not(line) {
+        font-family: 'Quicksand', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+        text-rendering: geometricPrecision !important;
+      }
+
+      html body h1,
+      html body h2,
+      html body h3,
+      html body h4,
+      html body header h1,
+      html body .logo-row h1,
+      html body .tv-home-hero h2,
+      html body .judul-section h2,
+      html body .sidebar-item,
+      html body .sidebar-item .label,
+      html body button,
+      html body .nav-btn,
+      html body .tombol,
+      html body .tv-home-tool h4,
+      html body #page-beranda .tv-home-tool h4,
+      html body .tv-home-row-item strong,
+      html body .tv-home-section-head h3,
+      html body .nama-obat-card,
+      html body .obat-card .nama-obat-card,
+      html body .protokol-card .nama-protokol-card,
+      html body .obat-protokol-head .nama,
+      html body .guideline-card h3,
+      html body .guideline-chip,
+      html body .guideline-btn,
+      html body .tk-kartu-pilihan .tk-nama-pilihan,
+      html body .tk-kartu-usia .tk-usia-label,
+      html body .summary-item-title,
+      html body .puyer-obat-title,
+      html body #page-imunisasi .imunisasi-item strong {
+        font-family: 'Fredoka', 'Quicksand', system-ui, sans-serif !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.018em !important;
+        line-height: 1.12 !important;
+      }
+
+      /* Guideline cards: dibuat seperti preview lokal — lebih rounded, padat, dan fun */
+      html body .guideline-card h3 {
+        color: var(--etail-navy, #0A0B5F) !important;
+        font-size: clamp(1.02rem, 1.7vw, 1.32rem) !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.025em !important;
+        line-height: 1.05 !important;
+        text-shadow: 0 0 0 currentColor !important;
+      }
+
+      html body .guideline-meta {
+        font-family: 'Fredoka', 'Quicksand', system-ui, sans-serif !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.006em !important;
+        line-height: 1.25 !important;
+      }
+
+      html body .guideline-desc {
+        font-family: 'Quicksand', system-ui, sans-serif !important;
+        font-weight: 700 !important;
+        line-height: 1.42 !important;
+      }
+
+      html body .guideline-card-icon {
+        font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif !important;
+      }
+
+      @media (max-width: 768px) {
+        html body .guideline-card h3,
+        html body .tv-home-tool h4,
+        html body .sidebar-item .label,
+        html body .nama-obat-card,
+        html body .protokol-card .nama-protokol-card,
+        html body .tk-kartu-pilihan .tk-nama-pilihan,
+        html body .tk-kartu-usia .tk-usia-label,
+        html body #page-imunisasi .imunisasi-item strong {
+          font-family: 'Fredoka', 'Quicksand', system-ui, sans-serif !important;
+          font-weight: 700 !important;
+          letter-spacing: -0.018em !important;
+          line-height: 1.12 !important;
+          overflow-wrap: anywhere;
+        }
+
+        html body .guideline-card h3 {
+          font-size: clamp(1rem, 4.8vw, 1.22rem) !important;
+        }
+      }
+    `;
+
+    var style = document.getElementById(STYLE_ID);
+    if (!style) {
+      style = document.createElement('style');
+      style.id = STYLE_ID;
+      document.head.appendChild(style);
+    }
+    style.textContent = css;
+  }
+
+  function apply() {
+    ensureFontLink();
+    injectFinalFontStyle();
+    document.documentElement.classList.add('tv-font-lock-ready');
+  }
+
+  apply();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply);
+  window.addEventListener('load', apply);
+  setTimeout(apply, 300);
+  setTimeout(apply, 1200);
+})();
+</script>
+
 </body>
 </html>

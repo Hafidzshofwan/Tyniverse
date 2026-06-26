@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&amp;family=Quicksand:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&amp;family=Plus+Jakarta+Sans:wght@500;600;650;700;800;850;900&amp;display=swap" rel="stylesheet"/>
 <style>
   :root {
     --kuning: #FFD23F;
@@ -3578,8 +3579,6 @@ input:focus, select:focus, textarea:focus, .tv-ai-area:focus, .search-wrap input
 }
 
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap');
-
 /* ============================================================
    TYNIVERSE — FINAL REQUEST FIXES
    1) Hapus CTA pseudo "Mulai pakai Tyniverse →"
@@ -3592,6 +3591,52 @@ input:focus, select:focus, textarea:focus, .tv-ai-area:focus, .search-wrap input
 html body,
 html body *:not(svg):not(path):not(circle):not(ellipse):not(line) {
   font-family: 'Inter', 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif !important;
+  -webkit-font-smoothing: auto !important;
+  -moz-osx-font-smoothing: auto !important;
+  text-rendering: optimizeLegibility;
+  font-synthesis-weight: none;
+}
+
+/* FIX FONT MOBILE
+   Di HP, font sebelumnya bisa tampak lebih tipis karena Inter tidak diload
+   dan @import Plus Jakarta berada di tengah CSS sehingga diabaikan browser.
+   Font kini diload dari <head>, lalu bobot teks dinaikkan sedikit untuk layar kecil. */
+@media (max-width: 768px) {
+  html body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  html body,
+  html body *:not(svg):not(path):not(circle):not(ellipse):not(line) {
+    font-family: 'Inter', 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif !important;
+  }
+
+  html body p,
+  html body li,
+  html body label,
+  html body input,
+  html body select,
+  html body textarea,
+  html body .tv-home-tool p,
+  html body .tv-home-update-list,
+  html body .tv-home-update-list li,
+  html body .hasil-detail,
+  html body .hasil-row,
+  html body .disclaimer,
+  html body .guideline-desc {
+    font-weight: 700 !important;
+  }
+
+  html body h1,
+  html body h2,
+  html body h3,
+  html body h4,
+  html body button,
+  html body .sidebar-item,
+  html body .nama-obat-card {
+    font-weight: 850 !important;
+  }
 }
 
 html body h1,
@@ -3733,21 +3778,21 @@ html body.tv-side-buka #tvSideOverlay {
 
 html body #tvSideToggle {
   position: fixed !important;
-  top: 18px !important;
-  left: 18px !important;
+  top: 12px !important;
+  left: 12px !important;
   z-index: 7400 !important;
-  width: 52px !important;
-  height: 52px !important;
+  width: 40px !important;
+  height: 40px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   border: 0 !important;
-  border-radius: 18px !important;
+  border-radius: 14px !important;
   cursor: pointer !important;
   background: #FFFFFF !important;
   color: var(--etail-navy, #0A0B5F) !important;
-  box-shadow: 0 16px 36px rgba(10,11,95,0.16) !important;
-  font-size: 1.3rem !important;
+  box-shadow: 0 10px 24px rgba(10,11,95,0.14) !important;
+  font-size: 1.05rem !important;
 }
 
 html body #tvSideToggle.tampil {
@@ -5132,6 +5177,279 @@ html body #page-beranda section[aria-labelledby="tvUpdateTitle"] .tv-home-update
   html body #page-beranda section[aria-labelledby="tvUpdateTitle"] .tv-home-update-list li {
     font-size: 0.72rem !important;
     line-height: 1.35 !important;
+  }
+}
+
+
+
+/* ============================================================
+   FIX FONT SESUAI CONTOH
+   Kembalikan karakter font Tyniverse ke rounded/playful:
+   - Judul/logo/tombol: Fredoka
+   - Isi kecil: Quicksand
+   - Hindari Inter + weight 850/900 yang membuat tampilan HP aneh
+============================================================ */
+html body,
+html body *:not(svg):not(path):not(circle):not(ellipse):not(line) {
+  font-family: 'Quicksand', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-weight: 700 !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: geometricPrecision !important;
+}
+
+html body h1,
+html body h2,
+html body h3,
+html body h4,
+html body .logo-row,
+html body header h1,
+html body .tv-home-hero h2,
+html body .judul-section h2,
+html body .tv-home-section-head h3,
+html body .nama-obat-card,
+html body .sidebar-item,
+html body button,
+html body .tombol,
+html body .nav-btn,
+html body .btn-hitung,
+html body .btn-hitung-mini,
+html body .guideline-btn,
+html body .summary-btn,
+html body .puyer-btn,
+html body .tv-ai-btn {
+  font-family: 'Fredoka', 'Quicksand', system-ui, sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.015em !important;
+}
+
+/* Logo utama dibuat seperti contoh: tebal, rounded, navy, tidak terlalu pipih */
+html body header h1,
+html body .logo-row h1 {
+  font-family: 'Fredoka', 'Quicksand', system-ui, sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--etail-navy, #0A0B5F) !important;
+  letter-spacing: -0.035em !important;
+  line-height: 0.95 !important;
+  text-shadow: none !important;
+}
+
+/* Hero greeting: rounded bold seperti contoh */
+html body #page-beranda .tv-home-hero h2,
+html body .tv-home-hero h2,
+html body .judul-section h2 {
+  font-family: 'Fredoka', 'Quicksand', system-ui, sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--etail-navy, #0A0B5F) !important;
+  letter-spacing: -0.035em !important;
+}
+
+/* Teks deskripsi tetap bulat tapi tidak terlalu berat */
+html body p,
+html body li,
+html body small,
+html body .tv-home-hero p,
+html body .tv-home-section-head p,
+html body .tv-home-tool p,
+html body .tv-home-update-list,
+html body .tv-home-update-list li,
+html body .hasil-detail,
+html body .hasil-row,
+html body .disclaimer,
+html body .guideline-desc {
+  font-family: 'Quicksand', system-ui, sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.005em !important;
+}
+
+/* Badge/pill kecil jangan memakai Inter supaya tidak terlihat asing */
+html body .tv-home-eyebrow,
+html body header p.slogan,
+html body .badge-dosis,
+html body .referensi-badge,
+html body .tv-side-judul,
+html body .tv-home-tag,
+html body .tv-home-tool-badge {
+  font-family: 'Quicksand', system-ui, sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+
+html body input,
+html body select,
+html body textarea {
+  font-family: 'Quicksand', system-ui, sans-serif !important;
+  font-weight: 700 !important;
+}
+
+@media (max-width: 768px) {
+  html body,
+  html body *:not(svg):not(path):not(circle):not(ellipse):not(line) {
+    font-family: 'Quicksand', system-ui, sans-serif !important;
+    font-weight: 700 !important;
+  }
+
+  html body h1,
+  html body h2,
+  html body h3,
+  html body h4,
+  html body header h1,
+  html body .logo-row h1,
+  html body .tv-home-hero h2,
+  html body .judul-section h2,
+  html body button,
+  html body .sidebar-item,
+  html body .nama-obat-card {
+    font-family: 'Fredoka', 'Quicksand', system-ui, sans-serif !important;
+    font-weight: 700 !important;
+  }
+}
+
+
+
+/* ============================================================
+   FIX SEMUA JUDUL IKON BOLD + MOBILE FRIENDLY
+   Menebalkan label/judul pada semua kartu berbasis ikon agar konsisten
+   di desktop dan HP, tanpa membuat paragraf/deskripsi ikut terlalu berat.
+============================================================ */
+html body .sidebar-item .label,
+html body #sidebar .sidebar-item .label,
+html body .tv-home-tool h4,
+html body #page-beranda .tv-home-tool h4,
+html body .tv-home-row-item strong,
+html body .tv-home-row-item b,
+html body .tv-home-stat strong,
+html body .tv-home-section-head h3,
+html body .judul-section h2,
+html body .nama-obat-card,
+html body .obat-card .nama-obat-card,
+html body .protokol-card .nama-protokol-card,
+html body .obat-protokol-head .nama,
+html body .guideline-card h3,
+html body .tk-kartu-pilihan .tk-nama-pilihan,
+html body .tk-kartu-usia .tk-usia-label,
+html body .tk-chart-judul,
+html body .tk-plot-judul,
+html body .tk-cdc-materi-title,
+html body .summary-item-title,
+html body .puyer-obat-title,
+html body .puyer-metric .value,
+html body .puyer-table th,
+html body .puyer-resep-title,
+html body #page-imunisasi .imunisasi-item strong,
+html body #page-imunisasi .imunisasi-card h3,
+html body #page-imunisasi .imunisasi-result h4,
+html body .hasil-section-title,
+html body .burn-map-title,
+html body .burn-result-card h4,
+html body .burn-result-value,
+html body .segmented-btn,
+html body .guideline-chip,
+html body .tv-ai-chip,
+html body .tv-ai-panel-title,
+html body .summary-btn,
+html body .summary-add-btn,
+html body .puyer-btn,
+html body .tv-ai-btn,
+html body .btn-hitung,
+html body .btn-hitung-mini,
+html body .btn-kembali,
+html body .ganti-link,
+html body .badge-dosis,
+html body .referensi-badge,
+html body .draft-badge,
+html body .tk-ringkasan-chip,
+html body .tk-step-dot,
+html body .tk-step-dot .tk-step-num {
+  font-family: 'Fredoka', 'Quicksand', system-ui, sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.012em !important;
+  -webkit-font-smoothing: antialiased !important;
+  text-rendering: geometricPrecision !important;
+}
+
+/* Label kecil di bawah ikon tetap jelas tetapi tidak terlalu besar */
+html body .tv-home-tool p,
+html body .tv-home-row-item span,
+html body .tk-kartu-pilihan .tk-sub-pilihan,
+html body .tk-kartu-usia .tk-usia-ket,
+html body #page-imunisasi .imunisasi-item span,
+html body .guideline-meta,
+html body .guideline-desc,
+html body .puyer-metric .label {
+  font-family: 'Quicksand', system-ui, sans-serif !important;
+  font-weight: 700 !important;
+}
+
+/* Sentuhan khusus mobile: judul ikon tetap bold, rapi, dan tidak pecah layout */
+@media (max-width: 768px) {
+  html body .sidebar-item .label,
+  html body #sidebar .sidebar-item .label,
+  html body .tv-home-tool h4,
+  html body #page-beranda .tv-home-tool h4,
+  html body .tv-home-row-item strong,
+  html body .nama-obat-card,
+  html body .obat-card .nama-obat-card,
+  html body .protokol-card .nama-protokol-card,
+  html body .guideline-card h3,
+  html body .tk-kartu-pilihan .tk-nama-pilihan,
+  html body .tk-kartu-usia .tk-usia-label,
+  html body #page-imunisasi .imunisasi-item strong,
+  html body .summary-item-title,
+  html body .puyer-obat-title {
+    font-weight: 700 !important;
+    line-height: 1.16 !important;
+    letter-spacing: -0.01em !important;
+    overflow-wrap: anywhere;
+  }
+
+  html body .tv-home-tool h4,
+  html body #page-beranda .tv-home-tool h4 {
+    font-size: clamp(0.74rem, 3.2vw, 0.9rem) !important;
+  }
+
+  html body .sidebar-item .label,
+  html body #sidebar .sidebar-item .label {
+    font-size: clamp(0.78rem, 3.3vw, 0.92rem) !important;
+  }
+
+  html body .nama-obat-card,
+  html body .obat-card .nama-obat-card,
+  html body .protokol-card .nama-protokol-card,
+  html body .guideline-card h3,
+  html body .tk-kartu-pilihan .tk-nama-pilihan,
+  html body .tk-kartu-usia .tk-usia-label,
+  html body .summary-item-title,
+  html body .puyer-obat-title,
+  html body #page-imunisasi .imunisasi-item strong {
+    font-size: clamp(0.82rem, 3.4vw, 1rem) !important;
+  }
+
+  html body .tv-home-tool p,
+  html body .tv-home-row-item span,
+  html body .tk-kartu-pilihan .tk-sub-pilihan,
+  html body .tk-kartu-usia .tk-usia-ket,
+  html body #page-imunisasi .imunisasi-item span,
+  html body .guideline-desc {
+    line-height: 1.28 !important;
+  }
+}
+
+@media (max-width: 420px) {
+  html body .tv-home-grid {
+    gap: 9px !important;
+  }
+
+  html body .tv-home-tool {
+    min-height: 86px !important;
+    padding: 11px 10px !important;
+  }
+
+  html body .tv-home-tool .tv-home-icon,
+  html body .tv-home-row-icon,
+  html body .guideline-card-icon {
+    transform: scale(0.96);
+    transform-origin: center;
   }
 }
 
@@ -10597,7 +10915,7 @@ document.addEventListener("DOMContentLoaded", function () {
   'use strict';
 
   /* MODE TINJAU: true = login dinonaktifkan sementara untuk review cepat. Ubah ke false untuk mengaktifkan login Firebase lagi. */
-  var MODE_TINJAU = false;
+  var MODE_TINJAU = true;
 
   /* ---------- 1. KONFIGURASI FIREBASE ----------
      Isi objek FIREBASE_CONFIG di bawah dengan konfigurasi proyek Firebase Anda
@@ -11597,26 +11915,27 @@ document.addEventListener('DOMContentLoaded', function () {
     var css = `
       #${HARD_BTN_ID} {
         position: fixed !important;
-        top: 18px !important;
-        left: 18px !important;
+        top: 12px !important;
+        left: 12px !important;
         z-index: 12000 !important;
-        width: 54px !important;
-        height: 54px !important;
+        width: 40px !important;
+        height: 40px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         border: 0 !important;
-        border-radius: 18px !important;
+        border-radius: 14px !important;
         background: #FFFFFF !important;
         color: #0A0B5F !important;
-        box-shadow: 0 18px 42px rgba(10,11,95,.22) !important;
-        font-size: 1.35rem !important;
+        box-shadow: 0 10px 24px rgba(10,11,95,.16) !important;
+        font-size: 1.05rem !important;
         line-height: 1 !important;
         cursor: pointer !important;
         pointer-events: auto !important;
       }
       #${HARD_BTN_ID}:active { transform: scale(.96) !important; }
       #tvSideToggle { display: none !important; }
+      /* FIX IKON BILAH KECIL: tombol menu diperkecil agar tidak menutupi emot/maskot boneka. */
       #tvSideOverlay {
         position: fixed !important;
         inset: 0 !important;
@@ -11710,7 +12029,7 @@ document.addEventListener('DOMContentLoaded', function () {
         color: #FFFFFF !important;
       }
       @media (max-width: 560px) {
-        #${HARD_BTN_ID} { top: 12px !important; left: 12px !important; width: 50px !important; height: 50px !important; }
+        #${HARD_BTN_ID} { top: 10px !important; left: 10px !important; width: 38px !important; height: 38px !important; border-radius: 13px !important; font-size: 1rem !important; }
         #sidebar { width: min(292px, 90vw) !important; padding-top: 78px !important; border-radius: 0 24px 24px 0 !important; }
       }
     `;

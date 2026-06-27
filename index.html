@@ -5723,6 +5723,29 @@ html body #tvSidebarProfil #tvUserMenu.tv-di-sidebar .tv-ava {
   }
 }
 
+
+
+/* ============================================================
+   RACIK PUYER EMPTY STATE
+   Menghapus obat contoh otomatis; user menambahkan obat sendiri.
+============================================================ */
+html body .puyer-empty {
+  border: 1.5px dashed rgba(10,11,95,0.16) !important;
+  border-radius: 20px !important;
+  padding: 16px 18px !important;
+  background: rgba(10,11,95,0.035) !important;
+  color: rgba(10,11,95,0.62) !important;
+  font-family: 'Quicksand', system-ui, sans-serif !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  line-height: 1.45 !important;
+  text-align: center !important;
+}
+html body .puyer-empty strong {
+  color: var(--etail-navy, #0A0B5F) !important;
+  font-family: 'Fredoka', 'Quicksand', system-ui, sans-serif !important;
+}
+
 </style>
 </head>
 <body>
@@ -6495,7 +6518,7 @@ html body #tvSidebarProfil #tvUserMenu.tv-di-sidebar .tv-ava {
 <div class="puyer-actions">
 <button class="puyer-btn" id="puyerTambahObat" type="button">➕ Tambah Obat</button>
 <button class="puyer-btn green" id="puyerHitung" type="button">⚗️ Hitung Racikan</button>
-<button class="puyer-btn pink" id="puyerReset" type="button">↺ Reset Contoh</button>
+<button class="puyer-btn pink" id="puyerReset" type="button">↺ Reset Form</button>
 </div>
 </div>
 <div class="kartu" id="puyerHasilKartu" style="display:none;">
@@ -11032,6 +11055,17 @@ document.addEventListener("DOMContentLoaded", function () {
         { label: 'Bagian 1', url: 'assets/guidelines/gizi-buruk-bagian-1.pdf' },
         { label: 'Bagian 2', url: 'assets/guidelines/gizi-buruk-bagian-2.pdf' }
       ]
+    },
+    {
+      id: 'infeksi-tropis-anak-2008',
+      title: 'Infeksi Tropis',
+      category: 'Infeksi',
+      year: '2008',
+      source: 'IDAI',
+      description: 'Buku Ajar Infeksi & Pediatri Tropis',
+      pdfUrl: 'assets/guidelines/introp-anak-idai-2008.pdf',
+      icon: '🦟',
+      tags: ['infeksi tropis', 'pediatri tropis', 'infeksi', 'tropis', 'anak', 'idai', 'demam', 'dengue', 'malaria']
     }
   ];
   let tvGuidelineKategori = 'Semua';
@@ -12114,11 +12148,8 @@ document.addEventListener("DOMContentLoaded", function () {
 ============================================================ */
 (function () {
   const state = { rows: [], lastText: '' };
-  const contoh = [
-    { nama: 'Paracetamol', mode: 'mgkg', dosis: 10, sediaan: 500, step: 0.25, aktual: '' },
-    { nama: 'CTM', mode: 'mgkali', dosis: 1, sediaan: 4, step: 0.25, aktual: '' },
-    { nama: 'Ambroxol', mode: 'mgkali', dosis: 7.5, sediaan: 30, step: 0.25, aktual: '' }
-  ];
+  // Tidak ada obat contoh otomatis. User menambahkan obat sendiri lewat tombol "Tambah Obat".
+  const contoh = [];
   const OBAT_PRESET = [
     { nama: 'Paracetamol', alias: ['parasetamol', 'pct', 'pamol'], mode: 'mgkg', dosis: 10, sediaan: 500, catatan: 'Contoh umum: 10 mg/kg/kali; sesuaikan pedoman.' },
     { nama: 'Ibuprofen', alias: ['ibu'], mode: 'mgkg', dosis: 5, sediaan: 200, catatan: 'Contoh umum: 5 mg/kg/kali; perhatikan kontraindikasi.' },
@@ -12203,6 +12234,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   function renderObat() {
     const box = el('puyerObatList'); if (!box) return;
+    if (!state.rows.length) {
+      box.innerHTML = '<div class="puyer-empty">Belum ada obat. Klik <strong>➕ Tambah Obat</strong> untuk mulai menyusun racikan.</div>';
+      return;
+    }
     box.innerHTML = state.rows.map((r, idx) => `
       <div class="puyer-obat-card" data-puyer-id="${esc(r.id)}">
         <div class="puyer-obat-head">
@@ -12298,16 +12333,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   function resetContoh() {
     state.rows = [];
-    if (el('puyerBb')) el('puyerBb').value = '12';
+    if (el('puyerBb')) el('puyerBb').value = '';
     if (el('puyerFrekuensi')) el('puyerFrekuensi').value = '3';
     if (el('puyerDurasi')) el('puyerDurasi').value = '3';
-    autoJumlah();
-    contoh.forEach(tambahObat);
-    document.querySelectorAll('#puyerObatList [data-puyer-id]').forEach(function (wrap) {
-      const input = wrap.querySelector('[data-field="nama"]');
-      const preset = input ? cariPresetObat(input.value) : null;
-      if (preset) terapkanPresetObat(wrap, preset);
-    });
+    if (el('puyerJumlah')) el('puyerJumlah').value = '';
+    if (el('puyerAturan')) el('puyerAturan').value = '';
+    renderObat();
     if (el('puyerHasilKartu')) el('puyerHasilKartu').style.display = 'none';
   }
   document.addEventListener('DOMContentLoaded', function () {
@@ -12918,6 +12949,99 @@ document.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('load', apply);
   setTimeout(apply, 300);
   setTimeout(apply, 1200);
+})();
+</script>
+
+
+
+<script>
+/* SAFE AI SCROLL FIX
+   Perbaikan khusus scroll Asisten AI tanpa mengubah logic Firebase AI.
+   Modal dibuat sebagai overlay yang bisa discroll; kartu AI tidak memotong konten. */
+(function () {
+  var STYLE_ID = 'tvAiScrollSafeFixStyle';
+  function injectAiScrollFix() {
+    var css = `
+      html body #tvAiPanel.tv-ai-panel,
+      html body #tvAiPanel.tv-ai-panel.tampil {
+        position: fixed !important;
+        inset: 0 !important;
+        z-index: 8490 !important;
+        display: none;
+        align-items: flex-start !important;
+        justify-content: flex-end !important;
+        padding: 18px !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior: contain !important;
+      }
+      html body #tvAiPanel.tv-ai-panel.tampil {
+        display: flex !important;
+      }
+      html body #tvAiPanel .tv-ai-panel-card {
+        width: min(560px, calc(100vw - 36px)) !important;
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        overflow-y: visible !important;
+        overflow-x: hidden !important;
+        flex: 0 0 auto !important;
+        margin: 0 0 24px auto !important;
+        box-sizing: border-box !important;
+      }
+      html body #tvAiPanel .tv-ai-box,
+      html body #tvAiPanel .tv-ai-output {
+        overflow: visible !important;
+        max-height: none !important;
+      }
+      html body #tvAiPanel .tv-ai-output {
+        white-space: pre-wrap !important;
+        overflow-wrap: anywhere !important;
+        word-break: break-word !important;
+      }
+      @media (max-width: 640px) {
+        html body #tvAiPanel.tv-ai-panel,
+        html body #tvAiPanel.tv-ai-panel.tampil {
+          padding: 10px !important;
+          align-items: flex-start !important;
+          justify-content: center !important;
+        }
+        html body #tvAiPanel .tv-ai-panel-card {
+          width: 100% !important;
+          max-height: none !important;
+          margin: 0 0 24px 0 !important;
+        }
+      }
+    `;
+    var st = document.getElementById(STYLE_ID);
+    if (!st) {
+      st = document.createElement('style');
+      st.id = STYLE_ID;
+      document.head.appendChild(st);
+    }
+    st.textContent = css;
+  }
+  function ensurePanelScrolls() {
+    injectAiScrollFix();
+    var panel = document.getElementById('tvAiPanel');
+    if (!panel || panel.dataset.tvAiScrollSafeBound) return;
+    panel.dataset.tvAiScrollSafeBound = '1';
+    panel.addEventListener('wheel', function (e) {
+      // Pastikan scroll terjadi di overlay AI, bukan tertahan oleh body yang terkunci.
+      if (panel.classList.contains('tampil')) panel.scrollTop += e.deltaY;
+    }, { passive: true });
+  }
+  function boot() {
+    ensurePanelScrolls();
+    setTimeout(ensurePanelScrolls, 100);
+    setTimeout(ensurePanelScrolls, 500);
+    setTimeout(ensurePanelScrolls, 1200);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+  window.addEventListener('load', boot);
 })();
 </script>
 

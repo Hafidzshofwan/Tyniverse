@@ -6117,9 +6117,11 @@ html body .puyer-empty strong {
 </div>
 <div class="guideline-filter" id="guidelineKategoriFilter" aria-label="Filter kategori guideline">
 <button class="guideline-chip aktif" data-kategori="Semua" type="button">Semua</button>
+<button class="guideline-chip" data-kategori="Alergi" type="button">Alergi</button>
+<button class="guideline-chip" data-kategori="Endokrin" type="button">Endokrin</button>
 <button class="guideline-chip" data-kategori="Gastroenterologi" type="button">Gastroenterologi</button>
-<button class="guideline-chip" data-kategori="Gawat Darurat" type="button">Gawat Darurat</button>
 <button class="guideline-chip" data-kategori="Infeksi" type="button">Infeksi</button>
+<button class="guideline-chip" data-kategori="Nefrologi" type="button">Nefrologi</button>
 <button class="guideline-chip" data-kategori="Neonatus" type="button">Neonatus</button>
 <button class="guideline-chip" data-kategori="Neurologi" type="button">Neurologi</button>
 <button class="guideline-chip" data-kategori="Nutrisi" type="button">Nutrisi</button>
@@ -11066,6 +11068,83 @@ document.addEventListener("DOMContentLoaded", function () {
       pdfUrl: 'assets/guidelines/introp-anak-idai-2008.pdf',
       icon: '🦟',
       tags: ['infeksi tropis', 'pediatri tropis', 'infeksi', 'tropis', 'anak', 'idai', 'demam', 'dengue', 'malaria']
+    },
+    {
+      id: 'hipotiroid-kongenital-anak-2017',
+      title: 'Hipotiroid Kongenital',
+      category: 'Endokrin',
+      year: '2017',
+      source: 'IDAI',
+      description: 'Diagnosis dan Tata Laksana Hipotiroid Kongenital',
+      pdfUrl: 'assets/guidelines/HK-2017.pdf',
+      icon: '🦋',
+      tags: ['hipotiroid kongenital', 'hipotiroid', 'tiroid', 'endokrin', 'skrining bayi baru lahir', 'anak', 'idai']
+    },
+    {
+      id: 'short-stature-anak-2017',
+      title: 'Short Stature',
+      category: 'Endokrin',
+      year: '2017',
+      source: 'IDAI',
+      description: 'Perawakan Pendek pada Anak dan Remaja di Indonesia',
+      pdfUrl: 'assets/guidelines/shortstature-2017.pdf',
+      icon: '📏',
+      tags: ['short stature', 'perawakan pendek', 'tinggi badan', 'pertumbuhan', 'endokrin', 'anak', 'remaja', 'idai']
+    },
+    {
+      id: 'dbd-anak-remaja-2021',
+      title: 'Demam Berdarah Dengue (DBD)',
+      category: 'Infeksi',
+      year: '2021',
+      source: 'Kemenkes',
+      description: 'PNPK Infeksi Dengue Anak dan Remaja',
+      pdfUrl: 'assets/guidelines/dbd-2021.pdf',
+      icon: '🦟',
+      tags: ['demam berdarah dengue', 'dbd', 'dengue', 'infeksi dengue', 'infeksi', 'anak', 'remaja', 'kemenkes', 'pnpk']
+    },
+    {
+      id: 'dm-tipe-1-anak-remaja-2017',
+      title: 'DM Tipe 1',
+      category: 'Endokrin',
+      year: '2017',
+      source: 'IDAI',
+      description: 'Diagnosis dan Tata Laksana Diabetes Melitus Tipe-1 pada Anak dan Remaja',
+      pdfUrl: 'assets/guidelines/dm-tipe-1-2017.pdf',
+      icon: '🩸',
+      tags: ['dm tipe 1', 'diabetes melitus tipe 1', 'diabetes mellitus tipe 1', 'diabetes', 'endokrin', 'anak', 'remaja', 'idai']
+    },
+    {
+      id: 'alergi-susu-sapi-anak-2014',
+      title: 'Alergi Susu Sapi',
+      category: 'Alergi',
+      year: '2014',
+      source: 'IDAI',
+      description: 'Diagnosis dan Tatalaksana Alergi Susu Sapi',
+      pdfUrl: 'assets/guidelines/alergi-sapi-2014.pdf',
+      icon: '🥛',
+      tags: ['alergi susu sapi', 'alergi', 'susu sapi', 'cow milk allergy', 'cma', 'anak', 'idai']
+    },
+    {
+      id: 'sindrom-nefrotik-anak-2012',
+      title: 'Sindrom Nefrotik',
+      category: 'Nefrologi',
+      year: '2012',
+      source: 'IDAI',
+      description: 'Tatalaksana Sindrom Nefrotik Idiopatik pada Anak',
+      pdfUrl: 'assets/guidelines/sindrom-nefrotik-2012.pdf',
+      icon: '🫘',
+      tags: ['sindrom nefrotik', 'nefrotik', 'nefrologi', 'ginjal', 'proteinuria', 'edema', 'idiopatik', 'anak', 'idai']
+    },
+    {
+      id: 'epilepsi-anak-2025',
+      title: 'Epilepsi',
+      category: 'Neurologi',
+      year: '2025',
+      source: 'IDAI',
+      description: 'Epilepsi pada Anak: Petunjuk Praktis Sehari-hari',
+      pdfUrl: 'assets/guidelines/epilepsi-2025.pdf',
+      icon: '🧠',
+      tags: ['epilepsi', 'seizure', 'kejang', 'neurologi', 'otak', 'anak', 'petunjuk praktis', 'idai']
     }
   ];
   let tvGuidelineKategori = 'Semua';
@@ -11219,7 +11298,7 @@ document.addEventListener("DOMContentLoaded", function () {
   'use strict';
 
   /* MODE TINJAU: true = login dinonaktifkan sementara untuk review cepat. Ubah ke false untuk mengaktifkan login Firebase lagi. */
-  var MODE_TINJAU = false;
+  var MODE_TINJAU = true;
 
   /* ---------- 1. KONFIGURASI FIREBASE ----------
      Isi objek FIREBASE_CONFIG di bawah dengan konfigurasi proyek Firebase Anda

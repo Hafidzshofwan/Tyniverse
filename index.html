@@ -5746,6 +5746,296 @@ html body .puyer-empty strong {
   font-family: 'Fredoka', 'Quicksand', system-ui, sans-serif !important;
 }
 
+
+
+/* ===== INTERACTIVE LUND-BROWDER BODY MAP ===== */
+.burn-svg-map-wrap {
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+.burn-svg-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255,255,255,0.95), transparent 30%),
+    linear-gradient(145deg, #FFF9FC 0%, #F4F8FF 54%, #FFF4EA 100%) !important;
+  border: 1px solid rgba(99, 102, 241, 0.14) !important;
+  isolation: isolate;
+}
+.burn-svg-card::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: conic-gradient(from 120deg, transparent, rgba(255,73,128,.18), transparent, rgba(78,205,196,.18), transparent);
+  animation: burnAurora 8s linear infinite;
+  z-index: -2;
+}
+.burn-svg-card::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border-radius: 28px;
+  border: 1px solid rgba(255,255,255,.75);
+  pointer-events: none;
+  z-index: -1;
+}
+.burn-chart-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 430px;
+  padding: 8px 4px 2px;
+}
+.burn-chart-hint {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.82);
+  color: var(--etail-navy, #25245C);
+  font-size: .72rem;
+  font-weight: 800;
+  box-shadow: 0 8px 18px rgba(20,24,80,.08);
+  backdrop-filter: blur(10px);
+}
+.burn-body-svg {
+  width: min(100%, 310px);
+  height: auto;
+  filter: drop-shadow(0 22px 30px rgba(31, 41, 95, 0.16));
+  animation: burnFloat 4.8s ease-in-out infinite;
+  overflow: visible;
+}
+.burn-body-back { animation-delay: -.9s; }
+.burn-silhouette {
+  fill: rgba(255,255,255,.48);
+  stroke: rgba(89,68,160,.18);
+  stroke-width: 5;
+}
+.burn-body-svg .burn-area {
+  cursor: pointer;
+  outline: none;
+  background: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+.burn-body-svg .burn-area > path,
+.burn-body-svg .burn-area > ellipse,
+.burn-body-svg .burn-area > circle {
+  fill: url(#burnBodyFillFront);
+  stroke: #6D4CBB;
+  stroke-width: 4;
+  transition: transform .22s ease, fill .22s ease, stroke .22s ease, filter .22s ease, opacity .22s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.burn-body-svg .burn-area text {
+  pointer-events: none;
+  user-select: none;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  fill: #5E35B1;
+  font-family: 'Fredoka','Quicksand',sans-serif;
+  font-weight: 800;
+  font-size: 24px;
+  transition: fill .22s ease, transform .22s ease;
+}
+.burn-body-svg .burn-area:hover > path,
+.burn-body-svg .burn-area:hover > ellipse,
+.burn-body-svg .burn-area:hover > circle,
+.burn-body-svg .burn-area:focus-visible > path,
+.burn-body-svg .burn-area:focus-visible > ellipse,
+.burn-body-svg .burn-area:focus-visible > circle {
+  fill: #FFE2EC;
+  stroke: #FF4F8B;
+  filter: drop-shadow(0 0 12px rgba(255,79,139,.38));
+  transform: scale(1.025);
+}
+.burn-body-svg .burn-area.aktif > path,
+.burn-body-svg .burn-area.aktif > ellipse,
+.burn-body-svg .burn-area.aktif > circle {
+  fill: #FF4F8B;
+  stroke: #B91C5C;
+  filter: drop-shadow(0 0 15px rgba(255,79,139,.62));
+  animation: burnSelectedPulse 1.35s ease-in-out infinite;
+}
+.burn-body-svg .burn-area.aktif text,
+.burn-body-svg .burn-area:hover text,
+.burn-body-svg .burn-area:focus-visible text { fill: #FFFFFF; }
+.burn-quick-grid {
+  position: relative;
+  padding: 10px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(255,255,255,.88), rgba(245,248,255,.78));
+  border: 1px solid rgba(10,11,95,.08);
+}
+.burn-quick-chip {
+  border-radius: 999px !important;
+  min-height: 42px !important;
+  background: #FFFFFF !important;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease !important;
+}
+.burn-quick-chip:hover { transform: translateY(-2px) scale(1.01); }
+.burn-quick-chip.aktif {
+  background: linear-gradient(135deg, #FF4F8B, #FF7A45) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 12px 24px rgba(255,79,139,.22) !important;
+}
+@keyframes burnFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+@keyframes burnSelectedPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .82; }
+}
+@keyframes burnAurora {
+  to { transform: rotate(360deg); }
+}
+@media (max-width: 760px) {
+  .burn-svg-map-wrap { grid-template-columns: 1fr; }
+  .burn-chart-stage { min-height: 390px; }
+  .burn-body-svg { width: min(100%, 285px); }
+}
+
+
+/* ===== DETAILED BODY MAP REFINEMENT ===== */
+.burn-detailed-stage { min-height: 375px; }
+.burn-body-detailed { width: min(100%, 245px); max-height: 455px; }
+.burn-body-svg .burn-area > polygon,
+.burn-body-svg .burn-area > rect,
+.burn-body-svg .burn-area > path:not(.burn-digit),
+.burn-body-svg .burn-area > ellipse,
+.burn-body-svg .burn-area > circle {
+  fill: url(#burnBodyFillFront);
+  stroke: #6D4CBB;
+  stroke-width: 3.2;
+  vector-effect: non-scaling-stroke;
+}
+.burn-body-svg .burn-digit {
+  fill: none !important;
+  stroke: #6D4CBB;
+  stroke-width: 3;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.burn-body-svg .burn-area:hover > polygon,
+.burn-body-svg .burn-area:hover > rect,
+.burn-body-svg .burn-area:hover > path:not(.burn-digit),
+.burn-body-svg .burn-area:hover > ellipse,
+.burn-body-svg .burn-area:hover > circle,
+.burn-body-svg .burn-area:focus-visible > polygon,
+.burn-body-svg .burn-area:focus-visible > rect,
+.burn-body-svg .burn-area:focus-visible > path:not(.burn-digit),
+.burn-body-svg .burn-area:focus-visible > ellipse,
+.burn-body-svg .burn-area:focus-visible > circle {
+  fill: #FFE2EC;
+  stroke: #FF4F8B;
+  filter: drop-shadow(0 0 10px rgba(255,79,139,.34));
+  transform: scale(1.018);
+}
+.burn-body-svg .burn-area:hover .burn-digit,
+.burn-body-svg .burn-area:focus-visible .burn-digit {
+  stroke: #FF4F8B;
+}
+.burn-body-svg .burn-area.aktif > polygon,
+.burn-body-svg .burn-area.aktif > rect,
+.burn-body-svg .burn-area.aktif > path:not(.burn-digit),
+.burn-body-svg .burn-area.aktif > ellipse,
+.burn-body-svg .burn-area.aktif > circle {
+  fill: url(#burnSelectedFill);
+  stroke: #B91C5C;
+  filter: drop-shadow(0 0 14px rgba(255,79,139,.58));
+  animation: burnSelectedPulse 1.35s ease-in-out infinite;
+}
+.burn-body-svg .burn-area.aktif .burn-digit {
+  stroke: #FFFFFF;
+}
+.burn-body-svg .burn-area text {
+  font-size: 20px;
+  paint-order: stroke;
+  stroke: rgba(255,255,255,.86);
+  stroke-width: 3px;
+}
+.burn-body-svg .burn-area.aktif text,
+.burn-body-svg .burn-area:hover text,
+.burn-body-svg .burn-area:focus-visible text {
+  fill: #FFFFFF;
+  stroke: rgba(185,28,92,.28);
+}
+@media (max-width: 760px) {
+  .burn-detailed-stage { min-height: 345px; }
+  .burn-body-detailed { width: min(100%, 230px); }
+}
+
+
+/* ===== BODY MAP REVISION: split head/neck, smaller map, visible genital area ===== */
+.burn-neck path { filter: drop-shadow(0 3px 6px rgba(109,76,187,.12)); }
+.burn-perineum { position: relative; z-index: 5; }
+.burn-body-svg .burn-perineum > circle {
+  stroke-width: 3.6;
+  filter: drop-shadow(0 0 8px rgba(255,122,69,.22));
+}
+.burn-body-svg .burn-perineum.aktif > circle,
+.burn-body-svg .burn-perineum:hover > circle,
+.burn-body-svg .burn-perineum:focus-visible > circle {
+  filter: drop-shadow(0 0 16px rgba(255,79,139,.72));
+}
+.burn-chart-stage { padding-top: 2px; }
+.burn-chart-hint { top: 2px; transform: translate(-50%, -2px) scale(.86); }
+
+
+/* ===== BODY MAP SIZE REVISION: compact body map ===== */
+.burn-detailed-card { padding: 10px 12px !important; }
+.burn-svg-map-wrap { gap: 12px; }
+.burn-chart-stage { padding: 0 2px 0; }
+.burn-body-svg { filter: drop-shadow(0 14px 22px rgba(31, 41, 95, 0.13)); }
+@media (max-width: 760px) {
+  .burn-detailed-card { padding: 10px !important; }
+  .burn-svg-map-wrap { gap: 10px; }
+}
+
+
+/* ===== HEAD/NECK FRONT-BACK SPLIT ===== */
+.burn-body-front [data-burn-area="headFront"] text,
+.burn-body-front [data-burn-area="neckFront"] text,
+.burn-body-back [data-burn-area="headBack"] text,
+.burn-body-back [data-burn-area="neckBack"] text {
+  letter-spacing: .02em;
+}
+
+
+/* ===== HD Lund-Browder TBSA table in formula notes ===== */
+.burn-tbsa-chart-block {
+  margin: 10px 0 14px;
+  padding: 14px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255,255,255,.96), rgba(246,240,255,.88));
+  border: 1px solid rgba(130,92,230,.18);
+  box-shadow: 0 12px 28px rgba(65,45,120,.10);
+}
+.burn-tbsa-chart-block h4 {
+  margin: 0 0 10px;
+  font-family: 'Fredoka','Quicksand',sans-serif;
+  font-size: .98rem;
+  font-weight: 800;
+  color: var(--etail-navy, #25245C);
+}
+.burn-tbsa-chart-img {
+  display: block;
+  width: 100%;
+  max-width: 980px;
+  height: auto;
+  border-radius: 18px;
+  image-rendering: auto;
+  box-shadow: 0 10px 22px rgba(31, 41, 95, 0.10);
+}
 </style>
 </head>
 <body>
@@ -6200,64 +6490,230 @@ html body .puyer-empty strong {
 <input id="burnBerat" inputmode="decimal" min="0" placeholder="cth: 20" step="0.1" type="number"/>
 </div>
 </div>
-<p class="catatan-metode" style="margin-top:2px;">Pilih area luka bakar pada body map. Dada, perut, punggung, dan bokong dapat dipilih terpisah. Lengan dan tungkai bisa dipilih per sisi pada bagian depan/belakang atau seluruh kanan/kiri. Kepala dan tungkai otomatis menyesuaikan usia berdasarkan Lund-Browder.</p>
-<div class="burn-map-wrap" id="burnMapWrap">
-<div class="burn-map-card">
+<p class="catatan-metode" style="margin-top:2px;">Pilih area luka bakar derajat 2/3 langsung pada body map. Kepala depan, kepala belakang, leher depan, dan leher belakang kini bisa dipilih masing-masing; area lengan, tangan, tungkai, dan kaki juga bisa dipilih detail sesuai chart Lund &amp; Browder: A = ½ kepala, B = ½ paha, C = ½ tungkai bawah. Luka bakar superfisial/derajat 1 tidak dimasukkan.</p>
+<div class="burn-map-wrap burn-svg-map-wrap burn-detailed-map-wrap" id="burnMapWrap">
+<div class="burn-map-card burn-svg-card burn-detailed-card">
 <div class="burn-map-title">Bagian Depan (Anterior)</div>
-<div class="burn-body">
-<div class="col">
-<button class="burn-area" data-burn-area="armRightFront" type="button">Lengan kanan</button>
-<button class="burn-area" data-burn-area="legRightFront" type="button">Tungkai kanan</button>
+<div class="burn-chart-stage burn-detailed-stage">
+<div class="burn-chart-hint">Klik area tubuh secara detail</div>
+<svg class="burn-body-svg burn-body-front burn-body-detailed" viewBox="0 0 390 680" role="img" aria-label="Lund Browder body map anterior detail">
+<defs>
+<linearGradient id="burnBodyFillFront" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0%" stop-color="#FFFFFF"/>
+<stop offset="100%" stop-color="#FFF2F7"/>
+</linearGradient>
+<linearGradient id="burnSelectedFill" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0%" stop-color="#FF7A45"/>
+<stop offset="100%" stop-color="#FF4F8B"/>
+</linearGradient>
+<filter id="burnSoftShadow" x="-35%" y="-35%" width="170%" height="170%">
+<feDropShadow dx="0" dy="11" stdDeviation="10" flood-color="#24265E" flood-opacity=".16"/>
+</filter>
+</defs>
+<g class="burn-anatomy" filter="url(#burnSoftShadow)">
+<g class="burn-area burn-area-svg" data-burn-area="headFront" tabindex="0" role="button" aria-label="Kepala depan anterior">
+<ellipse cx="195" cy="64" rx="42" ry="46"/>
+<text x="195" y="65">A</text>
+</g>
+<g class="burn-area burn-area-svg burn-neck" data-burn-area="neckFront" tabindex="0" role="button" aria-label="Leher depan anterior">
+<path d="M164 112 L226 112 L219 150 L171 150 Z"/>
+<text x="195" y="134">1</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="chest" tabindex="0" role="button" aria-label="Dada anterior">
+<path d="M136 151 C154 137 236 137 254 151 L268 255 C235 269 155 269 122 255 Z"/>
+<text x="195" y="209">6½</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="abdomen" tabindex="0" role="button" aria-label="Abdomen anterior">
+<path d="M122 259 C155 273 235 273 268 259 L252 350 C225 368 165 368 138 350 Z"/>
+<text x="195" y="314">6½</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="armRightUpperFront" tabindex="0" role="button" aria-label="Lengan kanan atas anterior">
+<path d="M133 164 C103 175 88 207 82 248 L119 255 C124 222 133 196 148 177 Z"/>
+<text x="108" y="213">2</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="armRightLowerFront" tabindex="0" role="button" aria-label="Lengan kanan bawah anterior">
+<path d="M81 253 L118 260 L103 343 C100 361 88 371 75 368 C62 365 56 351 60 333 Z"/>
+<text x="88" y="310">1½</text>
+</g>
+<g class="burn-area burn-area-svg burn-hand" data-burn-area="handRightFront" tabindex="0" role="button" aria-label="Telapak tangan kanan anterior">
+<path d="M72 371 C61 378 58 392 64 405 C70 418 85 420 96 411 C104 404 107 390 101 379 C96 369 83 365 72 371 Z"/>
+<path class="burn-digit" d="M64 393 C52 388 48 397 57 404"/>
+<path class="burn-digit" d="M72 374 C68 360 78 357 82 371"/>
+<path class="burn-digit" d="M82 371 C82 356 94 356 94 373"/>
+<path class="burn-digit" d="M91 376 C101 364 111 371 101 383"/>
+<text x="82" y="397">1¼</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="armLeftUpperFront" tabindex="0" role="button" aria-label="Lengan kiri atas anterior">
+<path d="M257 164 C287 175 302 207 308 248 L271 255 C266 222 257 196 242 177 Z"/>
+<text x="282" y="213">2</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="armLeftLowerFront" tabindex="0" role="button" aria-label="Lengan kiri bawah anterior">
+<path d="M309 253 L272 260 L287 343 C290 361 302 371 315 368 C328 365 334 351 330 333 Z"/>
+<text x="302" y="310">1½</text>
+</g>
+<g class="burn-area burn-area-svg burn-hand" data-burn-area="handLeftFront" tabindex="0" role="button" aria-label="Telapak tangan kiri anterior">
+<path d="M318 371 C329 378 332 392 326 405 C320 418 305 420 294 411 C286 404 283 390 289 379 C294 369 307 365 318 371 Z"/>
+<path class="burn-digit" d="M326 393 C338 388 342 397 333 404"/>
+<path class="burn-digit" d="M318 374 C322 360 312 357 308 371"/>
+<path class="burn-digit" d="M308 371 C308 356 296 356 296 373"/>
+<path class="burn-digit" d="M299 376 C289 364 279 371 289 383"/>
+<text x="308" y="397">1¼</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="legRightThighFront" tabindex="0" role="button" aria-label="Paha kanan anterior">
+<path d="M140 363 C158 375 178 377 193 366 L187 485 L141 485 C132 434 130 394 140 363 Z"/>
+<text x="164" y="428">B</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="legRightLowerFront" tabindex="0" role="button" aria-label="Tungkai bawah kanan anterior">
+<path d="M141 490 L187 490 L179 593 L131 593 Z"/>
+<text x="159" y="544">C</text>
+</g>
+<g class="burn-area burn-area-svg burn-foot" data-burn-area="footRightFront" tabindex="0" role="button" aria-label="Kaki kanan anterior">
+<path d="M130 598 L180 598 C184 617 173 632 151 632 C132 632 121 621 130 598 Z"/>
+<path class="burn-digit" d="M134 624 C129 635 141 638 145 628"/>
+<path class="burn-digit" d="M147 628 C146 641 160 641 159 628"/>
+<path class="burn-digit" d="M160 627 C164 638 176 634 171 624"/>
+<text x="155" y="617">1¾</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="legLeftThighFront" tabindex="0" role="button" aria-label="Paha kiri anterior">
+<path d="M250 363 C232 375 212 377 197 366 L203 485 L249 485 C258 434 260 394 250 363 Z"/>
+<text x="226" y="428">B</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="legLeftLowerFront" tabindex="0" role="button" aria-label="Tungkai bawah kiri anterior">
+<path d="M249 490 L203 490 L211 593 L259 593 Z"/>
+<text x="231" y="544">C</text>
+</g>
+<g class="burn-area burn-area-svg burn-foot" data-burn-area="footLeftFront" tabindex="0" role="button" aria-label="Kaki kiri anterior">
+<path d="M260 598 L210 598 C206 617 217 632 239 632 C258 632 269 621 260 598 Z"/>
+<path class="burn-digit" d="M256 624 C261 635 249 638 245 628"/>
+<path class="burn-digit" d="M243 628 C244 641 230 641 231 628"/>
+<path class="burn-digit" d="M230 627 C226 638 214 634 219 624"/>
+<text x="235" y="617">1¾</text>
+</g>
+<g class="burn-area burn-area-svg burn-perineum" data-burn-area="perineum" tabindex="0" role="button" aria-label="Perineum genital">
+<circle cx="195" cy="357" r="17"/>
+<text x="195" y="362">1</text>
+</g>
+</g>
+</svg>
 </div>
-<div class="col">
-<button class="burn-area head" data-burn-area="head" type="button">Kepala & Leher</button>
-<button class="burn-area" data-burn-area="chest" type="button">Dada / Chest</button>
-<button class="burn-area" data-burn-area="abdomen" type="button">Perut / Abdomen</button>
-<button class="burn-area perineum" data-burn-area="perineum" type="button">Perineum / Genital</button>
 </div>
-<div class="col">
-<button class="burn-area" data-burn-area="armLeftFront" type="button">Lengan kiri</button>
-<button class="burn-area" data-burn-area="legLeftFront" type="button">Tungkai kiri</button>
-</div>
-</div>
-</div>
-<div class="burn-map-card">
+<div class="burn-map-card burn-svg-card burn-detailed-card">
 <div class="burn-map-title">Bagian Belakang (Posterior)</div>
-<div class="burn-body">
-<div class="col">
-<button class="burn-area" data-burn-area="armRightBack" type="button">Lengan kanan</button>
-<button class="burn-area" data-burn-area="legRightBack" type="button">Tungkai kanan</button>
-<button class="burn-area small" data-burn-area="buttockRight" type="button">Bokong kanan</button>
+<div class="burn-chart-stage burn-detailed-stage">
+<div class="burn-chart-hint">Detail sampai tangan &amp; kaki</div>
+<svg class="burn-body-svg burn-body-back burn-body-detailed" viewBox="0 0 390 680" role="img" aria-label="Lund Browder body map posterior detail">
+<g class="burn-anatomy" filter="url(#burnSoftShadow)">
+<g class="burn-area burn-area-svg" data-burn-area="headBack" tabindex="0" role="button" aria-label="Kepala belakang posterior">
+<ellipse cx="195" cy="64" rx="42" ry="46"/>
+<text x="195" y="65">A</text>
+</g>
+<g class="burn-area burn-area-svg burn-neck" data-burn-area="neckBack" tabindex="0" role="button" aria-label="Leher belakang posterior">
+<path d="M164 112 L226 112 L219 150 L171 150 Z"/>
+<text x="195" y="134">1</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="upperBack" tabindex="0" role="button" aria-label="Punggung atas posterior">
+<path d="M136 151 C154 137 236 137 254 151 L268 255 C235 269 155 269 122 255 Z"/>
+<text x="195" y="209">6½</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="lowerBack" tabindex="0" role="button" aria-label="Punggung bawah posterior">
+<path d="M122 259 C155 273 235 273 268 259 L252 348 C225 360 165 360 138 348 Z"/>
+<text x="195" y="312">6½</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="buttockRight" tabindex="0" role="button" aria-label="Bokong kanan">
+<path d="M138 350 C165 363 184 361 196 350 L190 411 C161 416 140 400 128 374 Z"/>
+<text x="162" y="386">2½</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="buttockLeft" tabindex="0" role="button" aria-label="Bokong kiri">
+<path d="M252 350 C225 363 206 361 194 350 L200 411 C229 416 250 400 262 374 Z"/>
+<text x="228" y="386">2½</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="armRightUpperBack" tabindex="0" role="button" aria-label="Lengan kanan atas posterior">
+<path d="M133 164 C103 175 88 207 82 248 L119 255 C124 222 133 196 148 177 Z"/>
+<text x="108" y="213">2</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="armRightLowerBack" tabindex="0" role="button" aria-label="Lengan kanan bawah posterior">
+<path d="M81 253 L118 260 L103 343 C100 361 88 371 75 368 C62 365 56 351 60 333 Z"/>
+<text x="88" y="310">1½</text>
+</g>
+<g class="burn-area burn-area-svg burn-hand" data-burn-area="handRightBack" tabindex="0" role="button" aria-label="Punggung tangan kanan posterior">
+<path d="M72 371 C61 378 58 392 64 405 C70 418 85 420 96 411 C104 404 107 390 101 379 C96 369 83 365 72 371 Z"/>
+<path class="burn-digit" d="M64 393 C52 388 48 397 57 404"/>
+<path class="burn-digit" d="M72 374 C68 360 78 357 82 371"/>
+<path class="burn-digit" d="M82 371 C82 356 94 356 94 373"/>
+<path class="burn-digit" d="M91 376 C101 364 111 371 101 383"/>
+<text x="82" y="397">1¼</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="armLeftUpperBack" tabindex="0" role="button" aria-label="Lengan kiri atas posterior">
+<path d="M257 164 C287 175 302 207 308 248 L271 255 C266 222 257 196 242 177 Z"/>
+<text x="282" y="213">2</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="armLeftLowerBack" tabindex="0" role="button" aria-label="Lengan kiri bawah posterior">
+<path d="M309 253 L272 260 L287 343 C290 361 302 371 315 368 C328 365 334 351 330 333 Z"/>
+<text x="302" y="310">1½</text>
+</g>
+<g class="burn-area burn-area-svg burn-hand" data-burn-area="handLeftBack" tabindex="0" role="button" aria-label="Punggung tangan kiri posterior">
+<path d="M318 371 C329 378 332 392 326 405 C320 418 305 420 294 411 C286 404 283 390 289 379 C294 369 307 365 318 371 Z"/>
+<path class="burn-digit" d="M326 393 C338 388 342 397 333 404"/>
+<path class="burn-digit" d="M318 374 C322 360 312 357 308 371"/>
+<path class="burn-digit" d="M308 371 C308 356 296 356 296 373"/>
+<path class="burn-digit" d="M299 376 C289 364 279 371 289 383"/>
+<text x="308" y="397">1¼</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="legRightThighBack" tabindex="0" role="button" aria-label="Paha kanan posterior">
+<path d="M140 414 C158 424 178 424 190 412 L187 485 L141 485 C134 456 133 432 140 414 Z"/>
+<text x="164" y="456">B</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="legRightLowerBack" tabindex="0" role="button" aria-label="Tungkai bawah kanan posterior">
+<path d="M141 490 L187 490 L179 593 L131 593 Z"/>
+<text x="159" y="544">C</text>
+</g>
+<g class="burn-area burn-area-svg burn-foot" data-burn-area="footRightBack" tabindex="0" role="button" aria-label="Kaki kanan posterior">
+<path d="M130 598 L180 598 C184 617 173 632 151 632 C132 632 121 621 130 598 Z"/>
+<path class="burn-digit" d="M134 624 C129 635 141 638 145 628"/>
+<path class="burn-digit" d="M147 628 C146 641 160 641 159 628"/>
+<path class="burn-digit" d="M160 627 C164 638 176 634 171 624"/>
+<text x="155" y="617">1¾</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="legLeftThighBack" tabindex="0" role="button" aria-label="Paha kiri posterior">
+<path d="M250 414 C232 424 212 424 200 412 L203 485 L249 485 C256 456 257 432 250 414 Z"/>
+<text x="226" y="456">B</text>
+</g>
+<g class="burn-area burn-area-svg" data-burn-area="legLeftLowerBack" tabindex="0" role="button" aria-label="Tungkai bawah kiri posterior">
+<path d="M249 490 L203 490 L211 593 L259 593 Z"/>
+<text x="231" y="544">C</text>
+</g>
+<g class="burn-area burn-area-svg burn-foot" data-burn-area="footLeftBack" tabindex="0" role="button" aria-label="Kaki kiri posterior">
+<path d="M260 598 L210 598 C206 617 217 632 239 632 C258 632 269 621 260 598 Z"/>
+<path class="burn-digit" d="M256 624 C261 635 249 638 245 628"/>
+<path class="burn-digit" d="M243 628 C244 641 230 641 231 628"/>
+<path class="burn-digit" d="M230 627 C226 638 214 634 219 624"/>
+<text x="235" y="617">1¾</text>
+</g>
+</g>
+</svg>
 </div>
-<div class="col">
-<button class="burn-area" data-burn-area="upperBack" type="button">Punggung atas</button>
-<button class="burn-area" data-burn-area="lowerBack" type="button">Punggung bawah</button>
-</div>
-<div class="col">
-<button class="burn-area" data-burn-area="armLeftBack" type="button">Lengan kiri</button>
-<button class="burn-area" data-burn-area="legLeftBack" type="button">Tungkai kiri</button>
-<button class="burn-area small" data-burn-area="buttockLeft" type="button">Bokong kiri</button>
 </div>
 </div>
-</div>
-</div>
-<div class="burn-parts-grid">
-<button class="burn-area" data-burn-area="armRightFull" type="button">Seluruh lengan kanan</button>
-<button class="burn-area" data-burn-area="armLeftFull" type="button">Seluruh lengan kiri</button>
-<button class="burn-area" data-burn-area="legRightFull" type="button">Seluruh tungkai kanan</button>
-<button class="burn-area" data-burn-area="legLeftFull" type="button">Seluruh tungkai kiri</button>
+<div class="burn-parts-grid burn-quick-grid">
+<button class="burn-area burn-quick-chip" data-burn-area="armRightFull" type="button">Seluruh lengan kanan</button>
+<button class="burn-area burn-quick-chip" data-burn-area="armLeftFull" type="button">Seluruh lengan kiri</button>
+<button class="burn-area burn-quick-chip" data-burn-area="legRightFull" type="button">Seluruh tungkai kanan</button>
+<button class="burn-area burn-quick-chip" data-burn-area="legLeftFull" type="button">Seluruh tungkai kiri</button>
 </div>
 <div class="hasil-box-cairan tampil" id="hasilLukaBakar"></div>
 </div>
 <div class="kartu info-metode">
 <h3>📐 Rumus yang digunakan</h3>
+<div class="burn-tbsa-chart-block">
+<h4>TBSA: Lund-Browder sesuai chart</h4>
+<img class="burn-tbsa-chart-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjUyMCIgdmlld0JveD0iMCAwIDE2MDAgNTIwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlRCU0EgTHVuZCBCcm93ZGVyIHNlc3VhaSBjaGFydCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImhlYWRlciIgeDE9IjAiIHgyPSIxIiB5MT0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjQTk4M0Y1Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0I5OTJGRiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iY2VsbCIgeDE9IjAiIHgyPSIxIiB5MT0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjRjRFQ0ZGIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0U5REZGRiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxmaWx0ZXIgaWQ9InNvZnRTaGFkb3ciIHg9Ii01JSIgeT0iLTEwJSIgd2lkdGg9IjExMCUiIGhlaWdodD0iMTI1JSI+CiAgICAgIDxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSIxMCIgc3RkRGV2aWF0aW9uPSIxMiIgZmxvb2QtY29sb3I9IiMzQjI1NkYiIGZsb29kLW9wYWNpdHk9IjAuMTYiLz4KICAgIDwvZmlsdGVyPgogICAgPHN0eWxlPgogICAgICAudGl0bGUgeyBmb250OiA4MDAgNDZweCBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmaWxsOiAjMkExNTRBOyB9CiAgICAgIC5oZWFkIHsgZm9udDogODAwIDQwcHggQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZmlsbDogIzFGMTIzODsgfQogICAgICAubGFiZWwgeyBmb250OiA4MDAgMzhweCBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmaWxsOiAjMkExNTRBOyB9CiAgICAgIC52YWwgeyBmb250OiA3MDAgMzhweCBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmaWxsOiAjNUI0QjcyOyB9CiAgICAgIC5ub3RlIHsgZm9udDogNjAwIDI0cHggQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZmlsbDogIzcyNUQ5MjsgfQogICAgPC9zdHlsZT4KICA8L2RlZnM+CiAgPHJlY3QgeD0iMjQiIHk9IjIyIiB3aWR0aD0iMTU1MiIgaGVpZ2h0PSI0NzYiIHJ4PSIzOCIgZmlsbD0iI0ZGRkZGRiIgZmlsdGVyPSJ1cmwoI3NvZnRTaGFkb3cpIi8+CiAgPHRleHQgeD0iODAwIiB5PSI3NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InRpdGxlIj5UQlNBOiBMdW5kLUJyb3dkZXIgc2VzdWFpIGNoYXJ0PC90ZXh0PgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUyLDExMikiPgogICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjE0OTYiIGhlaWdodD0iMzYwIiByeD0iMjQiIGZpbGw9IiNGRkZGRkYiLz4KICAgIDwhLS0gcm93IGJhY2tncm91bmRzIC0tPgogICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjE0OTYiIGhlaWdodD0iODIiIHJ4PSIxOCIgZmlsbD0idXJsKCNoZWFkZXIpIi8+CiAgICA8cmVjdCB4PSIwIiB5PSI5MiIgd2lkdGg9IjE0OTYiIGhlaWdodD0iODIiIHJ4PSIxOCIgZmlsbD0idXJsKCNjZWxsKSIvPgogICAgPHJlY3QgeD0iMCIgeT0iMTg0IiB3aWR0aD0iMTQ5NiIgaGVpZ2h0PSI4MiIgcng9IjE4IiBmaWxsPSJ1cmwoI2NlbGwpIi8+CiAgICA8cmVjdCB4PSIwIiB5PSIyNzYiIHdpZHRoPSIxNDk2IiBoZWlnaHQ9IjgyIiByeD0iMTgiIGZpbGw9InVybCgjY2VsbCkiLz4KICAgIDwhLS0gZ3JpZCB2ZXJ0aWNhbCBzZXBhcmF0b3JzIC0tPgogICAgPGcgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utd2lkdGg9IjEyIj4KICAgICAgPGxpbmUgeDE9IjI1MCIgeTE9IjAiIHgyPSIyNTAiIHkyPSIzNTgiLz4KICAgICAgPGxpbmUgeDE9IjQ1OCIgeTE9IjAiIHgyPSI0NTgiIHkyPSIzNTgiLz4KICAgICAgPGxpbmUgeDE9IjY2NiIgeTE9IjAiIHgyPSI2NjYiIHkyPSIzNTgiLz4KICAgICAgPGxpbmUgeDE9Ijg3NCIgeTE9IjAiIHgyPSI4NzQiIHkyPSIzNTgiLz4KICAgICAgPGxpbmUgeDE9IjEwODIiIHkxPSIwIiB4Mj0iMTA4MiIgeTI9IjM1OCIvPgogICAgICA8bGluZSB4MT0iMTI5MCIgeTE9IjAiIHgyPSIxMjkwIiB5Mj0iMzU4Ii8+CiAgICA8L2c+CiAgICA8ZyBzdHJva2U9IiNGRkZGRkYiIHN0cm9rZS13aWR0aD0iMTIiPgogICAgICA8bGluZSB4MT0iMCIgeTE9Ijg3IiB4Mj0iMTQ5NiIgeTI9Ijg3Ii8+CiAgICAgIDxsaW5lIHgxPSIwIiB5MT0iMTc5IiB4Mj0iMTQ5NiIgeTI9IjE3OSIvPgogICAgICA8bGluZSB4MT0iMCIgeTE9IjI3MSIgeDI9IjE0OTYiIHkyPSIyNzEiLz4KICAgIDwvZz4KICAgIDwhLS0gaGVhZGVyIC0tPgogICAgPHRleHQgeD0iMzIiIHk9IjUzIiBjbGFzcz0iaGVhZCI+QWdlPC90ZXh0PgogICAgPHRleHQgeD0iMzU0IiB5PSI1MyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9ImhlYWQiPjA8L3RleHQ+CiAgICA8dGV4dCB4PSI1NjIiIHk9IjUzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0iaGVhZCI+MTwvdGV4dD4KICAgIDx0ZXh0IHg9Ijc3MCIgeT0iNTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJoZWFkIj41PC90ZXh0PgogICAgPHRleHQgeD0iOTc4IiB5PSI1MyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9ImhlYWQiPjEwPC90ZXh0PgogICAgPHRleHQgeD0iMTE4NiIgeT0iNTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJoZWFkIj4xNTwvdGV4dD4KICAgIDx0ZXh0IHg9IjEzOTQiIHk9IjUzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0iaGVhZCI+QWR1bHQ8L3RleHQ+CiAgICA8IS0tIGxhYmVscyAtLT4KICAgIDx0ZXh0IHg9IjMyIiB5PSIxNDQiIGNsYXNzPSJsYWJlbCI+QSAoSGVhZCk8L3RleHQ+CiAgICA8dGV4dCB4PSIzMiIgeT0iMjM2IiBjbGFzcz0ibGFiZWwiPkIgKFRoaWdoKTwvdGV4dD4KICAgIDx0ZXh0IHg9IjMyIiB5PSIzMjgiIGNsYXNzPSJsYWJlbCI+QyAoTGVnKTwvdGV4dD4KICAgIDwhLS0gdmFsdWVzIC0tPgogICAgPHRleHQgeD0iMzU0IiB5PSIxNDQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJ2YWwiPjnCvSU8L3RleHQ+CiAgICA8dGV4dCB4PSI1NjIiIHk9IjE0NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InZhbCI+OMK9JTwvdGV4dD4KICAgIDx0ZXh0IHg9Ijc3MCIgeT0iMTQ0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0idmFsIj42wr0lPC90ZXh0PgogICAgPHRleHQgeD0iOTc4IiB5PSIxNDQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJ2YWwiPjXCvSU8L3RleHQ+CiAgICA8dGV4dCB4PSIxMTg2IiB5PSIxNDQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJ2YWwiPjTCvSU8L3RleHQ+CiAgICA8dGV4dCB4PSIxMzk0IiB5PSIxNDQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJ2YWwiPjPCvSU8L3RleHQ+CiAgICA8dGV4dCB4PSIzNTQiIHk9IjIzNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InZhbCI+MsK+JTwvdGV4dD4KICAgIDx0ZXh0IHg9IjU2MiIgeT0iMjM2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0idmFsIj4zwrwlPC90ZXh0PgogICAgPHRleHQgeD0iNzcwIiB5PSIyMzYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJ2YWwiPjQlPC90ZXh0PgogICAgPHRleHQgeD0iOTc4IiB5PSIyMzYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJ2YWwiPjUlPC90ZXh0PgogICAgPHRleHQgeD0iMTE4NiIgeT0iMjM2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0idmFsIj42JTwvdGV4dD4KICAgIDx0ZXh0IHg9IjEzOTQiIHk9IjIzNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InZhbCI+NsK9JTwvdGV4dD4KICAgIDx0ZXh0IHg9IjM1NCIgeT0iMzI4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0idmFsIj4ywr0lPC90ZXh0PgogICAgPHRleHQgeD0iNTYyIiB5PSIzMjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJ2YWwiPjLCviU8L3RleHQ+CiAgICA8dGV4dCB4PSI3NzAiIHk9IjMyOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InZhbCI+MsK+JTwvdGV4dD4KICAgIDx0ZXh0IHg9Ijk3OCIgeT0iMzI4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0idmFsIj4zJTwvdGV4dD4KICAgIDx0ZXh0IHg9IjExODYiIHk9IjMyOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InZhbCI+M8K8JTwvdGV4dD4KICAgIDx0ZXh0IHg9IjEzOTQiIHk9IjMyOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InZhbCI+M8K9JTwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Tabel nilai A kepala, B paha, dan C tungkai pada chart Lund-Browder berdasarkan usia"/>
+</div>
 <ul>
-<li><strong>TBSA:</strong> Lund-Browder pediatrik; dada 9%, perut 9%, punggung atas 9%, punggung bawah 4%, bokong kanan/kiri 2,5%.</li>
 <li><strong>Parkland:</strong> 4 × BB × %TBSA = cairan resusitasi 24 jam pertama.</li>
 <li><strong>Pembagian:</strong> 50% dalam 8 jam pertama, 50% dalam 16 jam berikutnya.</li>
 <li><strong>Maintenance:</strong> Holliday–Segar ditambahkan ke kebutuhan resusitasi.</li>
 </ul>
-<p class="catatan-metode">Gunakan sebagai alat bantu hitung cepat. Waktu 8 jam pertama dihitung sejak kejadian luka bakar, bukan sejak pasien tiba di fasilitas kesehatan.</p>
+<p class="catatan-metode">Gunakan sebagai alat bantu hitung cepat. Pilih hanya area luka bakar derajat 2/3; jangan masukkan luka superfisial/eritema. Waktu 8 jam pertama dihitung sejak kejadian luka bakar, bukan sejak pasien tiba di fasilitas kesehatan.</p>
 </div>
 </div>
 <!-- ===== PANEL: FAKTOR TETES INFUS ===== -->
@@ -8553,83 +9009,155 @@ function pindahDripTetes(jenis) {
 const burnAreaState = new Set();
 
 function burnLundBrowderByAge(usiaTahun) {
-  if (!isFinite(usiaTahun)) return { head: 17, leg: 14, label: "1–4 tahun" };
-  if (usiaTahun < 1) return { head: 19, leg: 13, label: "0–1 tahun" };
-  if (usiaTahun < 5) return { head: 17, leg: 14, label: "1–4 tahun" };
-  if (usiaTahun < 10) return { head: 15, leg: 16, label: "5–9 tahun" };
-  if (usiaTahun < 15) return { head: 13, leg: 17, label: "10–14 tahun" };
-  return { head: 9, leg: 18, label: "≥15 tahun" };
+  // Mengikuti prinsip chart Lund & Browder:
+  // A = 1/2 kepala, B = 1/2 paha, C = 1/2 tungkai bawah.
+  // Nilai dipakai per kelompok usia terdekat pada chart dan dinormalisasi agar total body map = 100%.
+  if (!isFinite(usiaTahun)) return { A: 8.5, B: 3.25, C: 2.5, label: "1 tahun" };
+  if (usiaTahun < 1) return { A: 9.5, B: 2.75, C: 2.5, label: "0 tahun" };
+  if (usiaTahun < 5) return { A: 8.5, B: 3.25, C: 2.5, label: "1 tahun" };
+  if (usiaTahun < 10) return { A: 6.5, B: 4, C: 2.75, label: "5 tahun" };
+  if (usiaTahun < 15) return { A: 5.5, B: 4.25, C: 3, label: "10 tahun" };
+  if (usiaTahun < 18) return { A: 4.5, B: 4.5, C: 3.25, label: "15 tahun" };
+  return { A: 3.5, B: 4.75, C: 3.5, label: "Dewasa" };
 }
 
 function burnAreaPercent(area, usiaTahun) {
   const age = burnLundBrowderByAge(usiaTahun);
   const map = {
-    head: age.head,
-    chest: 9,
-    abdomen: 9,
-    upperBack: 9,
-    lowerBack: 4,
+    headFront: age.A,
+    headBack: age.A,
+    neckFront: 1,
+    neckBack: 1,
+    // Kompatibilitas data lama: bila ada state lama, tetap dihitung sebagai total depan+belakang.
+    head: age.A * 2,
+    neck: 2,
+    chest: 6.5,
+    abdomen: 6.5,
+    upperBack: 6.5,
+    lowerBack: 6.5,
     buttockRight: 2.5,
     buttockLeft: 2.5,
     perineum: 1,
-    armRightFront: 4.5,
-    armRightBack: 4.5,
-    armLeftFront: 4.5,
-    armLeftBack: 4.5,
-    armRightFull: 9,
-    armLeftFull: 9,
-    legRightFront: age.leg / 2,
-    legRightBack: age.leg / 2,
-    legLeftFront: age.leg / 2,
-    legLeftBack: age.leg / 2,
-    legRightFull: age.leg,
-    legLeftFull: age.leg
+
+    armRightUpperFront: 2,
+    armRightLowerFront: 1.5,
+    handRightFront: 1.25,
+    armRightUpperBack: 2,
+    armRightLowerBack: 1.5,
+    handRightBack: 1.25,
+    armLeftUpperFront: 2,
+    armLeftLowerFront: 1.5,
+    handLeftFront: 1.25,
+    armLeftUpperBack: 2,
+    armLeftLowerBack: 1.5,
+    handLeftBack: 1.25,
+    armRightFull: 9.5,
+    armLeftFull: 9.5,
+
+    legRightThighFront: age.B,
+    legRightLowerFront: age.C,
+    footRightFront: 1.75,
+    legRightThighBack: age.B,
+    legRightLowerBack: age.C,
+    footRightBack: 1.75,
+    legLeftThighFront: age.B,
+    legLeftLowerFront: age.C,
+    footLeftFront: 1.75,
+    legLeftThighBack: age.B,
+    legLeftLowerBack: age.C,
+    footLeftBack: 1.75,
+    legRightFull: (age.B + age.C + 1.75) * 2,
+    legLeftFull: (age.B + age.C + 1.75) * 2,
+
+    // Kompatibilitas bila ada data lama tersimpan/terpanggil.
+    armRightFront: 4.75,
+    armRightBack: 4.75,
+    armLeftFront: 4.75,
+    armLeftBack: 4.75,
+    legRightFront: age.B + age.C + 1.75,
+    legRightBack: age.B + age.C + 1.75,
+    legLeftFront: age.B + age.C + 1.75,
+    legLeftBack: age.B + age.C + 1.75
   };
   return map[area] || 0;
 }
 
 function burnAreaLabel(area) {
   const labels = {
-    head: "Kepala & leher",
-    chest: "Dada / chest",
-    abdomen: "Perut / abdomen",
-    upperBack: "Punggung atas",
-    lowerBack: "Punggung bawah",
+    headFront: "Kepala depan",
+    headBack: "Kepala belakang",
+    neckFront: "Leher depan",
+    neckBack: "Leher belakang",
+    head: "Kepala depan + belakang",
+    neck: "Leher depan + belakang",
+    chest: "Dada anterior",
+    abdomen: "Abdomen anterior",
+    upperBack: "Punggung atas posterior",
+    lowerBack: "Punggung bawah posterior",
     buttockRight: "Bokong kanan",
     buttockLeft: "Bokong kiri",
     perineum: "Perineum/genital",
+
+    armRightUpperFront: "Lengan atas kanan anterior",
+    armRightLowerFront: "Lengan bawah kanan anterior",
+    handRightFront: "Telapak tangan kanan anterior",
+    armRightUpperBack: "Lengan atas kanan posterior",
+    armRightLowerBack: "Lengan bawah kanan posterior",
+    handRightBack: "Punggung tangan kanan posterior",
+    armLeftUpperFront: "Lengan atas kiri anterior",
+    armLeftLowerFront: "Lengan bawah kiri anterior",
+    handLeftFront: "Telapak tangan kiri anterior",
+    armLeftUpperBack: "Lengan atas kiri posterior",
+    armLeftLowerBack: "Lengan bawah kiri posterior",
+    handLeftBack: "Punggung tangan kiri posterior",
+    armRightFull: "Seluruh lengan kanan",
+    armLeftFull: "Seluruh lengan kiri",
+
+    legRightThighFront: "Paha kanan anterior",
+    legRightLowerFront: "Tungkai bawah kanan anterior",
+    footRightFront: "Kaki kanan anterior",
+    legRightThighBack: "Paha kanan posterior",
+    legRightLowerBack: "Tungkai bawah kanan posterior",
+    footRightBack: "Kaki kanan posterior",
+    legLeftThighFront: "Paha kiri anterior",
+    legLeftLowerFront: "Tungkai bawah kiri anterior",
+    footLeftFront: "Kaki kiri anterior",
+    legLeftThighBack: "Paha kiri posterior",
+    legLeftLowerBack: "Tungkai bawah kiri posterior",
+    footLeftBack: "Kaki kiri posterior",
+    legRightFull: "Seluruh tungkai kanan",
+    legLeftFull: "Seluruh tungkai kiri",
+
     armRightFront: "Lengan kanan anterior",
     armRightBack: "Lengan kanan posterior",
     armLeftFront: "Lengan kiri anterior",
     armLeftBack: "Lengan kiri posterior",
-    armRightFull: "Seluruh lengan kanan",
-    armLeftFull: "Seluruh lengan kiri",
     legRightFront: "Tungkai kanan anterior",
     legRightBack: "Tungkai kanan posterior",
     legLeftFront: "Tungkai kiri anterior",
-    legLeftBack: "Tungkai kiri posterior",
-    legRightFull: "Seluruh tungkai kanan",
-    legLeftFull: "Seluruh tungkai kiri"
+    legLeftBack: "Tungkai kiri posterior"
   };
   return labels[area] || area;
 }
 
 function burnToggleArea(area) {
   if (!area) return;
+  const armRightParts = ["armRightUpperFront", "armRightLowerFront", "handRightFront", "armRightUpperBack", "armRightLowerBack", "handRightBack", "armRightFront", "armRightBack"];
+  const armLeftParts = ["armLeftUpperFront", "armLeftLowerFront", "handLeftFront", "armLeftUpperBack", "armLeftLowerBack", "handLeftBack", "armLeftFront", "armLeftBack"];
+  const legRightParts = ["legRightThighFront", "legRightLowerFront", "footRightFront", "legRightThighBack", "legRightLowerBack", "footRightBack", "legRightFront", "legRightBack"];
+  const legLeftParts = ["legLeftThighFront", "legLeftLowerFront", "footLeftFront", "legLeftThighBack", "legLeftLowerBack", "footLeftBack", "legLeftFront", "legLeftBack"];
+
   const exclusiveGroups = {
-    armRightFull: ["armRightFront", "armRightBack"],
-    armLeftFull: ["armLeftFront", "armLeftBack"],
-    armRightFront: ["armRightFull"],
-    armRightBack: ["armRightFull"],
-    armLeftFront: ["armLeftFull"],
-    armLeftBack: ["armLeftFull"],
-    legRightFull: ["legRightFront", "legRightBack"],
-    legLeftFull: ["legLeftFront", "legLeftBack"],
-    legRightFront: ["legRightFull"],
-    legRightBack: ["legRightFull"],
-    legLeftFront: ["legLeftFull"],
-    legLeftBack: ["legLeftFull"]
+    armRightFull: armRightParts,
+    armLeftFull: armLeftParts,
+    legRightFull: legRightParts,
+    legLeftFull: legLeftParts
   };
+  armRightParts.forEach(x => exclusiveGroups[x] = ["armRightFull"]);
+  armLeftParts.forEach(x => exclusiveGroups[x] = ["armLeftFull"]);
+  legRightParts.forEach(x => exclusiveGroups[x] = ["legRightFull"]);
+  legLeftParts.forEach(x => exclusiveGroups[x] = ["legLeftFull"]);
+
   if (burnAreaState.has(area)) {
     burnAreaState.delete(area);
   } else {
@@ -8684,7 +9212,7 @@ function hitungLukaBakar() {
   if (!isFinite(usia) || usia < 0 || !isFinite(berat) || berat <= 0) {
     box.innerHTML = `
       <h3>HASIL REHIDRASI LUKA BAKAR</h3>
-      <div class="hasil-rincian">⚠️ Isi usia dan berat badan untuk menghitung cairan. Area yang dipilih akan dihitung otomatis.<br>Kelompok Lund-Browder aktif: <strong>${escapeHtml(ageRef.label)}</strong></div>
+      <div class="hasil-rincian">⚠️ Isi usia dan berat badan untuk menghitung cairan. Area yang dipilih akan dihitung otomatis.<br>Kelompok chart aktif: <strong>${escapeHtml(ageRef.label)}</strong> — A=${ageRef.A}%, B=${ageRef.B}%, C=${ageRef.C}%</div>
     `;
     box.classList.add("tampil");
     return;
@@ -8709,7 +9237,7 @@ function hitungLukaBakar() {
       <div class="burn-result-card">
         <h4>🔥 Luas Luka Bakar</h4>
         <div class="burn-result-value">${tbsa.toFixed(1).replace('.0','')}%</div>
-        <div class="hasil-rincian">Kelompok usia: <strong>${escapeHtml(ageRef.label)}</strong>${rincianHtml}</div>
+        <div class="hasil-rincian">Kelompok chart: <strong>${escapeHtml(ageRef.label)}</strong><br>Nilai aktif: A=${ageRef.A}%, B=${ageRef.B}%, C=${ageRef.C}%${rincianHtml}</div>
       </div>
       <div class="burn-result-card">
         <h4>💧 Cairan Resusitasi (Parkland)</h4>
@@ -10865,6 +11393,13 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!tombol) return;
     burnToggleArea(tombol.dataset.burnArea);
   });
+  document.getElementById("burnMapWrap").addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const tombol = e.target.closest(".burn-area[data-burn-area]");
+    if (!tombol) return;
+    e.preventDefault();
+    burnToggleArea(tombol.dataset.burnArea);
+  });
   document.querySelectorAll("#panel-luka-bakar .burn-parts-grid .burn-area[data-burn-area]").forEach(function (btn) {
     btn.addEventListener("click", function () { burnToggleArea(btn.dataset.burnArea); });
   });
@@ -11303,7 +11838,7 @@ document.addEventListener("DOMContentLoaded", function () {
   'use strict';
 
   /* MODE TINJAU: true = login dinonaktifkan sementara untuk review cepat. Ubah ke false untuk mengaktifkan login Firebase lagi. */
-  var MODE_TINJAU = false;
+  var MODE_TINJAU = true;
 
   /* ---------- 1. KONFIGURASI FIREBASE ----------
      Isi objek FIREBASE_CONFIG di bawah dengan konfigurasi proyek Firebase Anda

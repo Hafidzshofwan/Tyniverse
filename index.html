@@ -9950,7 +9950,7 @@ const GROWTH_CHART_CONFIG = {
               { id: "bbu", title: "BB/U \u2014 Berat Badan menurut Umur", ageLabel: "0\u201360 bulan", zAge: "0-60",
                 image: TKIMG.who_m_bbu,
                 series: [ { key: "berat", yField: "berat", yLabel: "Berat Badan (kg)", yUnit: "kg", emoji: "\u2696\ufe0f", zKey: "bbu", warna: "#E63946" } ],
-                calibration: { berat: {imgWidth:1754,imgHeight:1241,plot:{x0:229,x1:1488,y0:247,y1:1053},xRange:[0,60],yRange:[1,29]} } },
+                calibration: { berat: {imgWidth:1754,imgHeight:1241,plot:{x0:229,x1:1488,y0:247,y1:1055},xRange:[0,60],yRange:[1,29]} } },
               { id: "tbu", title: "TB/U \u2014 Tinggi/Panjang Badan menurut Umur", ageLabel: "0\u201360 bulan", zAge: "0-60",
                 image: TKIMG.who_m_tbu,
                 series: [ { key: "tinggi", yField: "tinggi", yLabel: "Tinggi/Panjang Badan (cm)", yUnit: "cm", emoji: "\u{1F4CF}", zKey: "tbu", warna: "#1565C0" } ],
@@ -12408,7 +12408,7 @@ document.addEventListener("DOMContentLoaded", function () {
   'use strict';
 
   /* MODE TINJAU: true = login dinonaktifkan sementara untuk review cepat. Ubah ke false untuk mengaktifkan login Firebase lagi. */
-  var MODE_TINJAU = false;
+  var MODE_TINJAU = true;
 
   /* ---------- 1. KONFIGURASI FIREBASE ----------
      Isi objek FIREBASE_CONFIG di bawah dengan konfigurasi proyek Firebase Anda
@@ -14453,6 +14453,24 @@ html body #page-beranda .tv-home-list .tv-home-row-item span {
   window.TVPasien={get:function(){return pasien;},terapkan:terapkan};
 })();
 </script>
+<style id="tvUserNamaPretty">
+html body #tvSidebarProfil #tvUserMenu.tv-di-sidebar .tv-user-nama,
+body #tvSidebarProfil #tvUserMenu.tv-di-sidebar .tv-user-nama,
+html body #tvUserMenu.tv-di-sidebar .tv-user-nama,
+html body .tv-user-nama {
+  font-family: 'Fredoka','Plus Jakarta Sans',system-ui,sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.02rem !important;
+  letter-spacing: -0.012em !important;
+  line-height: 1.18 !important;
+  background: linear-gradient(96deg,#2BA9D6 0%,#7C5CFC 52%,#D936A6 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: #5B3FD6 !important;
+  text-shadow: none !important;
+}
+</style>
 </body>
 </html>
 

@@ -7507,656 +7507,9 @@ html body #page-dosis .obat-card .varian-label {
    jangan mengandalkan nilai yang belum tervalidasi.
 ============================================================ */
 
-const daftarObat = [
-  {
-    nama: "Ambroxol",
-    doseType: "perKg",
-    dosisMinPerKg: 1,
-    dosisMaxPerKg: 2,
-    sediaanMg: 15,
-    sediaanMl: 5,
-    unitLabel: "mg/kg/hari",
-    frekuensi: "dibagi 3 kali sehari",
-    catatan: "Dosis pada kalkulator dihitung sebagai total harian lalu dibagi 3 kali pemberian. Maksimum otomatis konservatif: 45 mg/hari; verifikasi sesuai usia dan produk.",
-    icon: "💧",
-    doseBasis: "perDay",
-    dosesPerDay: 3,
-    dosisMaksimalHarianMg: 45
-  },
-  {
-    nama: "Albendazole",
-    doseType: "ageBands",
-    doseBasis: "singleDose",
-    unitLabel: "mg dosis tunggal",
-    frekuensi: "dosis tunggal; ulang/lanjutan sesuai jenis cacing dan instruksi dokter",
-    indikasi: "Obat cacing spektrum luas untuk soil-transmitted helminths/STH seperti askariasis (cacing gelang), cacing tambang, trichuriasis/cacing cambuk; juga sering digunakan untuk enterobiasis/cacing kremi dan beberapa infeksi cacing lain sesuai diagnosis.",
-    catatan: "Rujukan WHO dan Permenkes RI: albendazole 400 mg dosis tunggal untuk program/pengobatan STH; anak 12–23 bulan memakai 200 mg. Efikasi baik untuk Ascaris dan cacing tambang, namun Trichuris dapat memerlukan regimen/alternatif sesuai dokter. Untuk taeniasis, neurocysticercosis, echinococcosis, atau strongyloidiasis, regimen berbeda dan perlu tata laksana dokter.",
-    sediaanCustomText: "Tablet kunyah/tablet 400 mg; beberapa produk tersedia suspensi. Dapat dikunyah/dihancurkan bila sesuai sediaan.",
-    icon: "🪱",
-    bands: [
-      {
-        usiaMinBulan: 12,
-        usiaMaxBulan: 23,
-        labelUsia: "12–23 bulan",
-        tipe: "flat",
-        dosisFlatMin: 200,
-        dosisFlatMax: 200,
-        doseBasis: "singleDose",
-        frekuensi: "dosis tunggal",
-        catatan: "WHO merekomendasikan setengah dosis albendazole (200 mg) untuk anak <24 bulan pada program deworming."
-      },
-      {
-        usiaMinBulan: 24,
-        usiaMaxBulan: 216,
-        labelUsia: "≥2 tahun – remaja",
-        tipe: "flat",
-        dosisFlatMin: 400,
-        dosisFlatMax: 400,
-        doseBasis: "singleDose",
-        frekuensi: "dosis tunggal",
-        catatan: "Dosis tunggal 400 mg untuk STH; pertimbangkan ulang/regimen lain sesuai jenis cacing, gejala, dan kebijakan lokal."
-      }
-    ]
-  },
-  {
-    nama: "Amoxicillin",
-    doseType: "perKg",
-    dosisMinPerKg: 25,
-    dosisMaxPerKg: 50,
-    sediaanMg: 250,
-    sediaanMl: 5,
-    unitLabel: "mg/kg/hari",
-    frekuensi: "dibagi 3 kali sehari",
-    catatan: "Dosis dihitung sebagai total harian berdasarkan komponen amoxicillin, lalu dibagi 3 kali pemberian. Dosis dapat berbeda sesuai indikasi/berat infeksi.",
-    icon: "🦠",
-    doseBasis: "perDay",
-    dosesPerDay: 3,
-    dosisMaksimalHarianMg: 2000
-  },
-  {
-    nama: "Asetilsistein",
-    doseType: "ageBands",
-    doseBasis: "perDose",
-    unitLabel: "mg/kali",
-    frekuensi: "2–4 kali sehari sesuai usia dan produk",
-    indikasi: "Mukolitik untuk membantu mengencerkan dahak pada batuk berdahak.",
-    catatan: "Dosis dihitung untuk indikasi mukolitik. Hindari penggunaan rutin pada anak <2 tahun kecuali atas instruksi dokter.",
-    sediaanCustomText: "Granul/sachet 100 mg pediatric dan granul/kapsul/tablet 200 mg; larutkan/berikan sesuai petunjuk produk.",
-    icon: "🫧",
-    bands: [
-      {
-        usiaMinBulan: 24,
-        usiaMaxBulan: 71,
-        labelUsia: "2–5 tahun",
-        tipe: "flat",
-        dosisFlatMin: 100,
-        dosisFlatMax: 100,
-        doseBasis: "perDose",
-        maxDosesPerDay: 4,
-        frekuensi: "100 mg, 2–4 kali sehari",
-        catatan: "Gunakan sediaan pediatric 100 mg; sesuaikan frekuensi dengan usia, berat gejala, dan instruksi dokter."
-      },
-      {
-        usiaMinBulan: 72,
-        usiaMaxBulan: 216,
-        labelUsia: "≥6 tahun – remaja",
-        tipe: "flat",
-        dosisFlatMin: 200,
-        dosisFlatMax: 200,
-        doseBasis: "perDose",
-        maxDosesPerDay: 3,
-        frekuensi: "200 mg, 2–3 kali sehari",
-        catatan: "Batas lazim mukolitik oral total sekitar 600 mg/hari pada anak besar/dewasa; sesuaikan dengan produk."
-      }
-    ]
-  },
-  {
-    nama: "Asiklovir",
-    doseType: "perKg",
-    dosisMinPerKg: 10,
-    dosisMaxPerKg: 15,
-    sediaanMg: 200,
-    sediaanMl: 10,
-    unitLabel: "mg/kg/kali",
-    frekuensi: "5 kali sehari tiap ±4 jam saat terjaga, selama 5–10 hari",
-    catatan: "Dosis dihitung per kali pemberian. Maksimum otomatis 800 mg/kali; indikasi tertentu dapat memerlukan regimen berbeda.",
-    icon: "🧬",
-    doseBasis: "perDose",
-    maxDosesPerDay: 5,
-    dosisMaksimalTunggalMg: 800,
-    dosisMaksimalHarianMg: 4000
-  },
-  {
-    nama: "Azithromycin",
-    doseType: "perKg",
-    dosisMinPerKg: 5,
-    dosisMaxPerKg: 10,
-    sediaanMg: 200,
-    sediaanMl: 5,
-    unitLabel: "mg/kg/hari",
-    frekuensi: "1 kali sehari",
-    catatan: "Dosis dihitung sebagai total harian. Regimen 10 mg/kg hari pertama lalu 5 mg/kg/hari hari berikutnya dapat dipakai sesuai indikasi.",
-    icon: "🫁",
-    doseBasis: "perDay",
-    dosesPerDay: 1,
-    dosisMaksimalHarianMg: 500
-  },
-  {
-    nama: "Cefixime",
-    doseType: "perKg",
-    dosisMinPerKg: 8,
-    dosisMaxPerKg: 8,
-    sediaanMg: 100,
-    sediaanMl: 5,
-    unitLabel: "mg/kg/hari",
-    frekuensi: "1 kali sehari atau dibagi 2 kali sehari",
-    catatan: "Dosis dihitung sebagai total harian; bila dipilih 2 kali sehari, bagi total harian menjadi 2 pemberian.",
-    icon: "💊",
-    doseBasis: "perDay",
-    dosesPerDay: 1,
-    dosisMaksimalHarianMg: 400
-  },
-  {
-    nama: "Cetirizine",
-    doseType: "perKg",
-    dosisMinPerKg: 0.2,
-    dosisMaxPerKg: 0.25,
-    sediaanMg: 5,
-    sediaanMl: 5,
-    unitLabel: "mg/kg/hari",
-    frekuensi: "1 kali sehari",
-    catatan: "Dosis dihitung sebagai dosis harian. Maksimum otomatis 10 mg/hari; pada praktik sering memakai dosis berbasis usia.",
-    icon: "🌼",
-    doseBasis: "perDay",
-    dosesPerDay: 1,
-    dosisMaksimalHarianMg: 10
-  },
-  {
-    nama: "Chlorpheniramine Maleate (CTM)",
-    doseType: "ageBands",
-    doseBasis: "perDose",
-    unitLabel: "mg/kg atau mg (sesuai usia)",
-    sediaanMg: 2,
-    sediaanMl: 5,
-    frekuensi: "setiap 4–6 jam bila perlu",
-    catatan: "Antihistamin generasi pertama (sedatif). Dosis dan plafon maksimal berbeda di setiap kelompok usia — kalkulator otomatis menyesuaikan berdasarkan usia yang diinput.",
-    icon: "🤧💤",
-    bands: [
-      {
-        usiaMinBulan: 0,
-        usiaMaxBulan: 24,
-        labelUsia: "< 2 tahun",
-        tipe: "perKg",
-        dosisMinPerKg: 0.1,
-        dosisMaxPerKg: 0.1,
-        dosisMaksimalTunggalMg: 2,
-        frekuensi: "setiap 4–6 jam",
-        catatan: "0,1 mg/kgBB per kali dosis. Dosis maksimal untuk usia <2 tahun: 2 mg per kali.",
-        doseBasis: "perDose",
-        maxDosesPerDay: 6,
-        dosisMaksimalHarianMg: 12
-      },
-      {
-        usiaMinBulan: 24,
-        usiaMaxBulan: 60,
-        labelUsia: "2–5 tahun",
-        tipe: "flat",
-        dosisFlatMin: 1,
-        dosisFlatMax: 1,
-        dosisMaksimalHarianMg: 6,
-        frekuensi: "setiap 4–6 jam",
-        catatan: "Dosis maksimal harian: 6 mg/hari.",
-        doseBasis: "perDose",
-        maxDosesPerDay: 6
-      },
-      {
-        usiaMinBulan: 60,
-        usiaMaxBulan: 144,
-        labelUsia: "6–12 tahun",
-        tipe: "flat",
-        dosisFlatMin: 2,
-        dosisFlatMax: 2,
-        dosisMaksimalHarianMg: 12,
-        frekuensi: "setiap 4–6 jam",
-        catatan: "Dosis maksimal harian: 12 mg/hari.",
-        doseBasis: "perDose",
-        maxDosesPerDay: 6
-      },
-      {
-        usiaMinBulan: 144,
-        usiaMaxBulan: 216,
-        labelUsia: "≥ 12 tahun",
-        tipe: "flat",
-        dosisFlatMin: 4,
-        dosisFlatMax: 4,
-        dosisMaksimalHarianMg: 24,
-        frekuensi: "setiap 4–6 jam",
-        catatan: "Dosis maksimal harian: 24 mg/hari.",
-        doseBasis: "perDose",
-        maxDosesPerDay: 6
-      }
-    ]
-  },
-  {
-    nama: "Co-Amoxiclav",
-    doseType: "perKg",
-    dosisMinPerKg: 25,
-    dosisMaxPerKg: 50,
-    sediaanMg: 156,
-    sediaanMl: 5,
-    unitLabel: "mg/kg/hari",
-    frekuensi: "dibagi 2 kali sehari",
-    catatan: "Dosis dihitung sebagai total harian berdasarkan komponen amoxicillin, lalu dibagi 2 kali pemberian. Perhatikan rasio clavulanate pada produk.",
-    icon: "🛡️",
-    doseBasis: "perDay",
-    dosesPerDay: 2,
-    dosisMaksimalHarianMg: 2000
-  },
-  {
-    nama: "Cotrimoxazole",
-    doseType: "perKg",
-    dosisMinPerKg: 4,
-    dosisMaxPerKg: 6,
-    sediaanMg: 200,
-    sediaanMl: 5,
-    unitLabel: "mg TMP/kg/kali",
-    frekuensi: "2 kali sehari",
-    catatan: "Dosis dihitung berdasarkan komponen trimethoprim (TMP) per kali pemberian. Maksimum otomatis 160 mg TMP/kali.",
-    icon: "🦠⚔️",
-    doseBasis: "perDose",
-    maxDosesPerDay: 2,
-    dosisMaksimalTunggalMg: 160,
-    dosisMaksimalHarianMg: 320
-  },
-  {
-    nama: "Dexamethasone",
-    doseType: "perKg",
-    dosisMinPerKg: 0.15,
-    dosisMaxPerKg: 0.6,
-    sediaanMg: 5,
-    sediaanMl: 0.5,
-    unitLabel: "mg/kg/kali",
-    frekuensi: "dosis tunggal; dapat diulang sesuai instruksi dokter",
-    catatan: "Dosis dihitung per kali pemberian/dosis tunggal. Bukan regimen rutin 3x sehari. Maksimum otomatis 16 mg/kali.",
-    icon: "🔥💊",
-    doseBasis: "singleDose",
-    maxDosesPerDay: 1,
-    dosisMaksimalTunggalMg: 16
-  },
-  {
-    nama: "Domperidone",
-    doseType: "perKg",
-    dosisMinPerKg: 0.2,
-    dosisMaxPerKg: 0.4,
-    sediaanMg: 5,
-    sediaanMl: 5,
-    unitLabel: "mg/kg/kali",
-    frekuensi: "3 kali sehari sebelum makan",
-    catatan: "Dosis dihitung per kali pemberian. Maksimum otomatis 10 mg/kali dan 30 mg/hari. Perhatikan kontraindikasi dan risiko gangguan irama jantung.",
-    icon: "🚫🤮",
-    doseBasis: "perDose",
-    maxDosesPerDay: 3,
-    dosisMaksimalTunggalMg: 10,
-    dosisMaksimalHarianMg: 30
-  },
-  {
-    nama: "Eritromisin",
-    doseType: "perKg",
-    dosisMinPerKg: 40,
-    dosisMaxPerKg: 50,
-    sediaanMg: 200,
-    sediaanMl: 5,
-    unitLabel: "mg/kg/hari",
-    frekuensi: "dibagi dalam 3–4 dosis per hari",
-    catatan: "Dosis dihitung sebagai total harian, lalu dibagi sesuai frekuensi.",
-    icon: "🛡️",
-    doseBasis: "perDay",
-    dosesPerDay: 4,
-    dosisMaksimalHarianMg: 2000
-  },
-  {
-    nama: "Ibuprofen",
-    doseType: "perKg",
-    dosisMinPerKg: 5,
-    dosisMaxPerKg: 10,
-    sediaanMg: 100,
-    sediaanMl: 5,
-    dosisMaksimalTunggalMg: 400,
-    unitLabel: "mg/kg/kali",
-    frekuensi: "tiap 6–8 jam bila perlu; maksimal 4 kali sehari",
-    catatan: "Dosis dihitung per kali pemberian. Maksimum otomatis 400 mg/kali dan tidak melebihi 40 mg/kgBB/hari.",
-    icon: "🧴",
-    doseBasis: "perDose",
-    maxDosesPerDay: 4,
-    dosisMaksimalHarianPerKg: 40,
-    dosisMaksimalHarianMg: 1200
-  },
-  {
-    nama: "Ketoconazole",
-    doseType: "perKg",
-    dosisMinPerKg: 3,
-    dosisMaxPerKg: 6,
-    sediaanMg: 200,
-    sediaanMl: 5,
-    unitLabel: "mg/kg/hari",
-    frekuensi: "1 kali sehari",
-    catatan: "Dosis dihitung sebagai total harian. Perhatikan risiko hepatotoksisitas; penggunaan sistemik perlu indikasi dan pemantauan dokter.",
-    icon: "🍄🛑",
-    doseBasis: "perDay",
-    dosesPerDay: 1,
-    dosisMaksimalHarianMg: 400
-  },
-  {
-    nama: "Loratadine",
-    doseType: "perKg",
-    dosisMinPerKg: 0.1,
-    dosisMaxPerKg: 0.2,
-    sediaanMg: 5,
-    sediaanMl: 5,
-    unitLabel: "mg/kg/hari",
-    frekuensi: "1 kali sehari",
-    catatan: "Dosis dihitung sebagai dosis harian. Maksimum otomatis 10 mg/hari; praktik umum sering memakai dosis berbasis usia/berat.",
-    icon: "🤧",
-    doseBasis: "perDay",
-    dosesPerDay: 1,
-    dosisMaksimalHarianMg: 10
-  },
-  {
-    nama: "Metronidazole",
-    doseType: "perKg",
-    dosisMinPerKg: 7.5,
-    dosisMaxPerKg: 10,
-    sediaanMg: 200,
-    sediaanMl: 5,
-    unitLabel: "mg/kg/kali",
-    frekuensi: "3 kali sehari",
-    catatan: "Dosis dihitung per kali pemberian. Maksimum otomatis 500 mg/kali; regimen dapat berbeda sesuai indikasi.",
-    icon: "🦠🛑",
-    doseBasis: "perDose",
-    maxDosesPerDay: 3,
-    dosisMaksimalTunggalMg: 500,
-    dosisMaksimalHarianMg: 1500
-  },
-  {
-    nama: "Nystatin",
-    doseType: "flat",
-    doseBasis: "perDose",
-    dosisFlatMin: 100000,
-    dosisFlatMax: 100000,
-    satuanDosis: "IU",
-    dosisMaksimalTunggalMg: 100000,
-    sediaanIU: 100000,
-    sediaanMl: 1,
-    unitLabel: "IU/kali",
-    frekuensi: "4 kali sehari",
-    catatan: "Satuan dalam IU, bukan mg. Dosis dihitung per kali pemberian. Umumnya suspensi 100.000 IU/mL; oles/pertahankan di mulut sebelum ditelan bila untuk kandidiasis oral.",
-    icon: "🍄"
-  },
-  {
-    nama: "Ondansetron",
-    doseType: "perKg",
-    dosisMinPerKg: 0.1,
-    dosisMaxPerKg: 0.15,
-    sediaanMg: 4,
-    sediaanMl: 5,
-    unitLabel: "mg/kg/kali",
-    frekuensi: "bila perlu tiap 8 jam",
-    catatan: "Dosis dihitung per kali pemberian. Gastroenteritis akut biasanya cukup dosis tunggal. Maksimum otomatis 8 mg/kali.",
-    icon: "🤢",
-    doseBasis: "perDose",
-    maxDosesPerDay: 3,
-    dosisMaksimalTunggalMg: 8,
-    dosisMaksimalHarianMg: 24
-  },
-  {
-    nama: "Oral Rehydration Salt (ORS)",
-    doseType: "perKgVolume",
-    volumeMinPerKg: 10,
-    volumeMaxPerKg: 20,
-    unitLabel: "mL/kg/episode",
-    frekuensi: "setelah setiap episode diare",
-    catatan: "Volume dihitung per episode diare/muntah, bukan dosis harian. Sesuaikan dengan derajat dehidrasi dan toleransi minum.",
-    icon: "💦",
-    doseBasis: "perEpisode"
-  },
-  {
-    nama: "Mebendazole",
-    doseType: "ageBands",
-    doseBasis: "perDose",
-    unitLabel: "mg/kali",
-    frekuensi: "tergantung jenis cacing",
-    indikasi: "Obat cacing untuk enterobiasis/cacing kremi, askariasis/cacing gelang, cacing tambang, dan trichuriasis/cacing cambuk. Cocok dipakai bila diagnosis/dugaan klinis sesuai dan tersedia di Indonesia.",
-    catatan: "Regimen umum: cacing kremi 100 mg dosis tunggal dan ulang setelah ±2 minggu bila perlu; cacing gelang/tambang/cambuk dapat 100 mg 2 kali sehari selama 3 hari. WHO juga merekomendasikan mebendazole 500 mg dosis tunggal untuk deworming preventif di daerah endemis. Kalkulator ini memakai regimen 100 mg/kali agar cocok untuk cacing kremi dan regimen 3 hari; sesuaikan regimen dengan diagnosis.",
-    sediaanCustomText: "Tablet kunyah 100 mg atau 500 mg tergantung produk. Untuk regimen 500 mg dosis tunggal, gunakan sediaan 500 mg bila tersedia dan sesuai instruksi dokter/program.",
-    icon: "🪱💊",
-    bands: [
-      {
-        usiaMinBulan: 24,
-        usiaMaxBulan: 216,
-        labelUsia: "≥2 tahun – remaja",
-        tipe: "flat",
-        dosisFlatMin: 100,
-        dosisFlatMax: 100,
-        doseBasis: "perDose",
-        maxDosesPerDay: 2,
-        frekuensi: "cacing kremi: dosis tunggal; cacing gelang/tambang/cambuk: 2 kali sehari selama 3 hari",
-        catatan: "Untuk cacing kremi, terapi anggota serumah dan pengulangan dosis sering diperlukan. Untuk STH selain kremi, gunakan 100 mg 2 kali sehari selama 3 hari atau regimen program sesuai kebijakan."
-      }
-    ]
-  },
-  {
-    nama: "Pyrantel Pamoate",
-    doseType: "perKg",
-    dosisMinPerKg: 11,
-    dosisMaxPerKg: 11,
-    sediaanMg: 125,
-    sediaanMl: 5,
-    sediaanOptions: [
-      { label: "Suspensi 125 mg/5 mL", sediaanMg: 125, sediaanMl: 5 },
-      { label: "Suspensi 250 mg/5 mL", sediaanMg: 250, sediaanMl: 5 }
-    ],
-    unitLabel: "mg/kg dosis tunggal",
-    frekuensi: "dosis tunggal; dapat diulang sesuai jenis cacing/instruksi dokter",
-    indikasi: "Alternatif obat cacing untuk enterobiasis/cacing kremi, askariasis/cacing gelang, dan cacing tambang. Di Indonesia tercantum dalam pedoman STH sebagai pilihan untuk cacing tambang.",
-    catatan: "Dosis umum 11 mg/kgBB dosis tunggal, maksimum 1 gram. Untuk cacing kremi sering diulang setelah ±2 minggu untuk mencegah reinfeksi; terapi kontak serumah dan higiene penting.",
-    icon: "🐛",
-    doseBasis: "singleDose",
-    maxDosesPerDay: 1,
-    dosisMaksimalTunggalMg: 1000
-  },
-  {
-    nama: "Oseltamivir",
-    doseType: "perKg",
-    dosisMinPerKg: 2,
-    dosisMaxPerKg: 3,
-    sediaanMg: 30,
-    sediaanMl: 5,
-    unitLabel: "mg/kg/kali",
-    frekuensi: "2 kali sehari",
-    catatan: "Dosis dihitung per kali pemberian. Maksimum otomatis 75 mg/kali. Regimen dapat memakai weight-band sesuai pedoman influenza.",
-    icon: "🦠❄️",
-    doseBasis: "perDose",
-    maxDosesPerDay: 2,
-    dosisMaksimalTunggalMg: 75,
-    dosisMaksimalHarianMg: 150
-  },
-  {
-    nama: "Paracetamol",
-    doseType: "perKg",
-    dosisMinPerKg: 10,
-    dosisMaxPerKg: 15,
-    sediaanMg: 120,
-    sediaanMl: 5,
-    sediaanOptions: [
-      {
-        label: "Sirup 120 mg/5 ml",
-        sediaanMg: 120,
-        sediaanMl: 5
-      },
-      {
-        label: "Sirup 160 mg/5 ml (Forte)",
-        sediaanMg: 160,
-        sediaanMl: 5
-      }
-    ],
-    dosisMaksimalTunggalMg: 1000,
-    unitLabel: "mg/kg/kali",
-    frekuensi: "tiap 4–6 jam bila perlu; maksimal 5 kali sehari",
-    catatan: "Dosis dihitung per kali pemberian. Maksimum 75 mg/kgBB/hari dan jangan lebih dari 5 kali pemberian per 24 jam. Pilih konsentrasi sirup agar hasil mL tepat.",
-    icon: "🌡️",
-    doseBasis: "perDose",
-    maxDosesPerDay: 5,
-    dosisMaksimalHarianPerKg: 75,
-    dosisMaksimalHarianMg: 4000
-  },
-  {
-    nama: "Prednisolone",
-    doseType: "perKg",
-    dosisMinPerKg: 1,
-    dosisMaxPerKg: 2,
-    sediaanMg: 15,
-    sediaanMl: 5,
-    unitLabel: "mg/kg/hari",
-    frekuensi: "1 kali sehari atau dibagi 2 dosis sesuai instruksi dokter",
-    catatan: "Dosis dihitung sebagai total harian. Maksimum otomatis 60 mg/hari untuk banyak regimen eksaserbasi asma; indikasi lain dapat berbeda.",
-    icon: "🫁🔥",
-    doseBasis: "perDay",
-    dosesPerDay: 1,
-    dosisMaksimalHarianMg: 60
-  },
-  {
-    nama: "Prednison",
-    doseType: "perKg",
-    dosisMinPerKg: 2,
-    dosisMaxPerKg: 2,
-    unitLabel: "mg/kg/hari",
-    frekuensi: "1 kali sehari (pagi hari) selama 2 minggu fase inisial",
-    catatan: "Dosis inisial sindrom nefrotik: 2 mg/kgBB/hari, selama 2 minggu, dilanjutkan tapering sesuai protokol yang berlaku di fasilitas. Tidak tersedia sediaan sirup standar — gunakan sediaan tablet (umumnya tablet 5 mg) sesuai ketersediaan apotek. Dosis dihitung sebagai total harian; maksimum otomatis 60 mg/hari kecuali ada instruksi spesialis.",
-    icon: "🫘",
-    doseBasis: "perDay",
-    dosesPerDay: 1,
-    dosisMaksimalHarianMg: 60
-  },
-  {
-    nama: "Salbutamol",
-    doseType: "perKg",
-    dosisMinPerKg: 0.1,
-    dosisMaxPerKg: 0.2,
-    sediaanMg: 2,
-    sediaanMl: 5,
-    unitLabel: "mg/kg/kali",
-    frekuensi: "3–4 kali sehari",
-    catatan: "Dosis oral dihitung per kali pemberian. Maksimum otomatis 4 mg/kali. Untuk asma akut, rute inhalasi umumnya lebih disarankan; perhatikan tremor dan takikardia.",
-    icon: "🫁💨",
-    doseBasis: "perDose",
-    maxDosesPerDay: 4,
-    dosisMaksimalTunggalMg: 4,
-    dosisMaksimalHarianMg: 16
-  },
-  {
-    nama: "Vitamin A",
-    doseType: "byAge",
-    ambangUsiaBulan: 12,
-    dosisDibawahAmbangMg: 100000,
-    dosisDiatasAmbangMg: 200000,
-    satuanDosis: "IU",
-    usiaMinValidBulan: 6,
-    usiaMaxValidBulan: 59,
-    catatanDibawahAmbang: "Usia 6–11 bulan: Kapsul Biru, dosis 100.000 IU.",
-    catatanDiatasAmbang: "Usia 12–59 bulan: Kapsul Merah, dosis 200.000 IU.",
-    sediaanCustomText: "Kapsul Biru (100.000 IU) untuk usia 6–11 bulan; Kapsul Merah (200.000 IU) untuk usia 12–59 bulan. Tidak ada sediaan sirup/tetes — berikan 1 kapsul sesuai kelompok usia.",
-    unitLabel: "IU (sesuai usia)",
-    frekuensi: "Dosis tunggal tiap 4–6 bulan sesuai program/sasaran",
-    catatan: "Dosis tunggal berdasarkan usia: 6–11 bulan 100.000 IU; 12–59 bulan 200.000 IU. Tidak untuk pemberian harian.",
-    icon: "🟦🟥",
-    doseBasis: "singleDose",
-    dosisMaksimalTunggalMg: 200000
-  },
-  {
-    nama: "Vitamin D",
-    doseType: "byAge",
-    ambangUsiaBulan: 12,
-    dosisDibawahAmbangMg: 400,
-    dosisDiatasAmbangMg: 600,
-    satuanDosis: "IU",
-    unitLabel: "IU/hari",
-    frekuensi: "1 kali sehari",
-    catatan: "Dosis suplementasi rutin harian: <1 tahun 400 IU/hari, ≥1 tahun 600 IU/hari. Kalkulator ini menampilkan dosis suplementasi rutin, bukan terapi defisiensi dosis tinggi.",
-    icon: "☀️",
-    doseBasis: "perDay",
-    dosesPerDay: 1,
-    dosisMaksimalHarianMg: 600
-  },
-  {
-    nama: "Zat Besi",
-    doseType: "ageBands",
-    doseBasis: "perDay",
-    unitLabel: "mg/kg atau mg (sesuai usia)",
-    sediaanMg: 15,
-    sediaanMl: 5,
-    frekuensi: "1 kali sehari",
-    catatan: "Rekomendasi IDAI untuk suplementasi zat besi rutin pada anak. Dosis, frekuensi, dan cara pemberian berbeda di setiap kelompok usia — kalkulator otomatis menyesuaikan berdasarkan usia yang diinput.",
-    sediaanCustomText: "Sirup 15 mg/5 ml; Tetes (Maltofer) 2,5 mg/tetes — sesuaikan dengan sediaan yang tersedia. Untuk dosis tetap 60 mg/hari (remaja 12–18 tahun), pada praktiknya umumnya memakai sediaan tablet.",
-    icon: "🩸",
-    bands: [
-      {
-        usiaMinBulan: 1,
-        usiaMaxBulan: 24,
-        labelUsia: "1 bulan – 2 tahun",
-        tipe: "perKg",
-        dosisMinPerKg: 2,
-        dosisMaxPerKg: 3,
-        frekuensi: "1 kali sehari, diberikan rutin",
-        catatan: "2 mg/kgBB/hari untuk bayi cukup bulan; 3 mg/kgBB/hari untuk bayi berat badan lahir rendah (BBLR, <2.500 g).",
-        doseBasis: "perDay",
-        dosesPerDay: 1,
-        unitLabel: "mg/kg/hari"
-      },
-      {
-        usiaMinBulan: 24,
-        usiaMaxBulan: 144,
-        labelUsia: "2–12 tahun (balita & usia sekolah)",
-        tipe: "perKg",
-        dosisMinPerKg: 1,
-        dosisMaxPerKg: 1,
-        frekuensi: "2 kali per minggu, selama 3 bulan berturut-turut setiap tahun",
-        catatan: "1 mg/kgBB/hari zat besi elemental, diberikan secara intermiten untuk anak usia 2–5 tahun (balita) dan >5–12 tahun (usia sekolah).",
-        doseBasis: "perDay",
-        dosesPerDay: 1,
-        unitLabel: "mg/kg/hari"
-      },
-      {
-        usiaMinBulan: 144,
-        usiaMaxBulan: 216,
-        labelUsia: "12–18 tahun (remaja)",
-        tipe: "flat",
-        dosisFlatMin: 60,
-        dosisFlatMax: 60,
-        frekuensi: "2 kali per minggu, selama 3 bulan berturut-turut setiap tahun",
-        catatan: "Dosis tetap 60 mg/hari zat besi elemental, tidak dihitung dari berat badan. Khusus remaja perempuan: tambahkan asam folat 400   g.",
-        doseBasis: "perDay",
-        dosesPerDay: 1,
-        dosisMaksimalHarianMg: 60
-      }
-    ]
-  },
-  {
-    nama: "Zinc",
-    doseType: "byAge",
-    ambangUsiaBulan: 6,
-    dosisDibawahAmbangMg: 10,
-    dosisDiatasAmbangMg: 20,
-    sediaanMg: 20,
-    sediaanMl: 5,
-    unitLabel: "mg/hari berdasarkan usia",
-    frekuensi: "1 kali sehari selama 10–14 hari",
-    catatan: "Diberikan selama 10–14 hari pada diare akut. Maksimum otomatis 20 mg/hari.",
-    icon: "⚡",
-    doseBasis: "perDay",
-    dosesPerDay: 1,
-    dosisMaksimalHarianMg: 20
-  }
-];
+// Data obat kini dimuat dari Cloud Firestore (koleksi "obat"), bukan hardcode.
+// Lihat fungsi muatObatDariFirestore() di bawah.
+let daftarObat = [];
 
 /* ============================================================
    DATA GUIDELINE
@@ -8698,8 +8051,55 @@ daftarObat.forEach(function (o) {
 function warnaJenis(jenis) {
   return WARNA_JENIS_OBAT[jenis] || "#0A0B5F";
 }
-const daftarKategoriObat = Array.from(new Set(daftarObat.map(function (o) { return o.jenis; })))
-  .sort(function (a, b) { return a.localeCompare(b, "id", { sensitivity: "base" }); });
+let daftarKategoriObat = [];
+
+/* ============================================================
+   SIAPKAN DATA OBAT (dipanggil setelah data dimuat dari Firestore)
+   Mengurutkan obat A-Z, melekatkan kategori farmakologis, dan
+   membangun daftar kategori unik untuk chip filter.
+============================================================ */
+function siapkanDataObat() {
+  daftarObat.sort((a, b) => String(a.nama || "").localeCompare(String(b.nama || ""), "id", { sensitivity: "base" }));
+  daftarObat.forEach(function (o) { o.jenis = PETA_JENIS_OBAT[o.nama] || "Lainnya"; });
+  daftarKategoriObat = Array.from(new Set(daftarObat.map(function (o) { return o.jenis; })))
+    .sort(function (a, b) { return a.localeCompare(b, "id", { sensitivity: "base" }); });
+}
+
+/* ============================================================
+   MUAT DATA OBAT DARI CLOUD FIRESTORE
+   Menggantikan array hardcode lama. Koleksi "obat" boleh dibaca
+   publik (allow read: if true) sehingga galeri tetap tampil
+   walau pengguna belum login.
+============================================================ */
+var FIREBASE_CONFIG_OBAT = {
+  apiKey: 'AIzaSyDI5f69PBuHR-HX50ddVGqOYYBEDlJaZsA',
+  authDomain: 'tyniverse-5a3b2.firebaseapp.com',
+  projectId: 'tyniverse-5a3b2',
+  storageBucket: 'tyniverse-5a3b2.firebasestorage.app',
+  messagingSenderId: '446927338321',
+  appId: '1:446927338321:web:5b48cb060b052855b6b170',
+  measurementId: 'G-RZYE8ZRDSB'
+};
+async function muatObatDariFirestore() {
+  const grid = document.getElementById("grid-obat");
+  try {
+    if (typeof firebase === "undefined" || !firebase.firestore) {
+      throw new Error("Pustaka Firebase belum dimuat.");
+    }
+    if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG_OBAT);
+    if (grid) grid.innerHTML = '<div style="padding:24px;color:#888;font-weight:600;">Memuat data obat…</div>';
+    const db = firebase.firestore();
+    const snap = await db.collection("obat").get();
+    daftarObat = snap.docs.map(function (d) { return d.data(); });
+    siapkanDataObat();
+    obatTerpilih = 0;
+    renderLibrary();
+    if (daftarObat.length > 0) toggleInputSesuaiObat(daftarObat[obatTerpilih]);
+  } catch (e) {
+    console.error("Gagal memuat data obat dari Firestore:", e);
+    if (grid) grid.innerHTML = '<div style="padding:24px;color:#c0392b;font-weight:600;">Gagal memuat data obat. Periksa koneksi internet lalu muat ulang halaman.</div>';
+  }
+}
 
 // Kategori yang sedang difilter di galeri ("Semua" = tampilkan semua)
 let kategoriObatAktif = "Semua";
@@ -11887,8 +11287,7 @@ function tvRingkasanInit() {
     lewat addEventListener + delegation, bukan inline onclick)
 ============================================================ */
 document.addEventListener("DOMContentLoaded", function () {
-  renderLibrary();
-  toggleInputSesuaiObat(daftarObat[obatTerpilih]);
+  muatObatDariFirestore();
   renderProtokolGallery();
   tvRingkasanInit();
 
@@ -12408,7 +11807,7 @@ document.addEventListener("DOMContentLoaded", function () {
   'use strict';
 
   /* MODE TINJAU: true = login dinonaktifkan sementara untuk review cepat. Ubah ke false untuk mengaktifkan login Firebase lagi. */
-  var MODE_TINJAU = false;
+  var MODE_TINJAU = true;
 
   /* ---------- 1. KONFIGURASI FIREBASE ----------
      Isi objek FIREBASE_CONFIG di bawah dengan konfigurasi proyek Firebase Anda

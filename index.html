@@ -5904,6 +5904,52 @@ html body #page-dosis .obat-card .varian-label {
 @media (max-width:820px){ .drt-tools{ grid-template-columns:1fr; } .drt-pasien-grid{ grid-template-columns:1fr 1fr; } .resus-jam{ font-size:2.8rem; } }
 </style>
 
+<style id="darurat-gcs-style">
+/* ===== MODE DARURAT — Penilaian pGCS ===== */
+.gcs-usia-bar{ margin-bottom:14px; }
+.gcs-usia-info{ display:inline-block; font-size:.8rem; font-weight:700; padding:6px 12px; border-radius:999px; background:var(--darurat-lembut); color:var(--darurat-tua); line-height:1.4; }
+.gcs-komp{ border:2px solid #eee; border-radius:14px; padding:12px 14px; margin-bottom:12px; }
+.gcs-komp-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
+.gcs-komp-nama{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:1rem; color:var(--teks); }
+.gcs-age-toggle{ display:flex; gap:6px; flex-wrap:wrap; }
+.gcs-age-toggle button{ border:2px solid #ddd; background:#fafafa; border-radius:999px; padding:5px 12px; font-family:'Fredoka',sans-serif; font-weight:600; font-size:.78rem; cursor:pointer; color:#777; }
+.gcs-age-toggle button.aktif{ background:var(--darurat-tua); border-color:var(--darurat-tua); color:#fff; }
+.gcs-age-label{ font-size:.78rem; font-weight:700; color:var(--darurat-tua); background:var(--darurat-lembut); padding:5px 12px; border-radius:999px; }
+.gcs-opsi{ display:flex; flex-direction:column; gap:7px; }
+.gcs-opsi button{ display:flex; align-items:center; gap:10px; text-align:left; width:100%; border:2px solid #eee; background:#fafafa; border-radius:12px; padding:9px 12px; font-family:'Quicksand',sans-serif; font-weight:600; font-size:.9rem; color:var(--teks); cursor:pointer; line-height:1.3; }
+.gcs-opsi button:hover{ border-color:var(--darurat-lembut); background:var(--darurat-lembut); }
+.gcs-opsi button.aktif{ border-color:var(--darurat); background:var(--darurat-lembut); }
+.gcs-opsi .gcs-poin{ flex-shrink:0; width:30px; height:30px; display:flex; align-items:center; justify-content:center; border-radius:8px; background:#fff; border:2px solid #ddd; font-family:'Fredoka',sans-serif; font-weight:700; color:var(--teks-lembut); }
+.gcs-opsi button.aktif .gcs-poin{ background:var(--darurat); border-color:var(--darurat); color:#fff; }
+.gcs-komp.terbatas .gcs-opsi{ opacity:.4; pointer-events:none; }
+.gcs-tube{ display:flex; align-items:center; gap:8px; margin-top:9px; font-size:.82rem; font-weight:600; color:var(--teks-lembut); cursor:pointer; }
+.gcs-hasil{ margin-top:6px; border-radius:14px; padding:16px; text-align:center; background:#f7f7f7; border:2px dashed #ddd; }
+.gcs-hasil .gcs-skor{ font-family:'Fredoka',sans-serif; font-size:1.5rem; font-weight:700; letter-spacing:1px; }
+.gcs-hasil .gcs-total{ font-size:.9rem; margin-top:6px; line-height:1.45; }
+.gcs-hasil.lvl-stabil{ background:#E8F8EE; border-color:var(--darurat-hijau); border-style:solid; }
+.gcs-hasil.lvl-stabil .gcs-skor{ color:var(--darurat-hijau); }
+.gcs-hasil.lvl-waspada{ background:#FFF6E5; border-color:var(--darurat-amber); border-style:solid; }
+.gcs-hasil.lvl-waspada .gcs-skor{ color:#B57400; }
+.gcs-hasil.lvl-kritis{ background:var(--darurat-lembut); border-color:var(--darurat); border-style:solid; }
+.gcs-hasil.lvl-kritis .gcs-skor{ color:var(--darurat-tua); }
+.gcs-out-actions{ margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+.gcs-out-actions button{ border:none; cursor:pointer; font-family:'Fredoka',sans-serif; font-weight:600; padding:9px 16px; border-radius:10px; font-size:.86rem; }
+.gcs-out-actions .salin{ background:#eef; color:#33c; }
+.gcs-out-actions .simpan{ background:var(--darurat-hijau); color:#fff; }
+/* Layout sejajar 3 kolom + ukuran kecil (hemat space) */
+.gcs-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; align-items:start; }
+.gcs-grid .gcs-komp{ padding:9px 9px; margin-bottom:0; border-radius:12px; }
+.gcs-grid .gcs-komp-head{ display:block; margin-bottom:7px; }
+.gcs-grid .gcs-komp-nama{ font-size:.82rem; display:block; margin-bottom:6px; }
+.gcs-grid .gcs-age-toggle{ gap:4px; }
+.gcs-grid .gcs-age-toggle button{ padding:3px 8px; font-size:.66rem; border-width:1.5px; }
+.gcs-grid .gcs-opsi{ gap:5px; }
+.gcs-grid .gcs-opsi button{ gap:6px; padding:6px 7px; font-size:.74rem; border-radius:9px; line-height:1.2; }
+.gcs-grid .gcs-opsi .gcs-poin{ width:21px; height:21px; font-size:.78rem; border-radius:6px; }
+.gcs-grid .gcs-tube{ margin-top:7px; font-size:.7rem; gap:6px; }
+@media (max-width:760px){ .gcs-grid{ grid-template-columns:1fr; } }
+</style>
+
 <style id="darurat-pals-style">
 /* ===== SUB-TAB MODE DARURAT ===== */
 .drt-tabs{ display:flex; gap:8px; margin:18px 0 0; flex-wrap:wrap; }
@@ -6868,7 +6914,7 @@ html body #page-dosis .obat-card .varian-label {
 </datalist>
 <div class="puyer-actions">
 <button class="puyer-btn" id="puyerTambahObat" type="button">➕ Tambah Obat</button>
-<button class="puyer-btn green" id="puyerHitung" type="button">⚗️ Hitung Racikan</button>
+<button class="puyer-btn green" id="puyerHitung" type="button">   ️ Hitung Racikan</button>
 <button class="puyer-btn pink" id="puyerReset" type="button">↺ Reset Form</button>
 </div>
 </div>
@@ -6944,7 +6990,7 @@ html body #page-dosis .obat-card .varian-label {
 <!-- Profil pasien terpusat -->
 <div class="drt-pasien-bar">
 <div class="drt-pasien-head">
-<strong>👤 Data Pasien</strong>
+<strong>👤 Data Pasien </strong>
 <span class="drt-pasien-badge" id="drtPasienBadge">Belum ada pasien</span>
 </div>
 <div class="drt-pasien-grid">
@@ -6964,6 +7010,7 @@ html body #page-dosis .obat-card .varian-label {
 <button class="drt-tab aktif" type="button" data-drttab="pat">🔺 PAT</button>
 <button class="drt-tab" type="button" data-drttab="resus">⏱️ Resusitasi</button>
 <button class="drt-tab" type="button" data-drttab="pals">💊 Dosis &amp; Alat</button>
+<button class="drt-tab" type="button" data-drttab="gcs">🧠 GCS</button>
 </div>
 
 <!-- TAB 1: PAT -->
@@ -7064,6 +7111,39 @@ html body #page-dosis .obat-card .varian-label {
 </div>
 
 </div>
+</div>
+</div>
+
+<!-- TAB 4: GCS (pGCS) -->
+<div class="drt-tabpane" id="drtTab-gcs">
+<div class="drt-panel" id="gcsPanel">
+<h3>🧠 Penilaian pGCS</h3>
+<p class="drt-sub">Pediatric Glasgow Coma Scale. Pilihan otomatis menyesuaikan kelompok usia dari Profil Pasien (bisa diubah manual). Total skor 3–15.</p>
+<div class="gcs-usia-bar"><span class="gcs-usia-info" id="gcsUsiaInfo">Usia belum diisi</span></div>
+
+<div class="gcs-grid">
+<div class="gcs-komp" data-komp="eye">
+<div class="gcs-komp-head"><span class="gcs-komp-nama">👁️ Eye (E)</span>
+<div class="gcs-age-toggle" data-agegroup="em"><button type="button" data-age="lt1">&lt;1 th</button><button type="button" data-age="ge1">&gt;1 th</button></div></div>
+<div class="gcs-opsi" id="gcsOpsiEye"></div>
+</div>
+
+<div class="gcs-komp" data-komp="verbal">
+<div class="gcs-komp-head"><span class="gcs-komp-nama">🗣️ Verbal (V)</span>
+<div class="gcs-age-toggle" data-agegroup="v"><button type="button" data-age="lt2">&lt;2 th</button><button type="button" data-age="2to5">2–5</button><button type="button" data-age="gt5">&gt;5 th</button></div></div>
+<div class="gcs-opsi" id="gcsOpsiVerbal"></div>
+<label class="gcs-tube"><input type="checkbox" id="gcsTube"/> Terintubasi (V=T)</label>
+</div>
+
+<div class="gcs-komp" data-komp="motor">
+<div class="gcs-komp-head"><span class="gcs-komp-nama">💪 Motor (M)</span>
+<div class="gcs-age-toggle" data-agegroup="em"><button type="button" data-age="lt1">&lt;1 th</button><button type="button" data-age="ge1">&gt;1 th</button></div></div>
+<div class="gcs-opsi" id="gcsOpsiMotor"></div>
+</div>
+</div>
+
+<div class="gcs-hasil" id="gcsHasil"><div class="gcs-skor">E– V– M–</div><div class="gcs-total">Pilih komponen Eye, Verbal &amp; Motor untuk melihat total.</div></div>
+<div class="gcs-out-actions"><button class="salin" id="gcsSalin" type="button">📋 Salin Hasil</button><button class="simpan" id="gcsSimpan" type="button">💾 Simpan ke Pasien</button></div>
 </div>
 </div>
 
@@ -8063,7 +8143,7 @@ function hitungObatProtokol(key) {
 
   if (hasil.error) {
     hasilBox.classList.add("error");
-    hasilBox.innerHTML = `<p style="color:#B33A3A; font-weight:700;">⚠️ ${escapeHtml(hasil.error)}</p>`;
+    hasilBox.innerHTML = `<p style="color:#B33A3A; font-weight:700;">⚠   ${escapeHtml(hasil.error)}</p>`;
     return;
   }
 
@@ -11057,7 +11137,7 @@ document.addEventListener("DOMContentLoaded", function () {
 (function () {
   'use strict';
 
-  var MODE_TINJAU = false;
+  var MODE_TINJAU = true;
 
   var FIREBASE_CONFIG = {
     apiKey: 'AIzaSyDI5f69PBuHR-HX50ddVGqOYYBEDlJaZsA',
@@ -13244,6 +13324,132 @@ html body .tv-user-nama {
       window.__drtPindahHook=true;
     }
     window.addEventListener('storage', function(e){ if(e.key==='tv_pasien_aktif'||e.key===NORM_KEY) syncDariPusat(); });
+  });
+})();
+</script>
+
+<script id="darurat-gcs-script">
+(function(){
+  'use strict';
+  var $=function(id){ return document.getElementById(id); };
+  function pusat(){ if(window.TVPasien && typeof window.TVPasien.get==='function'){ var g=window.TVPasien.get(); if(g&&typeof g==='object') return g; } try{ return JSON.parse(localStorage.getItem('tv_pasien_aktif')||'{}')||{}; }catch(e){ return {}; } }
+  function noRmBaca(){ try{ return localStorage.getItem('tv_darurat_norm')||''; }catch(e){ return ''; } }
+
+  var OPSI={
+    eye:{
+      'lt1':[{s:4,t:'Spontan'},{s:3,t:'Terhadap teriakan'},{s:2,t:'Terhadap nyeri'},{s:1,t:'Tidak ada respon'}],
+      'ge1':[{s:4,t:'Spontan'},{s:3,t:'Terhadap perintah verbal'},{s:2,t:'Terhadap nyeri'},{s:1,t:'Tidak ada respon'}]
+    },
+    motor:{
+      'lt1':[{s:6,t:'Gerak spontan'},{s:5,t:'Melokalisir nyeri / menarik diri saat disentuh'},{s:4,t:'Menarik diri terhadap nyeri'},{s:3,t:'Fleksi abnormal (dekortikasi)'},{s:2,t:'Ekstensi abnormal (deserebrasi)'},{s:1,t:'Tidak ada respon'}],
+      'ge1':[{s:6,t:'Mengikuti perintah'},{s:5,t:'Melokalisir nyeri'},{s:4,t:'Fleksi-withdrawal'},{s:3,t:'Fleksi abnormal (dekortikasi)'},{s:2,t:'Ekstensi abnormal (deserebrasi)'},{s:1,t:'Tidak ada respon'}]
+    },
+    verbal:{
+      'lt2':[{s:5,t:'Tersenyum, coos, atau babbling'},{s:4,t:'Menangis tapi bisa ditenangkan'},{s:3,t:'Menangis/menjerit terus-menerus'},{s:2,t:'Grunts / agitated / gelisah'},{s:1,t:'Tidak ada respon'}],
+      '2to5':[{s:5,t:'Kata/frasa sesuai'},{s:4,t:'Kata tidak sesuai'},{s:3,t:'Menangis/menjerit terus-menerus'},{s:2,t:'Grunts'},{s:1,t:'Tidak ada respon'}],
+      'gt5':[{s:5,t:'Orientasi baik'},{s:4,t:'Bingung / disorientasi'},{s:3,t:'Kata tidak sesuai'},{s:2,t:'Suara tak dapat dipahami'},{s:1,t:'Tidak ada respon'}]
+    }
+  };
+
+  var state={ ageEM:'ge1', ageV:'gt5', eye:null, motor:null, verbal:null, tube:false, manualEM:false, manualV:false };
+
+  function labelEM(a){ return a==='lt1'?'<1 tahun':'>1 tahun'; }
+  function labelV(a){ return a==='lt2'?'<2 tahun':(a==='2to5'?'2–5 tahun':'>5 tahun'); }
+  function usiaTeks(ub){ if(ub==null||!isFinite(ub)) return '-'; var th=Math.floor(ub/12),bl=ub%12; return ub<24?(ub+' bln'):(bl?(th+' th '+bl+' bln'):(th+' th')); }
+
+  function deriveAge(){
+    var p=pusat()||{}; var ub=(p.usiaBulan!=null)?Number(p.usiaBulan):null;
+    if(ub!=null && isFinite(ub)){
+      if(!state.manualEM) state.ageEM = ub<12?'lt1':'ge1';
+      if(!state.manualV)  state.ageV  = ub<24?'lt2':(ub<=60?'2to5':'gt5');
+    }
+    var info=$('gcsUsiaInfo');
+    if(info){
+      if(ub!=null && isFinite(ub)) info.textContent='Usia '+usiaTeks(ub)+' · Eye/Motor: '+labelEM(state.ageEM)+' · Verbal: '+labelV(state.ageV);
+      else info.textContent='Usia belum diisi di Profil Pasien — pilih kelompok usia manual.';
+    }
+  }
+
+  function renderOpsi(komp, elId, age){
+    var box=$(elId); if(!box) return; var arr=(OPSI[komp]&&OPSI[komp][age])||[];
+    box.innerHTML=arr.map(function(o){ return '<button type="button" data-skor="'+o.s+'"'+(state[komp]===o.s?' class="aktif"':'')+'><span class="gcs-poin">'+o.s+'</span><span>'+o.t+'</span></button>'; }).join('');
+    box.querySelectorAll('button').forEach(function(b){ b.addEventListener('click', function(){ state[komp]=parseInt(b.getAttribute('data-skor'),10); renderOpsi(komp,elId,age); renderHasil(); }); });
+  }
+
+  function renderAgeToggles(){
+    document.querySelectorAll('#gcsPanel .gcs-age-toggle[data-agegroup="em"] button').forEach(function(b){ b.classList.toggle('aktif', b.getAttribute('data-age')===state.ageEM); });
+    document.querySelectorAll('#gcsPanel .gcs-age-toggle[data-agegroup="v"] button').forEach(function(b){ b.classList.toggle('aktif', b.getAttribute('data-age')===state.ageV); });
+  }
+
+  function hitung(){
+    var e=state.eye, m=state.motor, v=state.tube?null:state.verbal;
+    var vTeks=state.tube?'T':(v!=null?v:'–');
+    var skorTeks='E'+(e!=null?e:'–')+' V'+vTeks+' M'+(m!=null?m:'–');
+    var lengkap=(e!=null && m!=null && (state.tube||v!=null));
+    if(!lengkap) return { lengkap:false, skorTeks:skorTeks };
+    var total=e+m+(state.tube?0:v); var lvl,kat,saran,totTeks;
+    if(state.tube){
+      kat='Verbal terintubasi (T)';
+      saran='E+M = '+total+' (verbal tidak dapat dinilai). Total GCS penuh tak dapat dihitung; pantau tren E & M.';
+      lvl=(total<=4)?'kritis':((total<=8)?'waspada':'stabil');
+      totTeks=skorTeks+' = '+total+'T';
+    } else {
+      if(total>=13){ lvl='stabil'; kat='Cedera ringan'; saran='cedera kepala ringan. Observasi & nilai ulang berkala.'; }
+      else if(total>=9){ lvl='waspada'; kat='Cedera sedang'; saran='cedera sedang. Pantau ketat, siapkan pencitraan & nilai ulang lebih sering.'; }
+      else { lvl='kritis'; kat='Cedera berat'; saran='cedera berat. Pertimbangkan proteksi jalan napas/intubasi (GCS ≤8) & panggil bantuan segera.'; }
+      totTeks=skorTeks+' = '+total+'/15';
+    }
+    return { lengkap:true, total:total, lvl:lvl, kat:kat, saran:saran, totTeks:totTeks, skorTeks:skorTeks };
+  }
+
+  function renderHasil(){
+    var box=$('gcsHasil'); if(!box) return; var r=hitung(); box.className='gcs-hasil';
+    if(!r.lengkap){ box.innerHTML='<div class="gcs-skor">'+r.skorTeks+'</div><div class="gcs-total">Pilih komponen Eye, Verbal'+(state.tube?' (terintubasi)':'')+' & Motor untuk melihat total.</div>'; return; }
+    box.classList.add('lvl-'+r.lvl);
+    box.innerHTML='<div class="gcs-skor">'+r.totTeks+'</div><div class="gcs-total"><strong>'+r.kat+'</strong><br>'+r.saran+'</div>';
+  }
+
+  function renderAll(){
+    deriveAge(); renderAgeToggles();
+    renderOpsi('eye','gcsOpsiEye',state.ageEM);
+    renderOpsi('motor','gcsOpsiMotor',state.ageEM);
+    renderOpsi('verbal','gcsOpsiVerbal',state.ageV);
+    var vk=document.querySelector('#gcsPanel .gcs-komp[data-komp="verbal"]'); if(vk) vk.classList.toggle('terbatas', state.tube);
+    renderHasil();
+  }
+
+  function teksHasil(){
+    var p=pusat()||{}; var r=hitung(); var ub=(p.usiaBulan!=null)?Number(p.usiaBulan):null;
+    return 'PENILAIAN pGCS (Pediatric Glasgow Coma Scale)\n'+
+      'Pasien : '+(p.nama||'-')+'\n'+
+      'No. RM : '+(noRmBaca()||'-')+'\n'+
+      'Usia   : '+usiaTeks(ub)+'  (Eye/Motor '+labelEM(state.ageEM)+' · Verbal '+labelV(state.ageV)+')\n'+
+      'Tanggal: '+new Date().toLocaleString('id-ID')+'\n'+
+      '----------------------------------\n'+
+      'Skor   : '+(r.lengkap?r.totTeks:r.skorTeks)+'\n'+
+      'Interpretasi: '+(r.lengkap?(r.kat+' — '+r.saran):'(belum lengkap)')+'\n';
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    if(!$('gcsPanel')) return;
+    document.querySelectorAll('#gcsPanel .gcs-age-toggle button').forEach(function(b){
+      b.addEventListener('click', function(){
+        var grp=b.parentElement.getAttribute('data-agegroup'); var age=b.getAttribute('data-age');
+        if(grp==='em'){ state.ageEM=age; state.manualEM=true; } else { state.ageV=age; state.manualV=true; }
+        renderAll();
+      });
+    });
+    var tube=$('gcsTube'); if(tube) tube.addEventListener('change', function(){ state.tube=tube.checked; renderAll(); });
+    $('gcsSalin').addEventListener('click', function(){ var t=teksHasil(); try{ navigator.clipboard.writeText(t); }catch(e){} var b=$('gcsSalin'); var o=b.textContent; b.textContent='✓ Tersalin'; setTimeout(function(){ b.textContent=o; },1400); });
+    $('gcsSimpan').addEventListener('click', function(){
+      var r=hitung(); var p=pusat()||{};
+      if(window.TVPatient && typeof window.TVPatient.tambahLog==='function'){ window.TVPatient.tambahLog({ tipe:'GCS', pasien:p.nama||'-', noRm:noRmBaca()||'', skor:(r.lengkap?r.totTeks:r.skorTeks), kronologi:teksHasil(), t:Date.now() }); }
+      var b=$('gcsSimpan'); var o=b.textContent; b.textContent='✓ Tersimpan ke pasien'; setTimeout(function(){ b.textContent=o; },1600);
+    });
+    renderAll();
+    if(window.TVPasien && typeof window.TVPasien.terapkan==='function' && !window.TVPasien.__gcsHook){ var _t=window.TVPasien.terapkan; window.TVPasien.terapkan=function(){ var r=_t.apply(this,arguments); try{ renderAll(); }catch(e){} return r; }; window.TVPasien.__gcsHook=true; }
+    if(typeof window.pindahHalaman==='function' && !window.__gcsPindahHook){ var _ph=window.pindahHalaman; window.pindahHalaman=function(h){ var r=_ph.apply(this,arguments); if(h==='darurat'){ try{ renderAll(); }catch(e){} } return r; }; window.__gcsPindahHook=true; }
+    window.addEventListener('storage', function(e){ if(e.key==='tv_pasien_aktif') renderAll(); });
   });
 })();
 </script>

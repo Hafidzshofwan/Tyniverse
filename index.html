@@ -10808,7 +10808,7 @@ document.addEventListener("DOMContentLoaded", function () {
 (function () {
   'use strict';
 
-  var MODE_TINJAU = false;
+  var MODE_TINJAU = true;
 
   var FIREBASE_CONFIG = {
     apiKey: 'AIzaSyDI5f69PBuHR-HX50ddVGqOYYBEDlJaZsA',
@@ -10837,7 +10837,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   var auth = null, db = null, uidSaya = null, profilSaya = null, sedangDaftar = false, avatarSementara = null;
-  var pemantauSesi = null; var LSK_SESI = 'tv_sesi_id'; var MAKS_PERANGKAT = 2;
 
   function el(id) { return document.getElementById(id); }
   function esc(s) {
@@ -11256,8 +11255,8 @@ document.addEventListener("DOMContentLoaded", function () {
     .tv-tabel th, .tv-tabel td { text-align: left; padding: 9px 8px; border-bottom: 1px solid #eee; vertical-align: middle; }
     .tv-tabel select { padding: 5px 8px; border-radius: 8px; border: 1px solid #ddd; font-family: inherit; }
     .tv-mini { font-size: 0.72rem; padding: 5px 10px; border-radius: 8px; border: none; cursor: pointer; font-family: inherit; font-weight: 600; }
-    .tv-mini.on { background: #FDE2E4; color: #b0283a; }
-    .tv-mini.off { background: #D8F5D0; color: #2f7a1f; }
+    .tv-mini.on { background: #D8F5D0; color: #2f7a1f; }
+    .tv-mini.off { background: #FDE2E4; color: #b0283a; }
   `;
 
   function buatOverlay() {
@@ -11617,47 +11616,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (emails.indexOf(String(email || '').toLowerCase()) >= 0) return Promise.resolve('admin');
     return db.collection('users').limit(1).get().then(function (q) { return q.empty ? 'admin' : 'user'; }).catch(function () { return 'user'; });
   }
-  // === Batasi login maksimal MAKS_PERANGKAT perangkat (FIFO: keluarkan yang terlama) ===
-  function buatSesiId() {
-    try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
-    return 'sesi-' + Date.now() + '-' + Math.random().toString(36).slice(2);
-  }
-  function pantauSesi(ref) {
-    if (pemantauSesi) { try { pemantauSesi(); } catch (e) {} pemantauSesi = null; }
-    pemantauSesi = ref.onSnapshot(function (snap) {
-      if (!snap || !snap.exists) return;
-      var daftar = snap.data().sesiAktif;
-      if (!Array.isArray(daftar)) return;
-      var sesiSaya = null; try { sesiSaya = localStorage.getItem(LSK_SESI); } catch (e) {}
-      if (!sesiSaya) return;
-      var masihAda = daftar.some(function (s) { return s && s.id === sesiSaya; });
-      if (!masihAda) {
-        hentikanSesi();
-        pesan('tvPesanMasuk', 'Batas maksimal ' + MAKS_PERANGKAT + ' perangkat tercapai. Sesi di perangkat ini dikeluarkan karena ada login baru.', 'galat');
-        if (auth) auth.signOut();
-      }
-    }, function () {});
-  }
-  function mulaiSesi() {
-    if (!db || !uidSaya) return;
-    var sesiId = buatSesiId();
-    try { localStorage.setItem(LSK_SESI, sesiId); } catch (e) {}
-    var ref = db.collection('users').doc(uidSaya);
-    db.runTransaction(function (tx) {
-      return tx.get(ref).then(function (snap) {
-        var daftar = (snap.exists && Array.isArray(snap.data().sesiAktif)) ? snap.data().sesiAktif.slice() : [];
-        daftar = daftar.filter(function (s) { return s && s.id && s.id !== sesiId; });
-        daftar.push({ id: sesiId, waktu: Date.now() });
-        daftar.sort(function (a, b) { return (a.waktu || 0) - (b.waktu || 0); });
-        while (daftar.length > MAKS_PERANGKAT) daftar.shift();
-        tx.update(ref, { sesiAktif: daftar });
-      });
-    }).then(function () { pantauSesi(ref); }).catch(function () { pantauSesi(ref); });
-  }
-  function hentikanSesi() {
-    if (pemantauSesi) { try { pemantauSesi(); } catch (e) {} pemantauSesi = null; }
-  }
-  function keluar() { hentikanSesi(); if (auth) auth.signOut(); }
+  function keluar() { if (auth) auth.signOut(); }
   function onMasuk(user) {
     if (sedangDaftar) return;
     uidSaya = user.uid;
@@ -11683,7 +11642,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (auth) auth.signOut();
       return;
     }
-    mulaiSesi(); terapkanPref(); renderMenu(); sembunyikanAuth(); kunci(false); if (window.TVHomeDashboard) window.TVHomeDashboard.connectFirebase(profilSaya, db, uidSaya); if (typeof pindahHalaman === 'function') pindahHalaman('beranda');
+    terapkanPref(); renderMenu(); sembunyikanAuth(); kunci(false); if (window.TVHomeDashboard) window.TVHomeDashboard.connectFirebase(profilSaya, db, uidSaya); if (typeof pindahHalaman === 'function') pindahHalaman('beranda');
   }
   function simpanKonfig() {
     var txt = el('tvKonfigText').value.trim();

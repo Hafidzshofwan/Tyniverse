@@ -2,16 +2,20 @@ const admin = require('firebase-admin');
 
 // Model yang diizinkan (hemat biaya + cegah penyalahgunaan endpoint).
 const ALLOWED_MODELS = new Set([
-  'openrouter/free',
   'deepseek/deepseek-chat-v3-0324:free',
-  'meta-llama/llama-3.3-70b-instruct:free'
+  'qwen/qwen3-235b-a22b:free',
+  'openrouter/free'
 ]);
-const DEFAULT_MODEL = 'openrouter/free';
+// Model cadangan yang paling andal: router yang selalu memilih model gratis yang sedang tersedia.
+const FALLBACK_MODEL = 'openrouter/free';
+const DEFAULT_MODEL = 'deepseek/deepseek-chat-v3-0324:free';
 
 const SYSTEM_INSTRUCTION =
   'Anda adalah asisten penulisan untuk aplikasi Tinyverse, alat bantu edukasi klinis anak. ' +
-  'Jawab dalam Bahasa Indonesia yang jelas, ringkas, aman, dan selalu ingatkan bahwa keputusan ' +
-  'klinis tetap oleh tenaga kesehatan profesional. Jangan membuat diagnosis pasti tanpa konteks klinis lengkap.';
+  'Selalu tulis jawaban HANYA dalam Bahasa Indonesia baku yang benar, jelas, dan mudah dipahami. ' +
+  'Jangan mencampur bahasa lain dan jangan menghasilkan kata yang tidak baku atau tidak bermakna. ' +
+  'Jawaban harus ringkas, aman, dan selalu ingatkan bahwa keputusan klinis tetap oleh tenaga kesehatan ' +
+  'profesional. Jangan membuat diagnosis pasti tanpa konteks klinis lengkap.';
 
 function initAdmin() {
   if (!admin.apps.length) {
@@ -50,34 +54,49 @@ module.exports = async function handler(req, res) {
     const key = process.env.OPENROUTER_API_KEY;
     if (!key) return res.status(500).json({ error: 'OPENROUTER_API_KEY belum diatur.' });
 
-    const orResp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + key,
-        'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://tyniverse.vercel.app',
-        'X-Title': 'TinyVerse'
-      },
-      body: JSON.stringify({
-        model: model,
-        messages: [
-          { role: 'system', content: SYSTEM_INSTRUCTION },
-          { role: 'user', content: prompt }
-        ],
-        max_tokens: 1024
-      })
-    });
-
-    const data = await orResp.json().catch(function () { return {}; });
-    if (!orResp.ok) {
-      const msg = (data && data.error && data.error.message) || 'Gagal memanggil model AI.';
-      return res.status(502).json({ error: msg });
+    async function callModel(modelId) {
+      const orResp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + key,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': 'https://tyniverse.vercel.app',
+          'X-Title': 'TinyVerse'
+        },
+        body: JSON.stringify({
+          model: modelId,
+          messages: [
+            { role: 'system', content: SYSTEM_INSTRUCTION },
+            { role: 'user', content: prompt }
+          ],
+          max_tokens: 1024
+        })
+      });
+      const data = await orResp.json().catch(function () { return {}; });
+      const text =
+        data && data.choices && data.choices[0] && data.choices[0].message
+          ? data.choices[0].message.content
+          : '';
+      return { ok: orResp.ok, data: data, text: text };
     }
-    const text =
-      data && data.choices && data.choices[0] && data.choices[0].message
-        ? data.choices[0].message.content
-        : '';
-    return res.status(200).json({ text: text || '', model: model });
+
+    // Coba model pilihan; jika gagal/kosong (mis. penyedia gratis sedang penuh),
+    // otomatis jatuh ke FALLBACK_MODEL yang selalu memilih model gratis tersedia.
+    const tryOrder = [model];
+    if (model !== FALLBACK_MODEL) tryOrder.push(FALLBACK_MODEL);
+    let lastErr = 'Gagal memanggil model AI.';
+    for (let i = 0; i < tryOrder.length; i++) {
+      try {
+        const r = await callModel(tryOrder[i]);
+        if (r.ok && r.text && r.text.trim()) {
+          return res.status(200).json({ text: r.text, model: tryOrder[i] });
+        }
+        lastErr = (r.data && r.data.error && r.data.error.message) || lastErr;
+      } catch (e) {
+        lastErr = (e && e.message) || lastErr;
+      }
+    }
+    return res.status(502).json({ error: 'Model AI gratis sedang sibuk/penuh. Coba lagi beberapa saat. (' + lastErr + ')' });
   } catch (err) {
     return res.status(500).json({ error: (err && err.message) || 'Kesalahan server.' });
   }

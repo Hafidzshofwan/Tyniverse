@@ -1,0 +1,9 @@
+{
+  "name": "tinyverse-ai-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend proxy AI untuk TinyVerse (OpenRouter + verifikasi login Firebase)",
+  "dependencies": {
+    "firebase-admin": "^12.6.0"
+  }
+}

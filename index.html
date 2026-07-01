@@ -7007,14 +7007,14 @@ html body #page-dosis .obat-card .varian-label {
 
 <!-- Sub-tab -->
 <div class="drt-tabs" role="tablist">
-<button class="drt-tab aktif" type="button" data-drttab="pat">🔺 PAT</button>
-<button class="drt-tab" type="button" data-drttab="resus">⏱️ Resusitasi</button>
+<button class="drt-tab aktif" type="button" data-drttab="gcs">🧠 GCS</button>
+<button class="drt-tab" type="button" data-drttab="pat">🔺 PAT</button>
 <button class="drt-tab" type="button" data-drttab="pals">💊 Dosis &amp; Alat</button>
-<button class="drt-tab" type="button" data-drttab="gcs">🧠 GCS</button>
+<button class="drt-tab" type="button" data-drttab="resus">⏱️ Resusitasi</button>
 </div>
 
 <!-- TAB 1: PAT -->
-<div class="drt-tabpane aktif" id="drtTab-pat">
+<div class="drt-tabpane" id="drtTab-pat">
 <div class="drt-panel" id="patPanel">
 <h3>🔺 Penilaian Cepat PAT</h3>
 <p class="drt-sub">Pediatric Assessment Triangle — kesan pertama tanpa alat (lihat &amp; dengar). Tandai tiap sisi Normal / Abnormal.</p>
@@ -7115,7 +7115,7 @@ html body #page-dosis .obat-card .varian-label {
 </div>
 
 <!-- TAB 4: GCS (pGCS) -->
-<div class="drt-tabpane" id="drtTab-gcs">
+<div class="drt-tabpane aktif" id="drtTab-gcs">
 <div class="drt-panel" id="gcsPanel">
 <h3>🧠 Penilaian pGCS</h3>
 <p class="drt-sub">Pediatric Glasgow Coma Scale. Pilihan otomatis menyesuaikan kelompok usia dari Profil Pasien (bisa diubah manual). Total skor 3–15.</p>
@@ -7171,10 +7171,15 @@ html body #page-dosis .obat-card .varian-label {
       <label class="sr-only" for="tvAiPrompt">Prompt Asisten AI</label>
       <textarea class="tv-ai-area" id="tvAiPrompt" placeholder="Tulis pertanyaan di sini. Contoh: Buatkan edukasi singkat untuk orang tua tentang pemberian cairan saat diare anak."></textarea>
       <div class="tv-ai-actions">
+        <select class="tv-ai-btn sekunder" id="tvAiModel" aria-label="Pilih model AI" style="cursor:pointer;">
+          <option value="openrouter/free">Otomatis (gratis)</option>
+          <option value="deepseek/deepseek-chat-v3-0324:free">DeepSeek V3 (gratis)</option>
+          <option value="meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B (gratis)</option>
+        </select>
         <button class="tv-ai-btn" id="tvAiKirim" type="button">✨ Tanya AI</button>
         <button class="tv-ai-btn sekunder" id="tvAiBersih" type="button">Bersihkan</button>
       </div>
-      <div class="tv-ai-status" id="tvAiStatus">Siap. Pastikan Firebase AI Logic sudah diaktifkan di Firebase Console.</div>
+      <div class="tv-ai-status" id="tvAiStatus">Siap. Anda harus login untuk memakai AI.</div>
       <div class="tv-ai-output" id="tvAiOutput">Jawaban AI akan muncul di sini.</div>
     </div>
   </div>
@@ -7199,425 +7204,6 @@ html body #page-dosis .obat-card .varian-label {
 
 let daftarObat = [];
 
-const daftarProtokol = [
-  {
-    id: "pneumonia",
-    nama: "Pneumonia",
-    icon: "🫁",
-    referensi: "PNPK IDAI Pneumonia",
-    kategori: [
-      {
-        nama: "Pasien Rawat Jalan",
-        subkategori: [
-          {
-            nama: "Lini pertama",
-            obat: [
-              {
-                nama: "Amoksisilin",
-                doseType: "perKg",
-                dosisMinPerKg: 40,
-                dosisMaxPerKg: 40,
-                sediaanMg: 250,
-                sediaanMl: 5,
-                unitLabel: "mg/kg/12 jam",
-                frekuensi: "tiap 12 jam (2 kali sehari), selama 3–5 hari",
-                catatan: "Total dosis harian 80 mg/kg/hari, diberikan oral.",
-                icon: "💊"
-              }
-            ]
-          },
-          {
-            nama: "Lini kedua (bila tidak ada perbaikan dengan lini pertama)",
-            obat: [
-              {
-                nama: "Amoksisilin Klavulanat",
-                doseType: "perKg",
-                dosisMinPerKg: 40,
-                dosisMaxPerKg: 40,
-                unitLabel: "mg/kg/12 jam",
-                satuanDosis: "mg",
-                sediaanCustomText: "Sirup ko-amoksiklav — sesuaikan volume dengan kandungan amoksisilin pada sediaan yang tersedia (rasio amoksisilin:klavulanat bervariasi antar produk).",
-                frekuensi: "tiap 12 jam (2 kali sehari)",
-                catatan: "Dosis dihitung berdasarkan komponen amoksisilin, dosisnya sama dengan dosis amoksisilin tunggal.",
-                icon: "💊"
-              }
-            ]
-          },
-          {
-            nama: "Curiga pneumonia atipik (M. pneumoniae atau C. pneumoniae)",
-            obat: [
-              {
-                nama: "Azitromisin (Hari ke-1)",
-                doseType: "perKg",
-                dosisMinPerKg: 10,
-                dosisMaxPerKg: 10,
-                dosisMaksimalTunggalMg: 500,
-                sediaanMg: 200,
-                sediaanMl: 5,
-                unitLabel: "mg/kg",
-                frekuensi: "1 kali sehari, hanya pada hari pertama",
-                catatan: "Dosis maksimal 500 mg/hari.",
-                icon: "🫁"
-              },
-              {
-                nama: "Azitromisin (Hari ke-2 s.d. ke-5)",
-                doseType: "perKg",
-                dosisMinPerKg: 5,
-                dosisMaxPerKg: 5,
-                dosisMaksimalTunggalMg: 250,
-                sediaanMg: 200,
-                sediaanMl: 5,
-                unitLabel: "mg/kg",
-                frekuensi: "1 kali sehari, hari ke-2 sampai ke-5",
-                catatan: "Dosis maksimal 250 mg/hari.",
-                icon: "🫁"
-              },
-              {
-                nama: "Doksisiklin",
-                doseType: "perKg",
-                dosisMinPerKg: 2,
-                dosisMaxPerKg: 4,
-                dosisMaksimalTunggalMg: 200,
-                unitLabel: "mg/kg/hari",
-                sediaanCustomText: "Sediaan kapsul/tablet — dosis harian dibagi menjadi 2 dosis.",
-                frekuensi: "dibagi 2 dosis per hari, selama 10–14 hari",
-                catatan: "Dosis maksimal 200 mg/hari. Hanya untuk anak usia di atas 8 tahun.",
-                icon: "💊"
-              },
-              {
-                nama: "Eritromisin",
-                doseType: "perKg",
-                dosisMinPerKg: 30,
-                dosisMaxPerKg: 40,
-                dosisMaksimalTunggalMg: 2000,
-                sediaanMg: 200,
-                sediaanMl: 5,
-                unitLabel: "mg/kg/hari",
-                frekuensi: "dibagi 4 dosis per hari (oral/IV), selama 10 hari",
-                catatan: "Dosis maksimal 2 g/hari.",
-                icon: "💊"
-              },
-              {
-                nama: "Tetrasiklin",
-                doseType: "perKg",
-                dosisMinPerKg: 20,
-                dosisMaxPerKg: 50,
-                dosisMaksimalTunggalMg: 2000,
-                unitLabel: "mg/kg/hari",
-                sediaanCustomText: "Sediaan kapsul/tablet oral — dosis harian dibagi menjadi 4 dosis.",
-                frekuensi: "dibagi 4 dosis per hari, selama 10 hari",
-                catatan: "Dosis maksimal 2 g/hari. Hanya untuk anak usia di atas 8 tahun.",
-                icon: "💊"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        nama: "Pasien Rawat Inap",
-        subkategori: [
-          {
-            nama: "Antibiotika injeksi lini pertama",
-            obat: [
-              {
-                nama: "Ampisilin",
-                doseType: "perKg",
-                dosisMinPerKg: 200,
-                dosisMaxPerKg: 200,
-                unitLabel: "mg/kg/hari",
-                sediaanCustomText: "Injeksi IM/IV — dosis harian total, sesuaikan pengenceran dengan ketersediaan vial di rumah sakit.",
-                frekuensi: "dosis harian dibagi 4 dosis (tiap 6 jam), selama minimal 5 hari",
-                catatan: "Total dosis harian 200 mg/kgBB, terbagi 4 dosis.",
-                icon: "💉"
-              },
-              {
-                nama: "Benzilpenisilin (alternatif Ampisilin)",
-                doseType: "perKg",
-                dosisMinPerKg: 50000,
-                dosisMaxPerKg: 50000,
-                satuanDosis: "unit",
-                unitLabel: "unit/kg/dosis",
-                sediaanCustomText: "Injeksi IM/IV — sesuai ketersediaan vial di rumah sakit.",
-                frekuensi: "tiap 6 jam (IM/IV), selama minimal 5 hari",
-                catatan: "Diberikan bila Ampisilin tidak tersedia.",
-                icon: "💉"
-              },
-              {
-                nama: "Gentamisin",
-                doseType: "perKg",
-                dosisMinPerKg: 7.5,
-                dosisMaxPerKg: 7.5,
-                unitLabel: "mg/kg/hari",
-                sediaanCustomText: "Injeksi IM/IV — sesuai ketersediaan vial di rumah sakit.",
-                frekuensi: "1 kali sehari (IM/IV), selama minimal 5 hari",
-                icon: "💉"
-              }
-            ]
-          },
-          {
-            nama: "Antibiotika injeksi lini kedua (bila 48–72 jam tidak ada perbaikan)",
-            obat: [
-              {
-                nama: "Ceftriakson",
-                doseType: "perKg",
-                dosisMinPerKg: 80,
-                dosisMaxPerKg: 80,
-                dosisMaksimalTunggalMg: 2000,
-                unitLabel: "mg/kg/hari",
-                sediaanCustomText: "Injeksi IM/IV — sesuai ketersediaan vial di rumah sakit.",
-                frekuensi: "1 kali sehari (tiap 24 jam)",
-                catatan: "Dosis maksimal 2 g/hari. Tidak diberikan pada neonatus, bayi prematur, atau pasien dengan hipoalbuminemia.",
-                icon: "💉"
-              },
-              {
-                nama: "Cefotaksim",
-                doseType: "perKg",
-                dosisMinPerKg: 50,
-                dosisMaxPerKg: 50,
-                dosisMaksimalTunggalMg: 2000,
-                unitLabel: "mg/kg/dosis",
-                sediaanCustomText: "Injeksi IM/IV — sesuai ketersediaan vial di rumah sakit.",
-                frekuensi: "tiap 8 jam (3 kali sehari)",
-                catatan: "Dosis maksimal 2 g/hari.",
-                icon: "💉"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-
-  {
-    id: "kejang-demam",
-    nama: "Kejang Demam",
-    icon: "🌡️",
-    referensi: "Penatalaksanaan Kejang Demam IDAI",
-    kategori: [
-      {
-        nama: "Antipiretik",
-        subkategori: [
-          {
-            nama: "Pilihan antipiretik (saat anak demam)",
-            obat: [
-              {
-                nama: "Paracetamol",
-                doseType: "perKg",
-                dosisMinPerKg: 10,
-                dosisMaxPerKg: 15,
-                sediaanMg: 120,
-                sediaanMl: 5,
-                unitLabel: "mg/kg/kali",
-                frekuensi: "tiap 4–6 jam bila demam",
-                catatan: "Diberikan tiap kali suhu meningkat, bukan sebagai pencegah berulangnya kejang demam.",
-                icon: "🌡️"
-              },
-              {
-                nama: "Ibuprofen",
-                doseType: "perKg",
-                dosisMinPerKg: 5,
-                dosisMaxPerKg: 10,
-                sediaanMg: 100,
-                sediaanMl: 5,
-                unitLabel: "mg/kg/kali",
-                frekuensi: "3–4 kali sehari bila demam",
-                icon: "🌡️"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        nama: "Antikonvulsan Intermiten",
-        subkategori: [
-          {
-            nama: "Diazepam — diberikan selama 48 jam pertama demam, 3 kali sehari",
-            obat: [
-              {
-                nama: "Diazepam Oral",
-                doseType: "perKg",
-                dosisMinPerKg: 0.3,
-                dosisMaxPerKg: 0.3,
-                dosisMaksimalTunggalMg: 7.5,
-                sediaanMg: 2,
-                sediaanMl: 5,
-                unitLabel: "mg/kg/kali",
-                frekuensi: "3 kali sehari, selama 48 jam pertama demam",
-                catatan: "Dosis maksimum 7,5 mg/kali.",
-                icon: "💊"
-              },
-              {
-                nama: "Diazepam Rektal",
-                doseType: "flat",
-                dosisFlatMin: 5,
-                dosisFlatMax: 10,
-                unitLabel: "mg/kali",
-                sediaanCustomText: "Sediaan rektal (suppositoria) — bukan sirup/tablet. Tersedia dalam 2 kekuatan: 5 mg dan 10 mg.",
-                frekuensi: "3 kali sehari, selama 48 jam pertama demam",
-                catatan: "Dosis TETAP berdasarkan berat badan (bukan dihitung per kgBB): berat badan <12 kg → 5 mg/kali; berat badan >12 kg → 10 mg/kali. Dosis maksimum 7,5 mg/kali — pilih sediaan yang sesuai berat badan pasien.",
-                icon: "   "
-              }
-            ]
-          }
-        ]
-      },
-      {
-        nama: "Antikonvulsan Rumatan",
-        subkategori: [
-          {
-            nama: "Pilihan utama",
-            obat: [
-              {
-                nama: "Asam Valproat",
-                doseType: "perKg",
-                dosisMinPerKg: 15,
-                dosisMaxPerKg: 40,
-                unitLabel: "mg/kg/hari",
-                sediaanCustomText: "Sirup/tablet — dosis harian dibagi menjadi 2 dosis.",
-                frekuensi: "dibagi 2 dosis per hari, selama 1 tahun (tanpa tapering off)",
-                catatan: "Pilihan utama antikonvulsan rumatan. Efek samping: gangguan fungsi hati.",
-                icon: "💊"
-              }
-            ]
-          },
-          {
-            nama: "Alternatif",
-            obat: [
-              {
-                nama: "Fenobarbital",
-                doseType: "perKg",
-                dosisMinPerKg: 3,
-                dosisMaxPerKg: 4,
-                unitLabel: "mg/kg/hari",
-                sediaanCustomText: "Sirup/tablet — dosis harian dibagi menjadi 1–2 dosis.",
-                frekuensi: "dibagi 1–2 dosis per hari, selama 1 tahun (tanpa tapering off)",
-                catatan: "Efek samping: gangguan perilaku dan kesulitan belajar.",
-                icon: "💊"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-
-  {
-    id: "hipotiroid-kongenital",
-    nama: "Hipotiroid Kongenital",
-    icon: "🦋",
-    referensi: "Diagnosis dan Tatalaksana Hipotiroid Kongenital IDAI",
-    kategori: [
-      {
-        nama: "Levotiroksin",
-        subkategori: [
-          {
-            nama: "Dosis awal",
-            obat: [
-              {
-                nama: "Levotiroksin — Dosis Awal",
-                doseType: "perKg",
-                dosisMinPerKg: 10,
-                dosisMaxPerKg: 15,
-                satuanDosis: "mcg",
-                unitLabel: "mcg/kg/hari",
-                sediaanCustomText: "Tablet — bisa dihancurkan dan dicampur dengan air minum.",
-                frekuensi: "1 kali sehari, pagi atau malam, sebelum/bersama makan (waktu sama tiap hari)",
-                catatan: "Dosis awal saat diagnosis HK ditegakkan. Dosis selanjutnya disesuaikan dengan hasil pemeriksaan TSH dan FT4 berkala — lihat perkiraan dosis sesuai umur di bawah.",
-                icon: "💊"
-              }
-            ]
-          },
-          {
-            nama: "Dosis perkiraan sesuai umur (penyesuaian setelah evaluasi TSH & FT4 berkala) — pilih kartu sesuai usia anak",
-            obat: [
-              {
-                nama: "Levotiroksin — Usia 0–3 bulan",
-                doseType: "perKg",
-                dosisMinPerKg: 10,
-                dosisMaxPerKg: 15,
-                satuanDosis: "mcg",
-                unitLabel: "mcg/kg/hari",
-                sediaanCustomText: "Tablet — bisa dihancurkan dan dicampur dengan air minum.",
-                frekuensi: "1 kali sehari, pagi atau malam, sebelum/bersama makan (waktu sama tiap hari)",
-                icon: "🦋"
-              },
-              {
-                nama: "Levotiroksin — Usia 3–6 bulan",
-                doseType: "perKg",
-                dosisMinPerKg: 8,
-                dosisMaxPerKg: 10,
-                satuanDosis: "mcg",
-                unitLabel: "mcg/kg/hari",
-                sediaanCustomText: "Tablet — bisa dihancurkan dan dicampur dengan air minum.",
-                frekuensi: "1 kali sehari, pagi atau malam, sebelum/bersama makan (waktu sama tiap hari)",
-                icon: "🦋"
-              },
-              {
-                nama: "Levotiroksin — Usia 6–12 bulan",
-                doseType: "perKg",
-                dosisMinPerKg: 6,
-                dosisMaxPerKg: 8,
-                satuanDosis: "mcg",
-                unitLabel: "mcg/kg/hari",
-                sediaanCustomText: "Tablet — bisa dihancurkan dan dicampur dengan air minum.",
-                frekuensi: "1 kali sehari, pagi atau malam, sebelum/bersama makan (waktu sama tiap hari)",
-                icon: "🦋"
-              },
-              {
-                nama: "Levotiroksin — Usia 1–3 tahun",
-                doseType: "perKg",
-                dosisMinPerKg: 4,
-                dosisMaxPerKg: 6,
-                satuanDosis: "mcg",
-                unitLabel: "mcg/kg/hari",
-                sediaanCustomText: "Tablet — bisa dihancurkan dan dicampur dengan air minum.",
-                frekuensi: "1 kali sehari, pagi atau malam, sebelum/bersama makan (waktu sama tiap hari)",
-                icon: "🦋"
-              },
-              {
-                nama: "Levotiroksin — Usia 3–10 tahun",
-                doseType: "perKg",
-                dosisMinPerKg: 3,
-                dosisMaxPerKg: 4,
-                satuanDosis: "mcg",
-                unitLabel: "mcg/kg/hari",
-                sediaanCustomText: "Tablet — bisa dihancurkan dan dicampur dengan air minum.",
-                frekuensi: "1 kali sehari, pagi atau malam, sebelum/bersama makan (waktu sama tiap hari)",
-                icon: "🦋"
-              },
-              {
-                nama: "Levotiroksin — Usia 10–15 tahun",
-                doseType: "perKg",
-                dosisMinPerKg: 2,
-                dosisMaxPerKg: 4,
-                satuanDosis: "mcg",
-                unitLabel: "mcg/kg/hari",
-                sediaanCustomText: "Tablet — bisa dihancurkan dan dicampur dengan air minum.",
-                frekuensi: "1 kali sehari, pagi atau malam, sebelum/bersama makan (waktu sama tiap hari)",
-                icon: "🦋"
-              },
-              {
-                nama: "Levotiroksin — Usia >15 tahun",
-                doseType: "perKg",
-                dosisMinPerKg: 2,
-                dosisMaxPerKg: 3,
-                satuanDosis: "mcg",
-                unitLabel: "mcg/kg/hari",
-                sediaanCustomText: "Tablet — bisa dihancurkan dan dicampur dengan air minum.",
-                frekuensi: "1 kali sehari, pagi atau malam, sebelum/bersama makan (waktu sama tiap hari)",
-                icon: "🦋"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-
-];
-
-let protokolObatRegistry = {};
-let protokolTerpilih = null; // id diagnosis yang sedang dibuka
 
 daftarObat.sort((a, b) => String(a.nama || "").localeCompare(String(b.nama || ""), "id", { sensitivity: "base" }));
 
@@ -8125,177 +7711,6 @@ function hitungDosis() {
 
   hasilBox.classList.remove("error");
   hasilKonten.innerHTML = bangunHtmlHasil(obat, hasil);
-}
-
-function hitungObatProtokol(key) {
-  const obat = protokolObatRegistry[key];
-  if (!obat) return;
-
-  const elBerat = document.getElementById(`${key}-berat`);
-  const elUsia = document.getElementById(`${key}-usia`);
-  const hasilBox = document.getElementById(`${key}-hasil`);
-
-  const beratInput = elBerat ? elBerat.value : null;
-  const usiaInput = elUsia ? elUsia.value : null;
-  const hasil = hitungDosisInti(obat, beratInput, usiaInput);
-
-  hasilBox.style.display = "block";
-
-  if (hasil.error) {
-    hasilBox.classList.add("error");
-    hasilBox.innerHTML = `<p style="color:#B33A3A; font-weight:700;">⚠   ${escapeHtml(hasil.error)}</p>`;
-    return;
-  }
-
-  hasilBox.classList.remove("error");
-  hasilBox.innerHTML = bangunHtmlHasil(obat, hasil);
-}
-
-function renderProtokolGallery() {
-  const grid = document.getElementById("grid-protokol");
-  grid.innerHTML = "";
-
-  const frag = document.createDocumentFragment();
-
-  const daftarProtokolUrut = [...daftarProtokol].sort((a, b) =>
-    a.nama.localeCompare(b.nama, "id", { sensitivity: "base" })
-  );
-
-  daftarProtokolUrut.forEach((penyakit, index) => {
-    const warna = warnaLabel[index % warnaLabel.length];
-
-    let totalObat = 0;
-    penyakit.kategori.forEach(kat => {
-      if (kat.obat) totalObat += kat.obat.length;
-      if (kat.subkategori) {
-        kat.subkategori.forEach(sub => { totalObat += (sub.obat || []).length; });
-      }
-    });
-
-    const kartu = document.createElement("div");
-    kartu.className = "protokol-card";
-    kartu.dataset.id = penyakit.id;
-    kartu.dataset.nama = penyakit.nama.toLowerCase();
-
-    kartu.innerHTML = `
-      <div class="label-atas" style="background:${warna};"></div>
-      <div class="ikon-botol">${escapeHtml(penyakit.icon || "🩺")}</div>
-      <div class="nama-protokol-card">${escapeHtml(penyakit.nama)}</div>
-      <span class="badge-dosis">${totalObat} obat</span>
-    `;
-    frag.appendChild(kartu);
-  });
-
-  grid.appendChild(frag);
-}
-
-function filterProtokol() {
-  const query = document.getElementById("kotakCariProtokol").value.trim().toLowerCase();
-  const kartuList = document.querySelectorAll("#grid-protokol .protokol-card");
-  let adaYangTampil = false;
-
-  kartuList.forEach(kartu => {
-    const cocok = kartu.dataset.nama.includes(query);
-    kartu.style.display = cocok ? "" : "none";
-    if (cocok) adaYangTampil = true;
-  });
-
-  document.getElementById("pesan-kosong-protokol").style.display = adaYangTampil ? "none" : "block";
-}
-
-function bangunFormInputObat(obat, key) {
-  const inputBerat = `
-    <div class="form-group">
-      <label for="${key}-berat">⚖️ Berat Badan (kg)</label>
-      <input type="number" id="${key}-berat" placeholder="cth: 12.5" min="0" step="0.1">
-    </div>`;
-  const inputUsia = `
-    <div class="form-group">
-      <label for="${key}-usia">👶 Usia (bulan)</label>
-      <input type="number" id="${key}-usia" placeholder="cth: 8" min="0" step="1">
-    </div>`;
-
-  if (obat.doseType === "byAge") return inputUsia;
-  if (obat.doseType === "ageBands") return inputUsia + inputBerat;
-  return inputBerat;
-}
-
-function bangunKartuObatProtokol(obat, key) {
-  protokolObatRegistry[key] = obat;
-
-  return `
-    <div class="obat-protokol-card">
-      <div class="obat-protokol-head">
-        <span class="emoji">${escapeHtml(obat.icon || "💊")}</span>
-        <span class="nama">${escapeHtml(obat.nama)}${obat.varian ? " — " + escapeHtml(obat.varian) : ""}</span>
-        <span class="badge-dosis">${escapeHtml(labelDosisObat(obat))}</span>
-      </div>
-      <div class="obat-protokol-form">
-        ${bangunFormInputObat(obat, key)}
-        <button type="button" class="btn-hitung-mini" data-aksi="hitung-protokol" data-key="${key}">✨ Hitung</button>
-      </div>
-      <div id="${key}-hasil" class="hasil-mini"></div>
-    </div>
-  `;
-}
-
-function bukaProtokolDetail(id) {
-  const penyakit = daftarProtokol.find(p => p.id === id);
-  if (!penyakit) return;
-
-  protokolTerpilih = id;
-  protokolObatRegistry = {}; // reset registry tiap kali buka diagnosis baru
-
-  document.getElementById("protokolDetailIkon").textContent = penyakit.icon || "🩺";
-  document.getElementById("protokolDetailNama").textContent = penyakit.nama;
-  document.getElementById("protokolDetailReferensi").textContent = "📖 " + penyakit.referensi;
-
-  let html = "";
-
-  if (penyakit.gambarAlur && penyakit.gambarAlur.src) {
-    html += `
-      <div class="alur-block">
-        <h3>🗺️ Alur / Algoritma Diagnosis</h3>
-        <img src="${penyakit.gambarAlur.src}" alt="${escapeHtml(penyakit.gambarAlur.caption || ('Alur diagnosis ' + penyakit.nama))}" loading="lazy" data-alur-zoom>
-        ${penyakit.gambarAlur.caption ? `<p class="alur-caption">${escapeHtml(penyakit.gambarAlur.caption)}</p>` : ""}
-      </div>`;
-  }
-
-  penyakit.kategori.forEach((kat, ki) => {
-    html += `<div class="kategori-block"><h3>${escapeHtml(kat.nama)}</h3>`;
-
-    if (kat.subkategori) {
-      kat.subkategori.forEach((sub, si) => {
-        html += `<div class="subkategori-block"><h4>${escapeHtml(sub.nama)}</h4>`;
-        (sub.obat || []).forEach((obat, oi) => {
-          const key = `pt-${penyakit.id}-${ki}-${si}-${oi}`;
-          html += bangunKartuObatProtokol(obat, key);
-        });
-        html += `</div>`;
-      });
-    }
-
-    if (kat.obat) {
-      kat.obat.forEach((obat, oi) => {
-        const key = `pt-${penyakit.id}-${ki}-x-${oi}`;
-        html += bangunKartuObatProtokol(obat, key);
-      });
-    }
-
-    html += `</div>`;
-  });
-
-  document.getElementById("protokol-detail-konten").innerHTML = html;
-
-  document.getElementById("protokol-gallery-section").style.display = "none";
-  document.getElementById("protokol-detail-section").style.display = "block";
-  document.getElementById("page-protokol").scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function tutupProtokolDetail() {
-  protokolTerpilih = null;
-  document.getElementById("protokol-detail-section").style.display = "none";
-  document.getElementById("protokol-gallery-section").style.display = "block";
 }
 
 function hitungKebutuhanCairan() {
@@ -8883,8 +8298,6 @@ function tkAmbilIndikatorObj() {
   const k = Object.keys(inds)[0];
   return k ? inds[k] : null;
 }
-function tkAmbilAgeGroupObj() { return null; }
-
 function tkRenderStandar() {
   const grid = document.getElementById("tkGridStandar");
   grid.innerHTML = Object.keys(GROWTH_CHART_CONFIG).map(key => {
@@ -8914,44 +8327,6 @@ function tkRenderKelamin() {
   }).join("");
 }
 
-function tkRenderIndikator() {
-  const grid = document.getElementById("tkGridIndikator");
-  if (!tkState.standar || !tkState.kelamin) { grid.innerHTML = ""; return; }
-  const indikators = GROWTH_CHART_CONFIG[tkState.standar].genders[tkState.kelamin].indicators;
-  grid.innerHTML = Object.keys(indikators).map(key => {
-    const ind = indikators[key];
-    const aktif = tkState.indikator === key ? "tk-pilih-aktif" : "";
-    return `
-      <div class="tk-kartu-pilihan ${aktif}" data-indikator="${key}">
-        <span class="tk-emoji-besar">${ind.emoji}</span>
-        <div class="tk-nama-pilihan">${escapeHtml(ind.label)}</div>
-      </div>`;
-  }).join("");
-}
-
-function tkRenderUsia() {
-  const grid = document.getElementById("tkGridUsia");
-  const ind = tkAmbilIndikatorObj();
-  if (!ind) { grid.innerHTML = ""; return; }
-  grid.innerHTML = ind.ageGroups.map(g => {
-    const aktif = tkState.usiaGroupId === g.id ? "tk-pilih-aktif" : "";
-    const adaChart = tkCekGambarTersedia(g.image);
-    return `
-      <div class="tk-kartu-usia ${aktif}" data-usia="${g.id}">
-        <div class="tk-usia-ikon">${g.emoji}</div>
-        <div class="tk-usia-label">${escapeHtml(g.label)}</div>
-        <div class="tk-usia-ket">${escapeHtml(ind.label)}</div>
-        <span class="tk-usia-status ${adaChart ? "ada" : "belum"}" data-cek-gambar="${escapeHtml(g.image)}">⏳ memeriksa chart…</span>
-      </div>`;
-  }).join("");
-
-  ind.ageGroups.forEach(g => {
-    const img = new Image();
-    img.onload = () => tkSetStatusGambar(g.image, true);
-    img.onerror = () => tkSetStatusGambar(g.image, false);
-    img.src = g.image;
-  });
-}
 function tkCekGambarTersedia() { return false; } // default sebelum dicek async
 function tkSetStatusGambar(src, tersedia) {
   document.querySelectorAll(`.tk-usia-status[data-cek-gambar="${src}"]`).forEach(el => {
@@ -9408,14 +8783,6 @@ function tkHitungKoordinatTitik(calibration, nilaiX, nilaiY) {
   };
 }
 
-function tkWarnaIndikatorWho(ind) {
-  if (!ind) return "#E63946";
-  const f = ind.yField;
-  if (f === "imt") return "#8338EC";    // ungu  — IMT/U
-  if (f === "tinggi") return "#1565C0"; // biru  — TB/U
-  return "#E63946";                      // merah — BB/U & BB/TB
-}
-
 const TK_CDC_P50 = {
   male: {
     age:    [24,36,48,60,72,84,96,108,120,132,144,156,168,180,192,204,216,228,240],
@@ -9726,74 +9093,6 @@ function tkGambarTitikSeri(stage, titik, seri) {
   label.style.borderColor = warna;
   label.innerHTML = `<span style="color:${warna};">\u2B24</span> ${escapeHtml(seri.yLabel)}<br>${seri.nilai} ${escapeHtml(seri.yUnit)}`;
   stage.appendChild(label);
-}
-
-function plotTumbuhKembangGabungan(ind, ageGroup) {
-  const hasilBox = document.getElementById("tkHasilBox");
-  const nilaiX = parseFloat(document.getElementById("tkInputX")?.value);
-  if (!isFinite(nilaiX)) {
-    hasilBox.classList.add("tampil");
-    hasilBox.innerHTML = `<p>\u26A0\ufe0f Mohon lengkapi ${escapeHtml(ind.xLabel.toLowerCase())} terlebih dahulu.</p>`;
-    return;
-  }
-
-  const dataSeri = ind.series.map(s => ({
-    key: s.key, yField: s.yField, yLabel: s.yLabel, yUnit: s.yUnit, emoji: s.emoji, zKey: s.zKey, warna: s.warna,
-    nilai: parseFloat(document.getElementById(`tkInput_${s.key}`)?.value)
-  }));
-  if (!dataSeri.some(d => isFinite(d.nilai))) {
-    hasilBox.classList.add("tampil");
-    hasilBox.innerHTML = `<p>\u26A0\ufe0f Mohon isi minimal salah satu: berat badan atau tinggi badan.</p>`;
-    return;
-  }
-
-  const stage = document.getElementById("tkChartStage");
-  stage.querySelectorAll(".tk-titik-pasien, .tk-label-pasien, .tk-garis-bantu").forEach(el => el.remove());
-  const imgEl = stage.querySelector("img");
-  if (!imgEl) {
-    hasilBox.classList.add("tampil");
-    hasilBox.innerHTML = `<p>\u{1F6A7} Chart belum tersedia untuk kombinasi ini, sehingga titik pasien belum dapat ditampilkan. Tambahkan gambar chart terlebih dahulu.</p>`;
-    return;
-  }
-
-  let barisHtml = "";
-  let zscoreHtml = "";
-  let adaLuarBatas = false;
-  let belumKalibrasi = [];
-
-  dataSeri.forEach(d => {
-    if (!isFinite(d.nilai)) return;
-    const cal = ageGroup.calibration ? ageGroup.calibration[d.key] : null;
-    if (!tkKalibrasiValid(cal)) { belumKalibrasi.push(d.yLabel); return; }
-
-    const titik = tkHitungKoordinatTitik(cal, nilaiX, d.nilai);
-    if (titik.diLuarBatasX || titik.diLuarBatasY) adaLuarBatas = true;
-    tkGambarTitikSeri(stage, titik, d);
-
-    barisHtml += `<div class="tk-hasil-baris"><span class="tk-hasil-label">${escapeHtml(d.yLabel)}</span><span class="tk-hasil-nilai" style="color:${d.warna};">\u2B24 ${d.nilai} ${escapeHtml(d.yUnit)}</span></div>`;
-
-    const zInterp = tkInterpretasiZscore(tkState.standar, tkState.kelamin, d.zKey, tkState.usiaGroupId, nilaiX, d.nilai);
-    if (zInterp) {
-      const zSign = zInterp.z >= 0 ? "+" : "";
-      zscoreHtml += `
-        <div class="tk-zscore-block">
-          <div class="tk-zscore-row"><span class="tk-zscore-label">${escapeHtml(d.yLabel)} \u2014 Z-score</span><span class="tk-zscore-nilai">${zSign}${zInterp.z}</span></div>
-          <div class="tk-zscore-row"><span class="tk-zscore-label">Posisi</span><span class="tk-zscore-nilai">${escapeHtml(zInterp.zonaLabel)}</span></div>
-          ${zInterp.statusGizi ? `<div class="tk-zscore-status" style="border-left: 4px solid ${zInterp.statusColor}; background: ${zInterp.statusColor}18;"><span style="color:${zInterp.statusColor}; font-weight:700;">\u2B24 ${escapeHtml(zInterp.statusGizi)}</span></div>` : ""}
-        </div>`;
-    }
-  });
-
-  hasilBox.classList.add("tampil");
-  hasilBox.innerHTML = `
-    <div class="tk-hasil-judul">\u{1F4CD} Hasil Plotting</div>
-    <div class="tk-hasil-baris"><span class="tk-hasil-label">${escapeHtml(ind.xLabel)}</span><span class="tk-hasil-nilai">${nilaiX} ${escapeHtml(ind.xUnit)}</span></div>
-    ${barisHtml}
-    <div class="tk-hasil-baris"><span class="tk-hasil-label">Chart</span><span class="tk-hasil-nilai">${escapeHtml(GROWTH_CHART_CONFIG[tkState.standar].label)} \u00B7 ${escapeHtml(ind.label)} \u00B7 ${escapeHtml(ageGroup.label)}</span></div>
-    ${adaLuarBatas ? `<div class="tk-hasil-peringatan">\u26A0\ufe0f Sebagian nilai berada di luar rentang chart \u2014 titik ditampilkan pada batas terdekat.</div>` : ""}
-    ${belumKalibrasi.length ? `<div class="tk-hasil-peringatan">\u{1F3AF} Area chart untuk ${escapeHtml(belumKalibrasi.join(" & "))} belum dikalibrasi. Buka \"Mode Kalibrasi Chart\", pilih area terkait, lalu klik 4 tepinya.</div>` : ""}
-    ${zscoreHtml}
-  `;
 }
 
 function tkSiapkanKalibrasiSeri(ind) {
@@ -10783,18 +10082,6 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("kotakCariProtokol").addEventListener("input", filterProtokol);
   document.getElementById("btnKembaliProtokol").addEventListener("click", tutupProtokolDetail);
 
-  document.getElementById("protokol-detail-konten").addEventListener("click", function (e) {
-    const tombol = e.target.closest("[data-aksi='hitung-protokol']");
-    if (!tombol) return;
-    hitungObatProtokol(tombol.dataset.key);
-  });
-  document.getElementById("protokol-detail-konten").addEventListener("keydown", function (e) {
-    if (e.key !== "Enter") return;
-    const input = e.target.closest("input[type='number']");
-    if (!input) return;
-    const key = input.id.replace(/-(berat|usia)$/, "");
-    hitungObatProtokol(key);
-  });
 
   const alurLightbox = document.getElementById("alurLightbox");
   const alurLightboxImg = document.getElementById("alurLightboxImg");
@@ -11003,17 +10290,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     return item.pdfUrl ? [{ label: 'PDF', url: item.pdfUrl }] : [];
   }
-  function tvGuidelineGalleryLinks(item) {
-    const files = tvGuidelinePdfFiles(item);
-    if (!files.length) return '';
-    if (files.length === 1) {
-      const file = files[0];
-      return `
-          <a class="guideline-btn secondary" href="${tvEsc(file.url)}" target="_blank" rel="noopener">↗️ Tab Baru</a>
-          <a class="guideline-btn download" href="${tvEsc(file.url)}" download>⬇️ Download</a>`;
-    }
-    return `<span class="guideline-meta">${files.length} file PDF dalam 1 guideline</span>`;
-  }
   function tvGuidelineDetailActions(files) {
     return files.map(file => `
           <a class="guideline-btn secondary" href="${tvEsc(file.url)}" target="_blank" rel="noopener">↗️ Buka PDF</a>
@@ -11026,9 +10302,6 @@ document.addEventListener("DOMContentLoaded", function () {
           <iframe class="guideline-pdf-frame" src="${tvEsc(file.url)}#view=FitH" title="PDF ${tvEsc(item.title)} - ${tvEsc(file.label)}"></iframe>
         </div>
     `).join('');
-  }
-  function tvGuidelinePdfPaths(files) {
-    return files.map(file => `<strong>${tvEsc(file.label)}:</strong> ${tvEsc(file.url)}`).join('<br>');
   }
   function tvGuidelineMatches(item, query) {
     query = String(query || '').trim().toLowerCase();
@@ -11137,7 +10410,7 @@ document.addEventListener("DOMContentLoaded", function () {
 (function () {
   'use strict';
 
-  var MODE_TINJAU = true;
+  var MODE_TINJAU = false;
 
   var FIREBASE_CONFIG = {
     apiKey: 'AIzaSyDI5f69PBuHR-HX50ddVGqOYYBEDlJaZsA',
@@ -12270,79 +11543,67 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 <script type="module">
-import { initializeApp, getApps, getApp } from
-"https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  // ===== Asisten AI TinyVerse — lewat backend proxy /api/ai (OpenRouter) =====
+  const AI_ENDPOINT = "/api/ai";
+  const DEFAULT_MODEL = "openrouter/free";
 
-import { getAI, getGenerativeModel, GoogleAIBackend } from
-"https://www.gstatic.com/firebasejs/12.3.0/firebase-ai.js";
+  function el(id) { return document.getElementById(id); }
+  function setStatus(text) { const x = el('tvAiStatus'); if (x) x.textContent = text; }
+  function setLoading(loading) { const b = el('tvAiKirim'); if (b) { b.disabled = loading; b.textContent = loading ? '⏳ Meminta jawaban...' : '✨ Tanya AI'; } }
 
-const AI_MODEL = "gemini-2.5-flash";
+  async function ambilIdToken() {
+    try {
+      if (typeof firebase === 'undefined' || !firebase.auth) return null;
+      const user = firebase.auth().currentUser;
+      if (!user) return null;
+      return await user.getIdToken();
+    } catch (e) { return null; }
+  }
 
-const FIREBASE_CONFIG_AI = {
-  apiKey: "AIzaSyDI5f69PBuHR-HX50ddVGqOYYBEDlJaZsA",
-  authDomain: "tyniverse-5a3b2.firebaseapp.com",
-  projectId: "tyniverse-5a3b2",
-  storageBucket: "tyniverse-5a3b2.firebasestorage.app",
-  messagingSenderId: "446927338321",
-  appId: "1:446927338321:web:5b48cb060b052855b6b170",
-  measurementId: "G-RZYE8ZRDSB"
-};
+  async function tanyaAi() {
+    const promptEl = el('tvAiPrompt');
+    const out = el('tvAiOutput');
+    const modelEl = el('tvAiModel');
+    const prompt = (promptEl && promptEl.value || '').trim();
+    const model = (modelEl && modelEl.value) || DEFAULT_MODEL;
+    if (!prompt) { setStatus('Tulis pertanyaan dulu.'); return; }
 
-function el(id) { return document.getElementById(id); }
-function setStatus(text) { const x = el('tvAiStatus'); if (x) x.textContent = text; }
-function setLoading(loading) { const b = el('tvAiKirim'); if (b) { b.disabled = loading; b.textContent = loading ? '⏳ Meminta jawaban...' : '✨ Tanya AI'; } }
+    const idToken = await ambilIdToken();
+    if (!idToken) { setStatus('Anda harus login dulu untuk memakai AI.'); if (out) out.textContent = 'Silakan masuk (login) terlebih dahulu.'; return; }
 
-let modelPromise = null;
-async function getModel() {
-  if (!modelPromise) {
-    modelPromise = Promise.resolve().then(function () {
-      const app = getApps().length ? getApp() : initializeApp(FIREBASE_CONFIG_AI);
-
-const ai = getAI(app, {
-  backend: new GoogleAIBackend()
-});
-      return getGenerativeModel(ai, {
-        model: AI_MODEL,
-        systemInstruction: "Anda adalah asisten penulisan untuk aplikasi Tinyverse, alat bantu edukasi klinis anak. Jawab dalam Bahasa Indonesia yang jelas, ringkas, aman, dan selalu ingatkan bahwa keputusan klinis tetap oleh tenaga kesehatan profesional. Jangan membuat diagnosis pasti tanpa konteks klinis lengkap."
+    setLoading(true); setStatus('Menghubungi AI...');
+    if (out) out.textContent = 'Sedang membuat jawaban...';
+    try {
+      const resp = await fetch(AI_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + idToken },
+        body: JSON.stringify({ model: model, prompt: prompt })
       });
+      const data = await resp.json().catch(function () { return {}; });
+      if (!resp.ok) { throw new Error(data && data.error ? data.error : ('HTTP ' + resp.status)); }
+      const text = data && data.text;
+      if (out) out.textContent = text || '(Tidak ada teks dari AI.)';
+      setStatus('Selesai. Periksa kembali hasil AI sebelum digunakan.');
+    } catch (err) {
+      console.error(err);
+      if (out) out.textContent = 'Belum berhasil memanggil AI. Pastikan Anda sudah login, lalu coba lagi.';
+      setStatus((err && err.message) ? err.message : 'Terjadi kesalahan saat memanggil AI.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const kirim = el('tvAiKirim');
+    const bersih = el('tvAiBersih');
+    const prompt = el('tvAiPrompt');
+    if (kirim) kirim.addEventListener('click', tanyaAi);
+    if (prompt) prompt.addEventListener('keydown', function (e) { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') tanyaAi(); });
+    if (bersih) bersih.addEventListener('click', function () { if (prompt) prompt.value = ''; const out = el('tvAiOutput'); if (out) out.textContent = 'Jawaban AI akan muncul di sini.'; setStatus('Siap.'); });
+    document.querySelectorAll('[data-ai-contoh]').forEach(function (btn) {
+      btn.addEventListener('click', function () { if (prompt) { prompt.value = btn.getAttribute('data-ai-contoh') || ''; prompt.focus(); } });
     });
-  }
-  return modelPromise;
-}
-
-async function tanyaAi() {
-  const promptEl = el('tvAiPrompt');
-  const out = el('tvAiOutput');
-  const prompt = (promptEl && promptEl.value || '').trim();
-  if (!prompt) { setStatus('Tulis pertanyaan dulu.'); return; }
-  setLoading(true); setStatus('Menghubungi Firebase AI Logic...');
-  if (out) out.textContent = 'Sedang membuat jawaban...';
-  try {
-    const model = await getModel();
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
-    if (out) out.textContent = text || '(Tidak ada teks dari AI.)';
-    setStatus('Selesai. Periksa kembali hasil AI sebelum digunakan.');
-  } catch (err) {
-    console.error(err);
-    if (out) out.textContent = 'Belum berhasil memanggil AI. Cek: Firebase AI Logic sudah aktif, billing/API provider aktif, domain web diizinkan, dan App Check/API key sesuai.';
-    setStatus((err && err.message) ? err.message : 'Terjadi kesalahan saat memanggil AI.');
-  } finally {
-    setLoading(false);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-  const kirim = el('tvAiKirim');
-  const bersih = el('tvAiBersih');
-  const prompt = el('tvAiPrompt');
-  if (kirim) kirim.addEventListener('click', tanyaAi);
-  if (prompt) prompt.addEventListener('keydown', function (e) { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') tanyaAi(); });
-  if (bersih) bersih.addEventListener('click', function () { if (prompt) prompt.value = ''; const out = el('tvAiOutput'); if (out) out.textContent = 'Jawaban AI akan muncul di sini.'; setStatus('Siap.'); });
-  document.querySelectorAll('[data-ai-contoh]').forEach(function (btn) {
-    btn.addEventListener('click', function () { if (prompt) { prompt.value = btn.getAttribute('data-ai-contoh') || ''; prompt.focus(); } });
   });
-});
 </script>
 
 <script>

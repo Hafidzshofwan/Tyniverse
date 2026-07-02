@@ -4,11 +4,9 @@ const admin = require('firebase-admin');
 const ALLOWED_MODELS = new Set([
   'deepseek/deepseek-chat-v3-0324:free',
   'qwen/qwen3-235b-a22b:free',
-  'openrouter/free'
-  'qwen/qwen3-235b-a22b:free', 
   'google/gemini-2.0-flash-exp:free',
   'openai/gpt-oss-120b:free',
-  'openrouter/free' 
+  'openrouter/free'
 ]);
 // Model cadangan yang paling andal: router yang selalu memilih model gratis yang sedang tersedia.
 const FALLBACK_MODEL = 'openrouter/free';
